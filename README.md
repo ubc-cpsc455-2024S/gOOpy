@@ -11,7 +11,7 @@ gOOpy is a 3D modeling software using ray marching rendering method, and signed 
 - Aiden Kerr: I'm really interested in graphics and excited by this project!
 - Shiyu Li: I'm a third year BCS student interested to gain more experience in full-stack development!
 - Jacob Lacsamana: I'm a forth year Computer Science student, and I wanted to challenge myself by working on a project that's in a domain that I haven't really worked in much, computer graphics. 
-- Person 4: one sentence about you!
+- Matthew Wan: Nice to meet you, I'm also a third year BCS student and I'm also super excited to be working with graphics. I have built some smaller applications, but am really excited to be making something of this scale! :D 
 
 ## Project task requirements:
 
