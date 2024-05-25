@@ -1,6 +1,6 @@
 # Group 08 - gOOpy
 
-- Your title can change over time.
+
 
 ## Describe your topic/interest in about 150-200 words
 
@@ -22,7 +22,7 @@ gOOpy is a 3D modeling software using ray marching rendering method, and signed 
 
 ## References
 
-{Add your stuff here}
+
 
 
 
