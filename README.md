@@ -15,9 +15,10 @@ gOOpy is a 3D modeling software using ray marching rendering method, and signed 
 
 ## Images
 
-{You should use this area to add a screenshot of your app or website }
 
-<img src ="images/test.png" width="100px">
+<img src ="images/prototype1.png" width="500px">
+<img src ="images/prototype2.png" width="500px">
+<img src ="images/prototype3.png" width="500px">
 
 ## References
 
