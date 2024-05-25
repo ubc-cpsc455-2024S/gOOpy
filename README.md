@@ -33,6 +33,21 @@ gOOpy is a 3D modeling software using ray marching rendering method, and signed 
 - Click and drag items to move them
 - A fleshed out materials system
 
+## Task breakdown:
+
+- Scene Editor / Renderer
+  - Show list of object in scene w/ their properties
+  - When a property is modified, update the state of the scene
+  - Pass the new data as uniforms into the renderer
+    - Scene is rendered w/ updated values
+  - Save the new scene data to the database automatically
+- Allows user-saved models to be retrieved on login
+  - Setup a method for user authentication
+  - Save user generated data (for scenes and login information) in a database
+  - Upon login make request to database to fetch user generated data
+  - Display the scenes on the user’s dashboard
+
+
 
 ## Images
 
