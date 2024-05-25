@@ -8,7 +8,7 @@
 
 ## Team Members
 
-- Person 1: one sentence about you!
+- Aiden Kerr: I'm really interested in graphics and excited by this project!
 - Person 2: one sentence about you!
 - Person 3: one sentence about you!
 - Person 4: one sentence about you!
