@@ -75,8 +75,20 @@ function Editor() {
 
     return (
         <>
-            <Canvas style={{ width: 500, height: 500 }}>
-                <RayMarching scale={[4.0, 4.0, 1.0]} uniforms={uniforms} />
+            <Canvas
+                orthographic
+                camera={{
+                    left: -1,
+                    right: 1,
+                    top: 1,
+                    bottom: -1,
+                    near: 0,
+                    far: 1,
+                    position: [0, 0, 0.5],
+                }}
+                style={{ width: 500, height: 500 }}
+            >
+                <RayMarching scale={[2.0, 2.0, 1.0]} uniforms={uniforms} />
             </Canvas>
             <div>
                 <Slider
