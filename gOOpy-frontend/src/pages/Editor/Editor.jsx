@@ -74,30 +74,34 @@ function Editor() {
     }
 
     return (
-        <>
-            <Canvas
-                orthographic
-                camera={{
-                    left: -1,
-                    right: 1,
-                    top: 1,
-                    bottom: -1,
-                    near: 0,
-                    far: 1,
-                    position: [0, 0, 0.5],
-                }}
-                style={{ width: 500, height: 500 }}
-            >
-                <RayMarching scale={[2.0, 2.0, 1.0]} uniforms={uniforms} />
-            </Canvas>
-            <div>
+        <div className='flex justify-between p-5'>
+            <div className='sliders'>
+                <h1 className='text-3xl font-bold'>Editor</h1>
                 <Slider
                     defaultValue={sceneObjects[0].center.x}
                     index={0}
                     updateSceneObjects={updateSceneObjects}
                 />
             </div>
-        </>
+
+            <div>
+                <Canvas
+                    className='!h-96 !w-96'
+                    orthographic
+                    camera={{
+                        left: -1,
+                        right: 1,
+                        top: 1,
+                        bottom: -1,
+                        near: 0,
+                        far: 1,
+                        position: [0, 0, 0.5],
+                    }}
+                >
+                    <RayMarching scale={[2.0, 2.0, 1.0]} uniforms={uniforms} />
+                </Canvas>
+            </div>
+        </div>
     );
 }
 
@@ -105,7 +109,6 @@ function Slider({ defaultValue, index, updateSceneObjects }) {
     const [val, setVal] = useState(defaultValue);
     return (
         <input
-            style={{ width: '500px' }}
             value={val}
             onChange={(e) => {
                 const newValue = parseFloat(e.target.value);

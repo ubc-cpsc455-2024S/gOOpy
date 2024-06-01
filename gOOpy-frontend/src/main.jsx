@@ -18,6 +18,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
+        <header className='sticky top-0 z-50 flex justify-between items-center bg-hd-color p-2'>
+            <h1 className='text-3xl font-bold'>gOOpy</h1>
+            <h3>Login</h3>
+        </header>
         <RouterProvider router={router} />
     </React.StrictMode>
 );
