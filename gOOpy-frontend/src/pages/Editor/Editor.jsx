@@ -1,6 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
 import { FileLoader, Vector3 } from 'three';
+import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { editShape } from '../../redux/objectsSlice';
 
 const fragmentShaderPath = '/shaders/raymarching.fs.glsl';
 const vertexShaderPath = '/shaders/raymarching.vs.glsl';
@@ -34,29 +37,13 @@ function RayMarching({ testPos, uniforms, ...props }) {
 }
 
 function Editor() {
-    // hard coded list of objects
-    const obj1 = {
-        center: new Vector3(0.0, 0.0, 0.0),
-        radius: 1.0,
-    };
-    const obj2 = {
-        center: new Vector3(1.0, 1.0, 1.0),
-        radius: 1.3,
-    };
-    const obj3 = {
-        center: new Vector3(-1.0, -1.0, 1.0),
-        radius: 0.8,
-    };
-
-    // the current objects in the scene
-    const [sceneObjects, setSceneObjects] = useState([obj1, obj2, obj3]);
-
+    const shapes = useSelector((state) => state.shapes);
     // unsure if this is the best strat. This lets us keep track of uniforms object to be passed to shader
     const uniforms = useRef({
         n_spheres: { type: 'int', value: 3 },
         spheres: {
             type: [{ center: 'vec3', radius: 'float' }],
-            value: sceneObjects,
+            value: shapes,
         },
         camera_pos: {
             type: 'vec3',
@@ -64,24 +51,20 @@ function Editor() {
         },
     });
 
-    // updates a scene object's x coordinate based on index
-    // I can see this translating to redux quite well, if we decide to go that route.
-    function updateSceneObjects(index, newValue) {
-        setSceneObjects((prev) => {
-            prev[index].center.x = newValue;
-            return prev;
-        });
-    }
+    // // updates a scene object's x coordinate based on index
+    // // I can see this translating to redux quite well, if we decide to go that route.
+    // function updateSceneObjects(index, newValue) {
+    //     setSceneObjects((prev) => {
+    //         prev[index].center.x = newValue;
+    //         return prev;
+    //     });
+    // }
 
     return (
         <div className='flex justify-between p-5'>
             <div className='sliders'>
                 <h1 className='text-3xl font-bold'>Editor</h1>
-                <Slider
-                    defaultValue={sceneObjects[0].center.x}
-                    index={0}
-                    updateSceneObjects={updateSceneObjects}
-                />
+                <Slider defaultValue={shapes[0].center.x} index={0} />
             </div>
 
             <div>
@@ -105,14 +88,15 @@ function Editor() {
     );
 }
 
-function Slider({ defaultValue, index, updateSceneObjects }) {
+function Slider({ defaultValue, index }) {
+    const dispatch = useDispatch();
     const [val, setVal] = useState(defaultValue);
     return (
         <input
             value={val}
             onChange={(e) => {
                 const newValue = parseFloat(e.target.value);
-                updateSceneObjects(index, newValue);
+                dispatch(editShape({ index, newValue, valueName: 'x' }));
                 setVal(newValue);
             }}
             type='range'
