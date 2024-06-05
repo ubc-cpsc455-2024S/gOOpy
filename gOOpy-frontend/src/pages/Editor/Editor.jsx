@@ -8,7 +8,7 @@ import RayMarching from './RayMarching/RayMarching';
  *  TODO this hook should handle scene object data as described in discord (or maybe slightly differently?)
  */
 function useEditorData() {
-    // hard coded list of objects
+    // hard coded list of objects (temporary)
     const obj1 = {
         center: new Vector3(0.0, 0.0, 0.0),
         radius: 1.0,
@@ -25,17 +25,7 @@ function useEditorData() {
     // the current objects in the scene
     const [sceneObjects, setSceneObjects] = useState([obj1, obj2, obj3]);
 
-    // updates a scene object's x coordinate based on index
-    // I can see this translating to redux quite well, if we decide to go that route.
-    function setEditorData(index, newValue) {
-        setSceneObjects((prev) => {
-            prev[index].center.x = newValue;
-            return prev;
-        });
-    }
-
     // unsure if this is the best strat. This lets us keep track of uniforms object to be passed to shader
-    // TODO move this into useEditorData???
     const uniforms = useRef({
         n_spheres: { type: 'int', value: 3 },
         spheres: {
@@ -47,6 +37,14 @@ function useEditorData() {
             value: new Vector3(0.0, 0.0, -3.0),
         },
     });
+
+    // UPDATE FUNCTION FOR CUSTOM HOOK
+    function setEditorData(index, newValue) {
+        setSceneObjects((prev) => {
+            prev[index].center.x = newValue;
+            return prev;
+        });
+    }
 
     return [sceneObjects, setEditorData, uniforms];
 }
