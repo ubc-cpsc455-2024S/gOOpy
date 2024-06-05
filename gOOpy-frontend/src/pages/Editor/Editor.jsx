@@ -1,39 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
-import { FileLoader, Vector3 } from 'three';
+import { Canvas } from '@react-three/fiber';
+import { Vector3 } from 'three';
+import RayMarching from './RayMarching/RayMarching';
 
-const fragmentShaderPath = '/shaders/raymarching.fs.glsl';
-const vertexShaderPath = '/shaders/raymarching.vs.glsl';
-
-function RayMarching({ testPos, uniforms, ...props }) {
-    const { clock } = useThree();
-    const [vertexShader, fragmentShader] = useLoader(FileLoader, [
-        vertexShaderPath,
-        fragmentShaderPath,
-    ]);
-
-    // this is just for fun. remove when actual editor built
-    useFrame(() => {
-        uniforms.current.spheres.value[2].center.y = Math.sin(
-            clock.getElapsedTime()
-        );
-        uniforms.current.spheres.value[2].center.z =
-            -0.5 + 0.5 * Math.sin(clock.getElapsedTime());
-    });
-
-    return (
-        <mesh {...props}>
-            <planeGeometry />
-            <rawShaderMaterial
-                fragmentShader={fragmentShader}
-                vertexShader={vertexShader}
-                uniforms={uniforms.current}
-            />
-        </mesh>
-    );
-}
-
-function Editor() {
+function useEditorData() {
     // hard coded list of objects
     const obj1 = {
         center: new Vector3(0.0, 0.0, 0.0),
@@ -51,12 +21,18 @@ function Editor() {
     // the current objects in the scene
     const [sceneObjects, setSceneObjects] = useState([obj1, obj2, obj3]);
 
+    return [sceneObjects, setSceneObjects];
+}
+
+function Editor() {
+    const [editorData, setEditorData] = useEditorData();
+
     // unsure if this is the best strat. This lets us keep track of uniforms object to be passed to shader
     const uniforms = useRef({
         n_spheres: { type: 'int', value: 3 },
         spheres: {
             type: [{ center: 'vec3', radius: 'float' }],
-            value: sceneObjects,
+            value: editorData,
         },
         camera_pos: {
             type: 'vec3',
@@ -67,7 +43,7 @@ function Editor() {
     // updates a scene object's x coordinate based on index
     // I can see this translating to redux quite well, if we decide to go that route.
     function updateSceneObjects(index, newValue) {
-        setSceneObjects((prev) => {
+        setEditorData((prev) => {
             prev[index].center.x = newValue;
             return prev;
         });
@@ -78,7 +54,7 @@ function Editor() {
             <div className='sliders'>
                 <h1 className='text-3xl font-bold'>Editor</h1>
                 <Slider
-                    defaultValue={sceneObjects[0].center.x}
+                    defaultValue={editorData[0].center.x}
                     index={0}
                     updateSceneObjects={updateSceneObjects}
                 />
