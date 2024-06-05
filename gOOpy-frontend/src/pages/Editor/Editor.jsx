@@ -3,6 +3,10 @@ import { Canvas } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 
+/**
+ *  useEditorData is a custom react hook to handle state management for our 3D scene editor
+ *  TODO this hook should handle scene object data as described in discord (or maybe slightly differently?)
+ */
 function useEditorData() {
     // hard coded list of objects
     const obj1 = {
@@ -21,18 +25,22 @@ function useEditorData() {
     // the current objects in the scene
     const [sceneObjects, setSceneObjects] = useState([obj1, obj2, obj3]);
 
-    return [sceneObjects, setSceneObjects];
-}
-
-function Editor() {
-    const [editorData, setEditorData] = useEditorData();
+    // updates a scene object's x coordinate based on index
+    // I can see this translating to redux quite well, if we decide to go that route.
+    function setEditorData(index, newValue) {
+        setSceneObjects((prev) => {
+            prev[index].center.x = newValue;
+            return prev;
+        });
+    }
 
     // unsure if this is the best strat. This lets us keep track of uniforms object to be passed to shader
+    // TODO move this into useEditorData???
     const uniforms = useRef({
         n_spheres: { type: 'int', value: 3 },
         spheres: {
             type: [{ center: 'vec3', radius: 'float' }],
-            value: editorData,
+            value: sceneObjects,
         },
         camera_pos: {
             type: 'vec3',
@@ -40,14 +48,11 @@ function Editor() {
         },
     });
 
-    // updates a scene object's x coordinate based on index
-    // I can see this translating to redux quite well, if we decide to go that route.
-    function updateSceneObjects(index, newValue) {
-        setEditorData((prev) => {
-            prev[index].center.x = newValue;
-            return prev;
-        });
-    }
+    return [sceneObjects, setEditorData, uniforms];
+}
+
+function Editor() {
+    const [editorData, setEditorData, uniforms] = useEditorData();
 
     return (
         <div className='flex justify-between p-5'>
@@ -56,7 +61,7 @@ function Editor() {
                 <Slider
                     defaultValue={editorData[0].center.x}
                     index={0}
-                    updateSceneObjects={updateSceneObjects}
+                    setEditorData={setEditorData}
                 />
             </div>
 
@@ -81,14 +86,14 @@ function Editor() {
     );
 }
 
-function Slider({ defaultValue, index, updateSceneObjects }) {
+function Slider({ defaultValue, index, setEditorData }) {
     const [val, setVal] = useState(defaultValue);
     return (
         <input
             value={val}
             onChange={(e) => {
                 const newValue = parseFloat(e.target.value);
-                updateSceneObjects(index, newValue);
+                setEditorData(index, newValue);
                 setVal(newValue);
             }}
             type='range'
