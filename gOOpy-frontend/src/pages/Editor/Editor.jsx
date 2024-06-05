@@ -39,6 +39,9 @@ function useEditorData() {
     });
 
     // UPDATE FUNCTION FOR CUSTOM HOOK
+    // TODO Eventually this will be used to sync our multiple data structures
+    // Maybe we can actually change this to use usereducer instead of usestate for this hook?
+    // https://react.dev/reference/react/useReducer
     function setEditorData(index, newValue) {
         setSceneObjects((prev) => {
             prev[index].center.x = newValue;
