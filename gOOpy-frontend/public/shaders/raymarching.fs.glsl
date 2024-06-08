@@ -8,7 +8,7 @@ struct Sphere
     vec3 center;
     float radius;
 };
-#define MAX_SPHERES 3 // Eventually, make this much larger. 
+#define MAX_SPHERES 50
 uniform Sphere spheres[MAX_SPHERES];
 uniform int n_spheres; // should change to match number of spheres in editor.
 uniform vec3 camera_pos;
@@ -41,7 +41,7 @@ float sdf(vec3 p) {
     float min_val = 99999.0;
 
     for (int i = 0; i < MAX_SPHERES; i++) {
-        if (i > n_spheres) {
+        if (i > n_spheres - 1) {
             break;
         }
         Sphere s = spheres[i];

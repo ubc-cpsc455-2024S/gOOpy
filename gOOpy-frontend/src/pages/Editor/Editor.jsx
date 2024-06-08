@@ -1,4 +1,6 @@
 import React, { useReducer, useRef, useState } from 'react';
+import { ColorPicker, useColor } from 'react-color-palette';
+import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
@@ -24,7 +26,7 @@ function useEditorData() {
         id: 2,
     };
 
-    const MAX_SIZE = 3; // should match shaders
+    const MAX_SIZE = 50; // should match shaders
     let shapesCount = 3; // EDIT FIX THIS LATER (reducer initialization function for loading data?)
     let nextID = 3; // fix later
     const shapesMap = new Map();
@@ -41,29 +43,6 @@ function useEditorData() {
     buffer[1] = obj2;
     buffer[2] = obj3;
 
-    const [state, dispatch] = useReducer((state, action) => {
-        const newState = [...state]; // copy of state to modify
-        switch (action.type) {
-            case 'addShape':
-                const { shapeType } = action.payload;
-                // TODO change this based on type? or different reducer per type
-                shapesCount += 1;
-                let shapeData = buffer[shapesCount];
-                shapeData.center = new Vector3(0.0, 0.0, 0.0);
-                shapeData.radius = 1.0;
-                shapeData.radius = nextID;
-                newState.append(shapeData);
-                shapesMap.set(nextID, shapesCount - 1);
-                nextID++;
-                return newState;
-            case 'modifyAxis':
-                // temp demo action
-                const { index, newValue, axis } = action.payload;
-                newState[index].center[axis] = newValue;
-                return newState;
-        }
-    }, buffer.slice(0, 3));
-
     // unsure if this is the best strat. This lets us keep track of uniforms object to be passed to shader
     const uniforms = useRef({
         n_spheres: { type: 'int', value: shapesCount },
@@ -77,12 +56,48 @@ function useEditorData() {
         },
     });
 
+    const [state, dispatch] = useReducer((state, action) => {
+        const newState = [...state]; // copy of state to modify
+        switch (action.type) {
+            case 'addShape':
+                // buffer[shapesCount].id = nextID;
+                // uniforms.current.spheres.value = buffer;
+                // console.log(uniforms.current.spheres.value);
+
+                // const { shapeType } = action.payload;
+                // TODO change this based on type? or different reducer per type
+                // TODO limit to MAX_SPHERES
+                // let shapeData = buffer[shapesCount];
+                // shapeData.center = new Vector3(0.0, 0.0, 0.0);
+                // shapeData.radius = 1.0;
+                // shapeData.id = nextID;
+
+                // newState.push(shapeData);
+                // shapeData.id = nextID;
+                // console.log(newState[3]);
+                // console.log(buffer[shapesCount]);
+                // shapesMap.set(nextID, shapesCount);
+                // nextID++;
+                // shapesCount += 1;
+                // uniforms.current.n_spheres.value = shapesCount;
+                // buffer[shapesCount] = newState[shapesCount];
+                return newState;
+            case 'modifyAxis':
+                // temp demo action
+                const { index, newValue, axis } = action.payload;
+                newState[index].center[axis] = newValue;
+                return newState;
+        }
+    }, buffer.slice(0, 3));
+
     return [state, dispatch, uniforms];
 }
 
 function Editor() {
     const [editorData, dispatch, uniforms] = useEditorData();
     const [currentShape, selectShape] = useState(editorData[0].id);
+    // TODO: change 'FF0000' to currentShape's color
+    const [color, setColor] = useColor('FF0000');
 
     return (
         <div className='flex justify-between p-5'>
@@ -94,6 +109,13 @@ function Editor() {
                         // TODO move this custom CSS to tailwind somehow
                         style={{ minHeight: '80vh', minWidth: '10vw' }}
                     >
+                        {/* <button
+                            onClick={() => {
+                                dispatch({ type: 'addShape' });
+                            }}
+                        >
+                            Add new Shape
+                        </button> */}
                         {editorData.map((option, index) => (
                             <div
                                 key={index}
@@ -143,6 +165,17 @@ function Editor() {
                             />
                         </div>
                     </div>
+                    <div className='border flex flex-col p-2'>
+                        <h4 className='text-1xl font-bold mr-2'>
+                            Object Color
+                        </h4>
+                        <ColorPicker
+                            color={color}
+                            onChange={setColor}
+                            hideAlpha={true}
+                            hideInput={true}
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -174,6 +207,7 @@ function Slider({ defaultValue, index, dispatch, axis }) {
             value={val}
             onChange={(e) => {
                 const newValue = parseFloat(e.target.value);
+                // console.log(index, newValue, axis);
                 dispatch({
                     type: 'modifyAxis',
                     payload: { index, newValue, axis },
