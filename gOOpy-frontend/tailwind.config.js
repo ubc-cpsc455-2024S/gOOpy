@@ -13,7 +13,18 @@ export default {
             'font-brown': '#450a0a',
             'hd-color': '#fbbf24',
             'editor-box': '#fed7aa',
+            'white': "#FFFFFF",
         },
+
+        width: {
+            '10p': '10%',
+            '20p': '20%',
+
+        },
+        height: {
+            '10p': '10%',
+            '20p': '20%',
+        }
     },
     plugins: [],
 };

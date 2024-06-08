@@ -4,6 +4,8 @@ import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home/Home.jsx';
 import Editor from './pages/Editor/Editor.jsx';
+import Scenes from './pages/Scenes/ScenePage.jsx';
+import UserPage from './pages/User/UserPage.jsx';
 
 const router = createBrowserRouter([
     {
@@ -14,6 +16,14 @@ const router = createBrowserRouter([
         path: '/editor',
         element: <Editor />,
     },
+    {
+        path: '/scenes',
+        element: <Scenes />,
+    },
+    {
+        path: '/user',
+        element: <UserPage />,
+    }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
