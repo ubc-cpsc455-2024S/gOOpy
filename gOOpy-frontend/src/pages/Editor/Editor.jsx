@@ -97,7 +97,11 @@ function Editor() {
                         {editorData.map((option, index) => (
                             <div
                                 key={index}
-                                className='border button'
+                                className={`border button ${
+                                    currentShape === option.id
+                                        ? 'bg-bg-yellow'
+                                        : 'bg-editor-box'
+                                }`}
                                 onClick={() => selectShape(option.id)}
                             >
                                 Shape {option.id}
