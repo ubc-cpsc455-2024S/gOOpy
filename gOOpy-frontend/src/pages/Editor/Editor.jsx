@@ -86,7 +86,8 @@ function Editor() {
 
     return (
         <div className='flex justify-between p-5'>
-            <div className='sliders'>
+            <div className='flex'>
+            <div className='sliders border'>
                 <h1 className='text-3xl font-bold'>Editor</h1>
                 {/* <Slider
                     defaultValue={editorData[0].center.x}
@@ -95,12 +96,12 @@ function Editor() {
                 /> */}
                 <div
                     className='overflow-auto ...'
-                    style={{ minHeight: '80vh' }}
+                    style={{ minHeight: '80vh', minWidth: '10vw' }}
                 >
                     {editorData.map((option, index) => (
                         <div
                             key={index}
-                            className='border'
+                            className='border button'
                             onClick={() => selectShape(option.id)}
                         >
                             Shape {option.id}
@@ -108,8 +109,13 @@ function Editor() {
                     ))}
                 </div>
             </div>
+            <div className='sliders border ms-2'>
+            <h4 className='text-1xl font-bold'>Shape {currentShape} &gt; Properties</h4>
 
-            <div className=''></div>
+            </div>
+            </div>
+   
+
 
             <div>
                 <Canvas
