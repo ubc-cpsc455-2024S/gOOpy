@@ -91,6 +91,7 @@ function Editor() {
                     <h1 className='text-3xl font-bold'>Editor</h1>
                     <div
                         className='overflow-auto ...'
+                        // TODO move this custom CSS to tailwind somehow
                         style={{ minHeight: '80vh', minWidth: '10vw' }}
                     >
                         {editorData.map((option, index) => (
