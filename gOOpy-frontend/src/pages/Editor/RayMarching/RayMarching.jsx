@@ -11,15 +11,6 @@ export default function RayMarching({ testPos, uniforms, ...props }) {
         fragmentShaderPath,
     ]);
 
-    // this is just for fun. remove when actual editor built
-    useFrame(() => {
-        // uniforms.current.spheres.value[2].center.y = Math.sin(
-        //     clock.getElapsedTime()
-        // );
-        // uniforms.current.spheres.value[2].center.z =
-        //     -0.5 + 0.5 * Math.sin(clock.getElapsedTime());
-    });
-
     return (
         <mesh {...props}>
             <planeGeometry />

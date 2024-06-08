@@ -87,65 +87,59 @@ function Editor() {
     return (
         <div className='flex justify-between p-5'>
             <div className='flex'>
-            <div className='sliders border'>
-                <h1 className='text-3xl font-bold'>Editor</h1>
-                {/* <Slider
-                    defaultValue={editorData[0].center.x}
-                    index={0}
-                    dispatch={dispatch}
-                /> */}
-                <div
-                    className='overflow-auto ...'
-                    style={{ minHeight: '80vh', minWidth: '10vw' }}
-                >
-                    {editorData.map((option, index) => (
-                        <div
-                            key={index}
-                            className='border button'
-                            onClick={() => selectShape(option.id)}
-                        >
-                            Shape {option.id}
+                <div className='sliders border'>
+                    <h1 className='text-3xl font-bold'>Editor</h1>
+                    <div
+                        className='overflow-auto ...'
+                        style={{ minHeight: '80vh', minWidth: '10vw' }}
+                    >
+                        {editorData.map((option, index) => (
+                            <div
+                                key={index}
+                                className='border button'
+                                onClick={() => selectShape(option.id)}
+                            >
+                                Shape {option.id}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className='sliders border ms-2'>
+                    <h4 className='text-2xl font-bold'>
+                        Shape {currentShape} &gt; Properties
+                    </h4>
+                    <div className='border flex flex-col p-2'>
+                        <h4 className='text-1xl font-bold'>Transform</h4>
+                        <div className='flex'>
+                            <h4 className='text-1xl font-bold mr-2'>x:</h4>
+                            <Slider
+                                defaultValue={editorData[0].center.x}
+                                index={currentShape}
+                                dispatch={dispatch}
+                                axis={'x'}
+                            />
                         </div>
-                    ))}
+                        <div className='flex'>
+                            <h4 className='text-1xl font-bold mr-2'>y:</h4>
+                            <Slider
+                                defaultValue={editorData[0].center.y}
+                                index={currentShape}
+                                dispatch={dispatch}
+                                axis={'y'}
+                            />
+                        </div>
+                        <div className='flex'>
+                            <h4 className='text-1xl font-bold mr-2'>z:</h4>
+                            <Slider
+                                defaultValue={editorData[0].center.z}
+                                index={currentShape}
+                                dispatch={dispatch}
+                                axis={'z'}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className='sliders border ms-2'>
-            <h4 className='text-2xl font-bold'>Shape {currentShape} &gt; Properties</h4>
-            <div className='border flex flex-col p-2'>
-            <h4 className='text-1xl font-bold'>Transform</h4>
-            <div className='flex'>
-            <h4 className='text-1xl font-bold mr-2'>x:</h4>               
-                <Slider
-                    defaultValue={editorData[0].center.x}
-                    index={currentShape}
-                    dispatch={dispatch}
-                    axis={"x"}
-                />
-            </div>
-            <div className='flex'>
-            <h4 className='text-1xl font-bold mr-2'>y:</h4>               
-                <Slider
-                    defaultValue={editorData[0].center.y}
-                    index={currentShape}
-                    dispatch={dispatch}
-                    axis={"y"}
-                />
-            </div>
-            <div className='flex'>
-            <h4 className='text-1xl font-bold mr-2'>z:</h4>               
-                <Slider
-                    defaultValue={editorData[0].center.z}
-                    index={currentShape}
-                    dispatch={dispatch}
-                    axis={"z"}
-                />
-            </div>
-
-            </div>
-            </div>
-            </div>
-   
-
 
             <div>
                 <Canvas
@@ -168,7 +162,7 @@ function Editor() {
     );
 }
 
-function Slider({ defaultValue, index, dispatch, axis}) {
+function Slider({ defaultValue, index, dispatch, axis }) {
     const [val, setVal] = useState(defaultValue);
     return (
         <input
