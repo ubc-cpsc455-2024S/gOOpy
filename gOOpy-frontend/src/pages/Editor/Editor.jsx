@@ -11,22 +11,22 @@ function useEditorData() {
     const obj1 = {
         center: new Vector3(0.0, 0.0, 0.0),
         radius: 1.0,
-        id: 1,
+        id: 0,
     };
     const obj2 = {
         center: new Vector3(1.0, 1.0, 1.0),
         radius: 1.3,
-        id: 2,
+        id: 1,
     };
     const obj3 = {
         center: new Vector3(-1.0, -1.0, 1.0),
         radius: 0.8,
-        id: 3,
+        id: 2,
     };
 
     const MAX_SIZE = 3; // should match shaders
     let shapesCount = 3; // EDIT FIX THIS LATER (reducer initialization function for loading data?)
-    let nextID = 4; // fix later
+    let nextID = 3; // fix later
     const shapesMap = new Map();
     const buffer = [...Array(MAX_SIZE)].map(() => {
         return {
@@ -110,8 +110,38 @@ function Editor() {
                 </div>
             </div>
             <div className='sliders border ms-2'>
-            <h4 className='text-1xl font-bold'>Shape {currentShape} &gt; Properties</h4>
+            <h4 className='text-2xl font-bold'>Shape {currentShape} &gt; Properties</h4>
+            <div className='border flex flex-col p-2'>
+            <h4 className='text-1xl font-bold'>Transform</h4>
+            <div className='flex'>
+            <h4 className='text-1xl font-bold mr-2'>x:</h4>               
+                <Slider
+                    defaultValue={editorData[0].center.x}
+                    index={currentShape}
+                    dispatch={dispatch}
+                    axis={"x"}
+                />
+            </div>
+            <div className='flex'>
+            <h4 className='text-1xl font-bold mr-2'>y:</h4>               
+                <Slider
+                    defaultValue={editorData[0].center.y}
+                    index={currentShape}
+                    dispatch={dispatch}
+                    axis={"y"}
+                />
+            </div>
+            <div className='flex'>
+            <h4 className='text-1xl font-bold mr-2'>z:</h4>               
+                <Slider
+                    defaultValue={editorData[0].center.z}
+                    index={currentShape}
+                    dispatch={dispatch}
+                    axis={"z"}
+                />
+            </div>
 
+            </div>
             </div>
             </div>
    
@@ -138,7 +168,7 @@ function Editor() {
     );
 }
 
-function Slider({ defaultValue, index, dispatch, axis = 'x' }) {
+function Slider({ defaultValue, index, dispatch, axis}) {
     const [val, setVal] = useState(defaultValue);
     return (
         <input
