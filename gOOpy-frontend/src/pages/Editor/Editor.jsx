@@ -27,28 +27,22 @@ function useEditorData() {
     };
 
     const MAX_SIZE = 50; // should match shaders
-    let shapesCount = 3; // EDIT FIX THIS LATER (reducer initialization function for loading data?)
-    let nextID = 3; // fix later
+    let [shapesCount, setShapesCount] = useState(3); // EDIT FIX THIS LATER (reducer initialization function for loading data?)
+    let [nextID, setNextId] = useState(3); // fix later
     const shapesMap = new Map();
-    const buffer = [...Array(MAX_SIZE)].map(() => {
-        return {
-            center: new Vector3(0.0, 0.0, 0.0),
-            radius: 1.0,
-            id: null,
-        };
-    });
-
-    // TEMPORARY SETTING BUFFER VALUES:
-    buffer[0] = obj1;
-    buffer[1] = obj2;
-    buffer[2] = obj3;
 
     // unsure if this is the best strat. This lets us keep track of uniforms object to be passed to shader
     const uniforms = useRef({
         n_spheres: { type: 'int', value: shapesCount },
         spheres: {
             type: [{ center: 'vec3', radius: 'float' }],
-            value: buffer,
+            value: [...Array(MAX_SIZE)].map(() => {
+                return {
+                    center: new Vector3(0.0, 0.0, 0.0),
+                    radius: 1.0,
+                    id: null,
+                };
+            }),
         },
         camera_pos: {
             type: 'vec3',
@@ -56,48 +50,59 @@ function useEditorData() {
         },
     });
 
-    const [state, dispatch] = useReducer((state, action) => {
-        const newState = [...state]; // copy of state to modify
-        switch (action.type) {
-            case 'addShape':
-                // buffer[shapesCount].id = nextID;
-                // uniforms.current.spheres.value = buffer;
-                // console.log(uniforms.current.spheres.value);
+    // TEMPORARY SETTING BUFFER VALUES:
+    uniforms.current.spheres.value[0] = obj1;
+    uniforms.current.spheres.value[1] = obj2;
+    uniforms.current.spheres.value[2] = obj3;
+    shapesMap.set(0, 0);
+    shapesMap.set(1, 1);
+    shapesMap.set(2, 2);
 
-                // const { shapeType } = action.payload;
-                // TODO change this based on type? or different reducer per type
-                // TODO limit to MAX_SPHERES
-                // let shapeData = buffer[shapesCount];
-                // shapeData.center = new Vector3(0.0, 0.0, 0.0);
-                // shapeData.radius = 1.0;
-                // shapeData.id = nextID;
+    const [state, dispatch] = useReducer(
+        (state, action) => {
+            const newState = [...state]; // copy of state to modify
+            switch (action.type) {
+                case 'addShape':
+                    // To add a shape, we need to
+                    // 1. Add the new ID to the state list
+                    // 2. Add the shapes id -> index mapping
+                    // 3. Get the first unused object in the list
+                    // 4. reset it's values, and set ID to nextID (and increment nextID)
+                    // 5. increment counters
+                    const buffer = uniforms.current.spheres.value;
+                    newState.push(nextID);
+                    shapesMap.set(nextID, shapesCount);
+                    const newObject = buffer[shapesCount];
+                    newObject.center = new Vector3(0, 0, 0);
+                    newObject.radius = 1.0;
+                    newObject.id = nextID;
+                    console.log(buffer[shapesMap.get(nextID)]);
+                    setNextId((id) => id + 1);
+                    setShapesCount((c) => c + 1);
+                    return newState;
+                case 'modifyAxis':
+                    // Notice: this reducer doesn't actually modify state...
+                    const { index, newValue, axis } = action.payload;
+                    uniforms.current.spheres.value[shapesMap.get(index)].center[
+                        axis
+                    ] = newValue;
+                    return newState;
+            }
+        },
+        uniforms.current.spheres.value.slice(0, 3).map((o) => o.id) // temp for example data
+    );
 
-                // newState.push(shapeData);
-                // shapeData.id = nextID;
-                // console.log(newState[3]);
-                // console.log(buffer[shapesCount]);
-                // shapesMap.set(nextID, shapesCount);
-                // nextID++;
-                // shapesCount += 1;
-                // uniforms.current.n_spheres.value = shapesCount;
-                // buffer[shapesCount] = newState[shapesCount];
-                return newState;
-            case 'modifyAxis':
-                // temp demo action
-                const { index, newValue, axis } = action.payload;
-                newState[index].center[axis] = newValue;
-                return newState;
-        }
-    }, buffer.slice(0, 3));
-
-    return [state, dispatch, uniforms];
+    return [state, dispatch, uniforms, shapesMap];
 }
 
 function Editor() {
-    const [editorData, dispatch, uniforms] = useEditorData();
-    const [currentShape, selectShape] = useState(editorData[0].id);
+    const [editorData, dispatch, uniforms, shapesMap] = useEditorData();
+    const buffer = uniforms.current.spheres.value;
+    const [currentShape, setCurrentShape] = useState(buffer[0].id);
     // TODO: change 'FF0000' to currentShape's color
     const [color, setColor] = useColor('FF0000');
+
+    console.log(shapesMap.get(currentShape));
 
     return (
         <div className='flex justify-between p-5'>
@@ -109,29 +114,30 @@ function Editor() {
                         // TODO move this custom CSS to tailwind somehow
                         style={{ minHeight: '80vh', minWidth: '10vw' }}
                     >
-                        {/* <button
+                        <button
                             onClick={() => {
                                 dispatch({ type: 'addShape' });
                             }}
                         >
-                            Add new Shape
-                        </button> */}
-                        {editorData.map((option, index) => (
+                            Add Shape
+                        </button>
+                        {editorData.map((shapeID, index) => (
                             <div
                                 key={index}
                                 className={`border button ${
-                                    currentShape === option.id
+                                    currentShape === shapeID
                                         ? 'bg-bg-yellow'
                                         : 'bg-editor-box'
                                 }`}
-                                onClick={() => selectShape(option.id)}
+                                onClick={() => setCurrentShape(shapeID)}
                             >
-                                Shape {option.id}
+                                Shape {shapeID}
                             </div>
                         ))}
                     </div>
                 </div>
-                <div className='sliders border ms-2'>
+                {/* todo: remove key and refactor this to be a component */}
+                <div className='sliders border ms-2' key={currentShape}>
                     <h4 className='text-2xl font-bold'>
                         Shape {currentShape} &gt; Properties
                     </h4>
@@ -140,7 +146,9 @@ function Editor() {
                         <div className='flex'>
                             <h4 className='text-1xl font-bold mr-2'>x:</h4>
                             <Slider
-                                defaultValue={editorData[0].center.x}
+                                defaultValue={
+                                    buffer[shapesMap.get(currentShape)].center.x
+                                }
                                 index={currentShape}
                                 dispatch={dispatch}
                                 axis={'x'}
@@ -149,7 +157,9 @@ function Editor() {
                         <div className='flex'>
                             <h4 className='text-1xl font-bold mr-2'>y:</h4>
                             <Slider
-                                defaultValue={editorData[0].center.y}
+                                defaultValue={
+                                    buffer[shapesMap.get(currentShape)].center.y
+                                }
                                 index={currentShape}
                                 dispatch={dispatch}
                                 axis={'y'}
@@ -158,7 +168,9 @@ function Editor() {
                         <div className='flex'>
                             <h4 className='text-1xl font-bold mr-2'>z:</h4>
                             <Slider
-                                defaultValue={editorData[0].center.z}
+                                defaultValue={
+                                    buffer[shapesMap.get(currentShape)].center.z
+                                }
                                 index={currentShape}
                                 dispatch={dispatch}
                                 axis={'z'}
