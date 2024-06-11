@@ -68,7 +68,22 @@ app.get('/scenes', (req, res) => {
     res.send(`Sending ${reqAmt} scenes`);
 });
 
+app.get('/scenes/:id', (req, res) => {
+    // TODO: return the scene requested
+});
 
+app.post('/scenes/:id', (req, res) => {
+    // TODO: save the scene if this scene belongs to the current logged in user
+    // if not, save a new scene under the other user's account
+});
+
+app.put('/scenes/:id', (req, res) => {
+    // TODO: update the scene requested
+});
+
+app.delete('/scenes/:id', (req, res) => {
+    // TODO: delete from user's scene, should only be available if current scene belongs to logged in user
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
