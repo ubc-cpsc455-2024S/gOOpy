@@ -5,104 +5,104 @@ import { Canvas } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 
-/**
- *  useEditorData is a custom react hook to handle state management for our 3D scene editor
- */
-function useEditorData() {
-    // hard coded list of objects (temporary)
-    const obj1 = {
-        center: new Vector3(0.0, 0.0, 0.0),
-        radius: 1.0,
-        id: 0,
-    };
-    const obj2 = {
-        center: new Vector3(1.0, 1.0, 1.0),
-        radius: 1.3,
-        id: 1,
-    };
-    const obj3 = {
-        center: new Vector3(-1.0, -1.0, 1.0),
-        radius: 0.8,
-        id: 2,
-    };
+// hard coded list of objects (temporary)
+const obj1 = {
+    center: new Vector3(0.0, 0.0, 0.0),
+    radius: 1.0,
+    id: 0,
+};
+const obj2 = {
+    center: new Vector3(1.0, 1.0, 1.0),
+    radius: 1.3,
+    id: 1,
+};
+const obj3 = {
+    center: new Vector3(-1.0, -1.0, 1.0),
+    radius: 0.8,
+    id: 2,
+};
 
-    const MAX_SIZE = 50; // should match shaders
-    let [shapesCount, setShapesCount] = useState(3); // EDIT FIX THIS LATER (reducer initialization function for loading data?)
-    let [nextID, setNextId] = useState(3); // fix later
-    const shapesMap = new Map();
+const MAX_SIZE = 50; // should match shaders
 
-    // unsure if this is the best strat. This lets us keep track of uniforms object to be passed to shader
-    const uniforms = useRef({
-        n_spheres: { type: 'int', value: shapesCount },
-        spheres: {
-            type: [{ center: 'vec3', radius: 'float' }],
-            value: [...Array(MAX_SIZE)].map(() => {
-                return {
-                    center: new Vector3(0.0, 0.0, 0.0),
-                    radius: 1.0,
-                    id: null,
-                };
-            }),
-        },
-        camera_pos: {
-            type: 'vec3',
-            value: new Vector3(0.0, 0.0, -3.0),
-        },
+const defaultState = (() => {
+    const defaultShapesMap = new Map();
+    defaultShapesMap.set(0, 0);
+    defaultShapesMap.set(1, 1);
+    defaultShapesMap.set(2, 2);
+    const defaultBuffer = [...Array(MAX_SIZE)].map(() => {
+        return {
+            center: new Vector3(0.0, 0.0, 0.0),
+            radius: 1.0,
+            id: null,
+        };
     });
-
     // TEMPORARY SETTING BUFFER VALUES:
-    uniforms.current.spheres.value[0] = obj1;
-    uniforms.current.spheres.value[1] = obj2;
-    uniforms.current.spheres.value[2] = obj3;
-    shapesMap.set(0, 0);
-    shapesMap.set(1, 1);
-    shapesMap.set(2, 2);
+    defaultBuffer[0] = obj1;
+    defaultBuffer[1] = obj2;
+    defaultBuffer[2] = obj3;
+    return {
+        shapeIDs: defaultBuffer.slice(0, 3).map((o) => o.id),
+        shapesMap: defaultShapesMap,
+        nextID: 3, // TODO fix these (reducer initialization function for loading data?)
+        shapesCount: 3,
+        buffer: defaultBuffer,
+    };
+})(); // temp for example data
 
-    const [state, dispatch] = useReducer(
-        (state, action) => {
-            const newState = [...state]; // copy of state to modify
-            switch (action.type) {
-                case 'addShape':
-                    // To add a shape, we need to
-                    // 1. Add the new ID to the state list
-                    // 2. Add the shapes id -> index mapping
-                    // 3. Get the first unused object in the list
-                    // 4. reset it's values, and set ID to nextID (and increment nextID)
-                    // 5. increment counters
-                    const buffer = uniforms.current.spheres.value;
-                    newState.push(nextID);
-                    shapesMap.set(nextID, shapesCount);
-                    const newObject = buffer[shapesCount];
-                    newObject.center = new Vector3(0, 0, 0);
-                    newObject.radius = 1.0;
-                    newObject.id = nextID;
-                    console.log(buffer[shapesMap.get(nextID)]);
-                    setNextId((id) => id + 1);
-                    setShapesCount((c) => c + 1);
-                    return newState;
-                case 'modifyAxis':
-                    // Notice: this reducer doesn't actually modify state...
-                    const { index, newValue, axis } = action.payload;
-                    uniforms.current.spheres.value[shapesMap.get(index)].center[
-                        axis
-                    ] = newValue;
-                    return newState;
-            }
-        },
-        uniforms.current.spheres.value.slice(0, 3).map((o) => o.id) // temp for example data
-    );
+function editorReducer(state, action) {
+    const newState = { ...state }; // copy of state to modify
+    switch (action.type) {
+        case 'addShape':
+            // To add a shape, we need to
+            // 1. Add the new ID to the state list
+            // 2. Add the shapes id -> index mapping
+            // 3. Get the first unused object in the list
+            // 4. reset it's values, and set ID to nextID (and increment nextID)
+            // 5. increment counters
+            newState.shapeIDs = [...newState.shapeIDs];
+            newState.shapeIDs.push(newState.nextID);
+            newState.shapesMap.set(newState.nextID, newState.shapesCount);
+            const newShape = newState.buffer[newState.shapesCount];
+            newShape.center = new Vector3(0, 0, 0);
+            newShape.radius = 1.0;
+            newShape.id = newState.nextID;
+            newState.nextID += 1;
+            newState.shapesCount += 1;
+            return newState;
+        case 'modifyAxis':
+            // Notice: this reducer doesn't actually modify state...
+            const { index, newValue, axis } = action.payload;
 
-    return [state, dispatch, uniforms, shapesMap];
+            // buffer.current[newState.shapesMap.get(index)].center[axis] =
+            //     newValue;
+
+            const bufferCopy = newState.buffer;
+            console.log(
+                'ma',
+                bufferCopy[newState.shapesMap.get(index)].center[axis]
+            );
+
+            bufferCopy[newState.shapesMap.get(index)].center[axis] = newValue;
+
+            console.log(
+                'ma',
+                bufferCopy[newState.shapesMap.get(index)].center[axis]
+            );
+
+            newState.buffer = bufferCopy;
+            // uniforms.current.spheres.value[shapesMap.get(index)].center;
+            return newState;
+    }
 }
 
 function Editor() {
-    const [editorData, dispatch, uniforms, shapesMap] = useEditorData();
-    const buffer = uniforms.current.spheres.value;
+    const [editorData, dispatch] = useReducer(editorReducer, defaultState);
+    const { shapeIDs, shapesMap, shapesCount, buffer } = editorData;
     const [currentShape, setCurrentShape] = useState(buffer[0].id);
     // TODO: change 'FF0000' to currentShape's color
     const [color, setColor] = useColor('FF0000');
 
-    console.log(shapesMap.get(currentShape));
+    console.log('current shape', shapesMap.get(currentShape));
 
     return (
         <div className='flex justify-between p-5'>
@@ -121,7 +121,7 @@ function Editor() {
                         >
                             Add Shape
                         </button>
-                        {editorData.map((shapeID, index) => (
+                        {shapeIDs.map((shapeID, index) => (
                             <div
                                 key={index}
                                 className={`border button ${
@@ -205,7 +205,11 @@ function Editor() {
                         position: [0, 0, 0.5],
                     }}
                 >
-                    <RayMarching scale={[2.0, 2.0, 1.0]} uniforms={uniforms} />
+                    <RayMarching
+                        scale={[2.0, 2.0, 1.0]}
+                        buffer={buffer}
+                        shapesCount={shapesCount}
+                    />
                 </Canvas>
             </div>
         </div>
@@ -219,7 +223,6 @@ function Slider({ defaultValue, index, dispatch, axis }) {
             value={val}
             onChange={(e) => {
                 const newValue = parseFloat(e.target.value);
-                // console.log(index, newValue, axis);
                 dispatch({
                     type: 'modifyAxis',
                     payload: { index, newValue, axis },
