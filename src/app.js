@@ -73,8 +73,7 @@ app.get('/scenes/:id', (req, res) => {
 });
 
 app.post('/scenes/:id', (req, res) => {
-    // TODO: save the scene if this scene belongs to the current logged in user
-    // if not, save a new scene under the other user's account
+    // TODO: save the scene to the current logged in user's scenes
 });
 
 app.put('/scenes/:id', (req, res) => {
