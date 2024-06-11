@@ -1,4 +1,5 @@
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
+import { useEffect, useRef } from 'react';
 import { Vector3 } from 'three';
 import { FileLoader } from 'three';
 
@@ -16,7 +17,7 @@ export default function RayMarching({
         fragmentShaderPath,
     ]);
 
-    const uniforms = {
+    const uniforms = useRef({
         n_spheres: { type: 'int', value: shapesCount },
         spheres: {
             type: [{ center: 'vec3', radius: 'float' }],
@@ -26,17 +27,19 @@ export default function RayMarching({
             type: 'vec3',
             value: new Vector3(0.0, 0.0, -3.0),
         },
-    };
+    });
 
-    console.log('rm', uniforms);
+    useEffect(() => {
+        uniforms.current.n_spheres.value = shapesCount;
+    }, [shapesCount]);
 
     return (
-        <mesh {...props} key={shapesCount}>
+        <mesh {...props}>
             <planeGeometry />
             <rawShaderMaterial
                 fragmentShader={fragmentShader}
                 vertexShader={vertexShader}
-                uniforms={uniforms}
+                uniforms={uniforms.current}
             />
         </mesh>
     );

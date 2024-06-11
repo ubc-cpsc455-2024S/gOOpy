@@ -24,7 +24,8 @@ const obj3 = {
 
 const MAX_SIZE = 50; // should match shaders
 
-const defaultState = (() => {
+// eventually, pass saved data here to parse and set up state
+function initState() {
     const defaultShapesMap = new Map();
     defaultShapesMap.set(0, 0);
     defaultShapesMap.set(1, 1);
@@ -36,18 +37,18 @@ const defaultState = (() => {
             id: null,
         };
     });
-    // TEMPORARY SETTING BUFFER VALUES:
+    // TEMPORARY DEFAULT BUFFER VALUES:
     defaultBuffer[0] = obj1;
     defaultBuffer[1] = obj2;
     defaultBuffer[2] = obj3;
     return {
         shapeIDs: defaultBuffer.slice(0, 3).map((o) => o.id),
         shapesMap: defaultShapesMap,
-        nextID: 3, // TODO fix these (reducer initialization function for loading data?)
+        nextID: 3,
         shapesCount: 3,
         buffer: defaultBuffer,
     };
-})(); // temp for example data
+}
 
 function editorReducer(state, action) {
     const newState = { ...state }; // copy of state to modify
@@ -70,39 +71,18 @@ function editorReducer(state, action) {
             newState.shapesCount += 1;
             return newState;
         case 'modifyAxis':
-            // Notice: this reducer doesn't actually modify state...
             const { index, newValue, axis } = action.payload;
-
-            // buffer.current[newState.shapesMap.get(index)].center[axis] =
-            //     newValue;
-
-            const bufferCopy = newState.buffer;
-            console.log(
-                'ma',
-                bufferCopy[newState.shapesMap.get(index)].center[axis]
-            );
-
+            const bufferCopy = [...newState.buffer];
             bufferCopy[newState.shapesMap.get(index)].center[axis] = newValue;
-
-            console.log(
-                'ma',
-                bufferCopy[newState.shapesMap.get(index)].center[axis]
-            );
-
             newState.buffer = bufferCopy;
-            // uniforms.current.spheres.value[shapesMap.get(index)].center;
             return newState;
     }
 }
 
 function Editor() {
-    const [editorData, dispatch] = useReducer(editorReducer, defaultState);
+    const [editorData, dispatch] = useReducer(editorReducer, null, initState);
     const { shapeIDs, shapesMap, shapesCount, buffer } = editorData;
     const [currentShape, setCurrentShape] = useState(buffer[0].id);
-    // TODO: change 'FF0000' to currentShape's color
-    const [color, setColor] = useColor('FF0000');
-
-    console.log('current shape', shapesMap.get(currentShape));
 
     return (
         <div className='flex justify-between p-5'>
@@ -136,59 +116,12 @@ function Editor() {
                         ))}
                     </div>
                 </div>
-                {/* todo: remove key and refactor this to be a component */}
-                <div className='sliders border ms-2' key={currentShape}>
-                    <h4 className='text-2xl font-bold'>
-                        Shape {currentShape} &gt; Properties
-                    </h4>
-                    <div className='border flex flex-col p-2'>
-                        <h4 className='text-1xl font-bold'>Transform</h4>
-                        <div className='flex'>
-                            <h4 className='text-1xl font-bold mr-2'>x:</h4>
-                            <Slider
-                                defaultValue={
-                                    buffer[shapesMap.get(currentShape)].center.x
-                                }
-                                index={currentShape}
-                                dispatch={dispatch}
-                                axis={'x'}
-                            />
-                        </div>
-                        <div className='flex'>
-                            <h4 className='text-1xl font-bold mr-2'>y:</h4>
-                            <Slider
-                                defaultValue={
-                                    buffer[shapesMap.get(currentShape)].center.y
-                                }
-                                index={currentShape}
-                                dispatch={dispatch}
-                                axis={'y'}
-                            />
-                        </div>
-                        <div className='flex'>
-                            <h4 className='text-1xl font-bold mr-2'>z:</h4>
-                            <Slider
-                                defaultValue={
-                                    buffer[shapesMap.get(currentShape)].center.z
-                                }
-                                index={currentShape}
-                                dispatch={dispatch}
-                                axis={'z'}
-                            />
-                        </div>
-                    </div>
-                    <div className='border flex flex-col p-2'>
-                        <h4 className='text-1xl font-bold mr-2'>
-                            Object Color
-                        </h4>
-                        <ColorPicker
-                            color={color}
-                            onChange={setColor}
-                            hideAlpha={true}
-                            hideInput={true}
-                        />
-                    </div>
-                </div>
+                <EditorDetails
+                    currentShape={currentShape}
+                    buffer={buffer}
+                    shapesMap={shapesMap}
+                    dispatch={dispatch}
+                />
             </div>
 
             <div>
@@ -211,6 +144,63 @@ function Editor() {
                         shapesCount={shapesCount}
                     />
                 </Canvas>
+            </div>
+        </div>
+    );
+}
+
+function EditorDetails({ currentShape, buffer, shapesMap, dispatch }) {
+    // TODO: change 'FF0000' to currentShape's color
+    const [color, setColor] = useColor('FF0000');
+    return (
+        <div className='sliders border ms-2' key={currentShape}>
+            <h4 className='text-2xl font-bold'>
+                Shape {currentShape} &gt; Properties
+            </h4>
+            <div className='border flex flex-col p-2'>
+                <h4 className='text-1xl font-bold'>Transform</h4>
+                <div className='flex'>
+                    <h4 className='text-1xl font-bold mr-2'>x:</h4>
+                    <Slider
+                        defaultValue={
+                            buffer[shapesMap.get(currentShape)].center.x
+                        }
+                        index={currentShape}
+                        dispatch={dispatch}
+                        axis={'x'}
+                    />
+                </div>
+                <div className='flex'>
+                    <h4 className='text-1xl font-bold mr-2'>y:</h4>
+                    <Slider
+                        defaultValue={
+                            buffer[shapesMap.get(currentShape)].center.y
+                        }
+                        index={currentShape}
+                        dispatch={dispatch}
+                        axis={'y'}
+                    />
+                </div>
+                <div className='flex'>
+                    <h4 className='text-1xl font-bold mr-2'>z:</h4>
+                    <Slider
+                        defaultValue={
+                            buffer[shapesMap.get(currentShape)].center.z
+                        }
+                        index={currentShape}
+                        dispatch={dispatch}
+                        axis={'z'}
+                    />
+                </div>
+            </div>
+            <div className='border flex flex-col p-2'>
+                <h4 className='text-1xl font-bold mr-2'>Object Color</h4>
+                <ColorPicker
+                    color={color}
+                    onChange={setColor}
+                    hideAlpha={true}
+                    hideInput={true}
+                />
             </div>
         </div>
     );
