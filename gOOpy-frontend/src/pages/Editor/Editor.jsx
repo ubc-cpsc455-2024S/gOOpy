@@ -51,9 +51,9 @@ function initState() {
 }
 
 function editorReducer(state, action) {
-    const newState = { ...state }; // copy of state to modify
     switch (action.type) {
         case 'addShape':
+            const newState = { ...state }; // copy of state to modify
             // To add a shape, we need to
             // 1. Add the new ID to the state list
             // 2. Add the shapes id -> index mapping
@@ -71,11 +71,12 @@ function editorReducer(state, action) {
             newState.shapesCount += 1;
             return newState;
         case 'modifyAxis':
+            // note: this does not modify state
             const { index, newValue, axis } = action.payload;
-            const bufferCopy = [...newState.buffer];
-            bufferCopy[newState.shapesMap.get(index)].center[axis] = newValue;
-            newState.buffer = bufferCopy;
-            return newState;
+            const bufferCopy = [...state.buffer];
+            bufferCopy[state.shapesMap.get(index)].center[axis] = newValue;
+            state.buffer = bufferCopy;
+            return state;
     }
 }
 
