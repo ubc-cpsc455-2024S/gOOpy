@@ -25,20 +25,7 @@ const obj3 = {
 const MAX_SIZE = 50; // should match shaders
 
 function Editor() {
-    const [shapes, setShapes] = useState([
-        obj1,
-        obj2,
-        obj3,
-        { ...obj1, id: 3 },
-        { ...obj1, id: 4 },
-        { ...obj1, id: 5 },
-        { ...obj1, id: 6 },
-        { ...obj1, id: 7 },
-        { ...obj1, id: 8 },
-        { ...obj1, id: 9 },
-        { ...obj1, id: 10 },
-        { ...obj1, id: 11 },
-    ]);
+    const [shapes, setShapes] = useState([obj1, obj2, obj3]);
     const [currentShape, setCurrentShape] = useState(shapes[0].id);
 
     // TODO add to readme?
@@ -65,9 +52,17 @@ function Editor() {
                         style={{ minHeight: '80vh', minWidth: '10vw' }}
                     >
                         <button
-                            onClick={() => {
-                                // dispatch({ type: 'addShape' });
-                            }}
+                            onClick={() =>
+                                setShapes((state) => {
+                                    const newState = [...state];
+                                    newState.push({
+                                        center: new Vector3(0, 0, 0),
+                                        radius: 1.0,
+                                        id: state.length,
+                                    });
+                                    return newState;
+                                })
+                            }
                         >
                             Add Shape
                         </button>
