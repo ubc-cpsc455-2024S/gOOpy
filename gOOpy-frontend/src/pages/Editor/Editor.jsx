@@ -24,65 +24,35 @@ const obj3 = {
 
 const MAX_SIZE = 50; // should match shaders
 
-// eventually, pass saved data here to parse and set up state
-function initState() {
-    const defaultShapesMap = new Map();
-    defaultShapesMap.set(0, 0);
-    defaultShapesMap.set(1, 1);
-    defaultShapesMap.set(2, 2);
-    const defaultBuffer = [...Array(MAX_SIZE)].map(() => {
-        return {
-            center: new Vector3(0.0, 0.0, 0.0),
-            radius: 1.0,
-            id: null,
-        };
-    });
-    // TEMPORARY DEFAULT BUFFER VALUES:
-    defaultBuffer[0] = obj1;
-    defaultBuffer[1] = obj2;
-    defaultBuffer[2] = obj3;
-    return {
-        shapeIDs: defaultBuffer.slice(0, 3).map((o) => o.id),
-        shapesMap: defaultShapesMap,
-        nextID: 3,
-        shapesCount: 3,
-        buffer: defaultBuffer,
-    };
-}
-
-function editorReducer(state, action) {
-    const newState = { ...state }; // copy of state to modify
-    switch (action.type) {
-        case 'addShape':
-            // To add a shape, we need to
-            // 1. Add the new ID to the state list
-            // 2. Add the shapes id -> index mapping
-            // 3. Get the first unused object in the list
-            // 4. reset it's values, and set ID to nextID (and increment nextID)
-            // 5. increment counters
-            newState.shapeIDs = [...newState.shapeIDs];
-            newState.shapeIDs.push(newState.nextID);
-            newState.shapesMap.set(newState.nextID, newState.shapesCount);
-            const newShape = newState.buffer[newState.shapesCount];
-            newShape.center = new Vector3(0, 0, 0);
-            newShape.radius = 1.0;
-            newShape.id = newState.nextID;
-            newState.nextID += 1;
-            newState.shapesCount += 1;
-            return newState;
-        case 'modifyAxis':
-            const { index, newValue, axis } = action.payload;
-            const bufferCopy = [...newState.buffer];
-            bufferCopy[newState.shapesMap.get(index)].center[axis] = newValue;
-            newState.buffer = bufferCopy;
-            return newState;
-    }
-}
-
 function Editor() {
-    const [editorData, dispatch] = useReducer(editorReducer, null, initState);
-    const { shapeIDs, shapesMap, shapesCount, buffer } = editorData;
-    const [currentShape, setCurrentShape] = useState(buffer[0].id);
+    const [shapes, setShapes] = useState([
+        obj1,
+        obj2,
+        obj3,
+        { ...obj1, id: 3 },
+        { ...obj1, id: 4 },
+        { ...obj1, id: 5 },
+        { ...obj1, id: 6 },
+        { ...obj1, id: 7 },
+        { ...obj1, id: 8 },
+        { ...obj1, id: 9 },
+        { ...obj1, id: 10 },
+        { ...obj1, id: 11 },
+    ]);
+    const [currentShape, setCurrentShape] = useState(shapes[0].id);
+
+    // TODO add to readme?
+    // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
+    const updateAxis = (index, axis, newValue) => {
+        // This is how you can do it if you must actually update the state
+        // let newShapes = [...shapes];
+        // newShapes[index].center[axis] = newValue;
+        // setShapes(newShapes);
+
+        // It seems it will let us modify the values directly without updating state
+        // While this *might* introduce bugs, it may also help with performance?
+        shapes[index].center[axis] = newValue;
+    };
 
     return (
         <div className='flex justify-between p-5'>
@@ -96,31 +66,31 @@ function Editor() {
                     >
                         <button
                             onClick={() => {
-                                dispatch({ type: 'addShape' });
+                                // dispatch({ type: 'addShape' });
                             }}
                         >
                             Add Shape
                         </button>
-                        {shapeIDs.map((shapeID, index) => (
+                        {shapes.map((shape, index) => (
                             <div
                                 key={index}
                                 className={`border button ${
-                                    currentShape === shapeID
+                                    currentShape === shape.id
                                         ? 'bg-bg-yellow'
                                         : 'bg-editor-box'
                                 }`}
-                                onClick={() => setCurrentShape(shapeID)}
+                                onClick={() => setCurrentShape(shape.id)}
                             >
-                                Shape {shapeID}
+                                Shape {shapes[index].id}
                             </div>
                         ))}
                     </div>
                 </div>
                 <EditorDetails
-                    currentShape={currentShape}
-                    buffer={buffer}
-                    shapesMap={shapesMap}
-                    dispatch={dispatch}
+                    // TODO eventually index will not be current shape... but we do want to pass index here
+                    index={currentShape}
+                    shapes={shapes}
+                    updateAxis={updateAxis}
                 />
             </div>
 
@@ -138,57 +108,47 @@ function Editor() {
                         position: [0, 0, 0.5],
                     }}
                 >
-                    <RayMarching
-                        scale={[2.0, 2.0, 1.0]}
-                        buffer={buffer}
-                        shapesCount={shapesCount}
-                    />
+                    <RayMarching scale={[2.0, 2.0, 1.0]} shapes={shapes} />
                 </Canvas>
             </div>
         </div>
     );
 }
 
-function EditorDetails({ currentShape, buffer, shapesMap, dispatch }) {
+function EditorDetails({ index, shapes, updateAxis }) {
     // TODO: change 'FF0000' to currentShape's color
     const [color, setColor] = useColor('FF0000');
     return (
-        <div className='sliders border ms-2' key={currentShape}>
+        <div className='sliders border ms-2' key={index}>
             <h4 className='text-2xl font-bold'>
-                Shape {currentShape} &gt; Properties
+                Shape {shapes[index].id} &gt; Properties
             </h4>
             <div className='border flex flex-col p-2'>
                 <h4 className='text-1xl font-bold'>Transform</h4>
                 <div className='flex'>
                     <h4 className='text-1xl font-bold mr-2'>x:</h4>
                     <Slider
-                        defaultValue={
-                            buffer[shapesMap.get(currentShape)].center.x
-                        }
-                        index={currentShape}
-                        dispatch={dispatch}
+                        defaultValue={shapes[index].center.x}
+                        index={index}
+                        updateAxis={updateAxis}
                         axis={'x'}
                     />
                 </div>
                 <div className='flex'>
                     <h4 className='text-1xl font-bold mr-2'>y:</h4>
                     <Slider
-                        defaultValue={
-                            buffer[shapesMap.get(currentShape)].center.y
-                        }
-                        index={currentShape}
-                        dispatch={dispatch}
+                        defaultValue={shapes[index].center.y}
+                        index={index}
+                        updateAxis={updateAxis}
                         axis={'y'}
                     />
                 </div>
                 <div className='flex'>
                     <h4 className='text-1xl font-bold mr-2'>z:</h4>
                     <Slider
-                        defaultValue={
-                            buffer[shapesMap.get(currentShape)].center.z
-                        }
-                        index={currentShape}
-                        dispatch={dispatch}
+                        defaultValue={shapes[index].center.z}
+                        index={index}
+                        updateAxis={updateAxis}
                         axis={'z'}
                     />
                 </div>
@@ -206,18 +166,15 @@ function EditorDetails({ currentShape, buffer, shapesMap, dispatch }) {
     );
 }
 
-function Slider({ defaultValue, index, dispatch, axis }) {
+function Slider({ defaultValue, index, updateAxis, axis }) {
     const [val, setVal] = useState(defaultValue);
     return (
         <input
             value={val}
             onChange={(e) => {
                 const newValue = parseFloat(e.target.value);
-                dispatch({
-                    type: 'modifyAxis',
-                    payload: { index, newValue, axis },
-                });
                 setVal(newValue);
+                updateAxis(index, axis, newValue);
             }}
             type='range'
             min='-5'
