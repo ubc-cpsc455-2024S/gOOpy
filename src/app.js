@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/users/:id', (req, res) => {
+    // TODO: query db and return username, userinfo and a list of scenes belonging to user
     const userId = parseInt(req.params.id);
     let sent = false;
 
@@ -43,6 +44,7 @@ app.get('/users/:id', (req, res) => {
 });
 
 app.post('/users/', (req, res) => {
+    // TODO: create a new user and add it to the users db
     const userId = uuid();
     const userInfo = req.params.info;
     users.push({
@@ -64,7 +66,7 @@ app.put('/users/:id', (req, res) => {
 
 app.get('/scenes', (req, res) => {
     const reqAmt = req.params.requestAmount;
-    // TODO: return a list of reqAmnt scenes
+    // TODO: return a list of 'reqAmt' (eg 24) scenes
     res.send(`Sending ${reqAmt} scenes`);
 });
 
