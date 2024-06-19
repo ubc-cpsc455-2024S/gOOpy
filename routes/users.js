@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const { v4: uuid } = require('uuid');
 
 // fake data for users
 let users = [
@@ -54,7 +55,7 @@ router.put('/:id', (req, res) => {
 
     // TODO: search up user in MongoDB database, if found, update fields with non-null fields in the request body
     // if not found send 404
-    res.status(404).send('User not found');
+    res.send(`editing user at id: ${userId}`);
 });
 
 module.exports = router;
