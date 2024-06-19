@@ -6,18 +6,27 @@ const { v4: uuid } = require('uuid');
 let users = [
     {
         id: 123,
-        info: 'abc',
+        username: 'user1',
+        bio: 'abc',
         scenes: ['a1', 'a2', 'b3'],
+        profilepic:
+            'https://chiikawainfo.carrd.co/assets/images/image03.png?v=130a7b9b',
     },
     {
         id: 456,
-        info: 'def',
+        username: 'user2',
+        bio: 'def',
         scenes: ['b2', 'c3', 'd2'],
+        profilepic:
+            'https://chiikawainfo.carrd.co/assets/images/image04.png?v=130a7b9b',
     },
     {
         id: 789,
-        info: 'ghi',
+        username: 'user3',
+        bio: 'ghi',
         scenes: ['m3', 'h7', 'j1'],
+        profilepic:
+            'https://chiikawainfo.carrd.co/assets/images/image05.png?v=130a7b9b',
     },
 ];
 
