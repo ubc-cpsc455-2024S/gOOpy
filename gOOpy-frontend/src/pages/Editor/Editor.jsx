@@ -30,7 +30,7 @@ function Editor() {
 
     // TODO add to readme?
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
-    const updateAxis = (index, axis, newValue) => {
+    const updateAxis = (index, newValue, axis) => {
         // This is how you can do it if you must actually update the state
         // let newShapes = [...shapes];
         // newShapes[index].center[axis] = newValue;
@@ -39,6 +39,10 @@ function Editor() {
         // It seems it will let us modify the values directly without updating state
         // While this *might* introduce bugs, it may also help with performance?
         shapes[index].center[axis] = newValue;
+    };
+
+    const updateRadius = (index, newValue) => {
+        shapes[index].radius = newValue;
     };
 
     return (
@@ -69,10 +73,10 @@ function Editor() {
                         {shapes.map((shape, index) => (
                             <div
                                 key={index}
-                                className={`border button ${
+                                className={`border button cursor-pointer ${
                                     currentShape === shape.id
                                         ? 'bg-bg-yellow'
-                                        : 'bg-editor-box'
+                                        : 'bg-editor-box hover:bg-editor-hover'
                                 }`}
                                 onClick={() => setCurrentShape(shape.id)}
                             >
@@ -86,6 +90,7 @@ function Editor() {
                     index={shapes.findIndex((s) => s.id === currentShape)}
                     shapes={shapes}
                     updateAxis={updateAxis}
+                    updateRadius={updateRadius}
                 />
             </div>
 
@@ -110,7 +115,7 @@ function Editor() {
     );
 }
 
-function EditorDetails({ index, shapes, updateAxis }) {
+function EditorDetails({ index, shapes, updateAxis, updateRadius }) {
     // TODO: change 'FF0000' to currentShape's color
     const [color, setColor] = useColor('FF0000');
     return (
@@ -125,8 +130,8 @@ function EditorDetails({ index, shapes, updateAxis }) {
                     <Slider
                         defaultValue={shapes[index].center.x}
                         index={index}
-                        updateAxis={updateAxis}
-                        axis={'x'}
+                        callback={updateAxis}
+                        callbackParams={['x']}
                     />
                 </div>
                 <div className='flex'>
@@ -134,8 +139,8 @@ function EditorDetails({ index, shapes, updateAxis }) {
                     <Slider
                         defaultValue={shapes[index].center.y}
                         index={index}
-                        updateAxis={updateAxis}
-                        axis={'y'}
+                        callback={updateAxis}
+                        callbackParams={['y']}
                     />
                 </div>
                 <div className='flex'>
@@ -143,13 +148,25 @@ function EditorDetails({ index, shapes, updateAxis }) {
                     <Slider
                         defaultValue={shapes[index].center.z}
                         index={index}
-                        updateAxis={updateAxis}
-                        axis={'z'}
+                        callback={updateAxis}
+                        callbackParams={['z']}
                     />
                 </div>
             </div>
             <div className='border flex flex-col p-2'>
-                <h4 className='text-1xl font-bold mr-2'>Object Color</h4>
+                <h4 className='text-1xl font-bold'>Radius</h4>
+                <div className='flex'>
+                    <h4 className='text-1xl font-bold mr-2'>x:</h4>
+                    <Slider
+                        defaultValue={shapes[index].radius}
+                        index={index}
+                        callback={updateRadius}
+                        min={0}
+                    />
+                </div>
+            </div>
+            <div className='border flex flex-col p-2'>
+                <h4 className='text-1xl font-bold mr-2'>Colour</h4>
                 <ColorPicker
                     color={color}
                     onChange={setColor}
@@ -161,7 +178,14 @@ function EditorDetails({ index, shapes, updateAxis }) {
     );
 }
 
-function Slider({ defaultValue, index, updateAxis, axis }) {
+function Slider({
+    defaultValue,
+    index,
+    callback,
+    callbackParams = [],
+    max = 5,
+    min = -5,
+}) {
     const [val, setVal] = useState(defaultValue);
     return (
         <input
@@ -169,11 +193,11 @@ function Slider({ defaultValue, index, updateAxis, axis }) {
             onChange={(e) => {
                 const newValue = parseFloat(e.target.value);
                 setVal(newValue);
-                updateAxis(index, axis, newValue);
+                callback(index, newValue, ...callbackParams);
             }}
             type='range'
-            min='-5'
-            max='5'
+            min={min}
+            max={max}
             step='0.001'
         ></input>
     );
