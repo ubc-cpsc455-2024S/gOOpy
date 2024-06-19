@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', (req, res) => {
-    const reqAmt = req.params.requestAmount;
+    const reqAmt = req.body.requestAmount;
     // TODO: return a list of 'reqAmt' (eg 24) scenes
     res.send(`Sending ${reqAmt} scenes`);
 });
@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
     res.send('adding a new member');
 });
 
-router.put('/:id', (req, res) => {
+router.patch('/:id', (req, res) => {
     // TODO: update the scene requested
     const id = req.params.id;
     res.send(`editing item at id: ${id}`);

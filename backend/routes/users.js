@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
         info: userInfo,
         scenes: [],
     });
-    res.status(201).send(`Added user: ${userId} successfully`);
+    res.status(201).send(userId);
 });
 
 router.put('/:id', (req, res) => {
