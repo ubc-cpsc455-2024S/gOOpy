@@ -13,6 +13,7 @@ export default {
             'font-brown': '#450a0a',
             'hd-color': '#fbbf24',
             'editor-box': '#fed7aa',
+            'editor-hover': '#EAB272',
             white: '#FFFFFF',
         },
     },
