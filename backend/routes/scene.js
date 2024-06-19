@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.get('/', (req, res) => {
     const { reqAmt } = req.query;
-    const reqAmtInt = parseInt(age, 10);
+    const reqAmtInt = parseInt(reqAmt, 10);
     if (isNaN(reqAmtInt)) {
         res.status(400).send('request amount must be a valid number');
         return;
