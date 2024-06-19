@@ -2,7 +2,12 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', (req, res) => {
-    const reqAmt = req.body.requestAmount;
+    const { reqAmt } = req.query;
+    const reqAmtInt = parseInt(age, 10);
+    if (isNaN(reqAmtInt)) {
+        res.status(400).send('request amount must be a valid number');
+        return;
+    }
     // TODO: return a list of 'reqAmt' (eg 24) scenes
     res.send(`Sending ${reqAmt} scenes`);
 });
