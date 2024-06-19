@@ -68,6 +68,7 @@ function Editor() {
                             }
                         >
                             Add Shape
+
                         </button>
                         {shapes.map((shape, index) => (
                             <div
@@ -76,10 +77,17 @@ function Editor() {
                                     currentShape === shape.id
                                         ? 'bg-bg-yellow'
                                         : 'bg-editor-box hover:bg-editor-hover'
-                                }`}
-                                onClick={() => setCurrentShape(shape.id)}
+                                } flex justify-between`}
+                                onClick={() => {
+                                    setCurrentShape(shape.id)
+                                }}
                             >
-                                Shape {shapes[index].id}
+                                <p>Shape {shapes[index].id}</p>
+                                <button className='' onClick={() => {
+                                    console.log("working");
+                                }}>
+                                Delete
+                                </button>
                             </div>
                         ))}
                     </div>
