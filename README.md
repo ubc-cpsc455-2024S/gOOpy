@@ -62,3 +62,5 @@ gOOpy is a 3D modeling software using ray marching rendering method, and signed 
     -   [link](https://iquilezles.org/articles/smin/)
 -   SDF Normal Vectors Calculations, Inigo Quilez
     -   [link](https://iquilezles.org/articles/normalsSDF/)
+-   React help
+    -   [link](https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks)

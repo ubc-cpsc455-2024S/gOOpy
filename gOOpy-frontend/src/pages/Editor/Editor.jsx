@@ -28,7 +28,6 @@ function Editor() {
     const [shapes, setShapes] = useState([obj1, obj2, obj3]);
     const [currentShape, setCurrentShape] = useState(shapes[0].id);
 
-    // TODO add to readme?
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
     const updateAxis = (index, newValue, axis) => {
         // This is how you can do it if you must actually update the state
