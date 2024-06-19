@@ -9,9 +9,11 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     // TODO: return the scene requested
+    const id = req.params.id;
+    res.send(`return the ${id} requested`);
 });
 
-router.post('/:id', (req, res) => {
+router.post('/', (req, res) => {
     // TODO: save the scene to the current logged in user's scenes
 });
 
