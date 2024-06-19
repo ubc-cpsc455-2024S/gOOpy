@@ -82,8 +82,8 @@ function Editor() {
                     </div>
                 </div>
                 <EditorDetails
-                    // TODO eventually index will not be current shape... but we do want to pass index here
-                    index={currentShape}
+                    // TODO better way to find the shapes's index?
+                    index={shapes.findIndex((s) => s.id === currentShape)}
                     shapes={shapes}
                     updateAxis={updateAxis}
                 />
