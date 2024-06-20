@@ -30,6 +30,9 @@ function Editor() {
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
     const updateAxis = (index, newValue, axis) => {
+        if (currentShape == undefined) {
+            return;
+        }
         // This is how you can do it if you must actually update the state
         // let newShapes = [...shapes];
         // newShapes[index].center[axis] = newValue;
@@ -41,6 +44,9 @@ function Editor() {
     };
 
     const updateRadius = (index, newValue) => {
+        if (currentShape == undefined) {
+            return;
+        }
         shapes[index].radius = newValue;
     };
 
@@ -78,7 +84,11 @@ function Editor() {
                                         : 'bg-editor-box hover:bg-editor-hover'
                                 } flex justify-between`}
                                 onClick={() => {
-                                    setCurrentShape(shape.id);
+                                    if (shape.id != currentShape) {
+                                        setCurrentShape(shape.id);
+                                    } else {
+                                        setCurrentShape(undefined);
+                                    }
                                 }}
                             >
                                 <p>Shape {shapes[index].id}</p>
@@ -106,13 +116,15 @@ function Editor() {
                         ))}
                     </div>
                 </div>
-                <EditorDetails
-                    // TODO better way to find the shapes's index?
-                    index={shapes.findIndex((s) => s.id === currentShape)}
-                    shapes={shapes}
-                    updateAxis={updateAxis}
-                    updateRadius={updateRadius}
-                />
+                {currentShape != undefined && (
+                    <EditorDetails
+                        // TODO better way to find the shapes's index?
+                        index={shapes.findIndex((s) => s.id === currentShape)}
+                        shapes={shapes}
+                        updateAxis={updateAxis}
+                        updateRadius={updateRadius}
+                    />
+                )}
             </div>
 
             <div>
