@@ -68,7 +68,6 @@ function Editor() {
                             }
                         >
                             Add Shape
-
                         </button>
                         {shapes.map((shape, index) => (
                             <div
@@ -79,15 +78,30 @@ function Editor() {
                                         : 'bg-editor-box hover:bg-editor-hover'
                                 } flex justify-between`}
                                 onClick={() => {
-                                    setCurrentShape(shape.id)
+                                    setCurrentShape(shape.id);
                                 }}
                             >
                                 <p>Shape {shapes[index].id}</p>
-                                <button className='' onClick={() => {
-                                    console.log("working");
-                                }}>
-                                Delete
-                                </button>
+                                {currentShape != shape.id && (
+                                    <button
+                                        className='border'
+                                        onClick={(e) => {
+                                            setShapes((state) => {
+                                                const newState = [...state];
+                                                let index = newState.indexOf(
+                                                    newState.find(
+                                                        (s) => s.id == shape.id
+                                                    )
+                                                );
+                                                newState.splice(index, 1);
+                                                return newState;
+                                            });
+                                            e.stopPropagation();
+                                        }}
+                                    >
+                                        x
+                                    </button>
+                                )}
                             </div>
                         ))}
                     </div>
