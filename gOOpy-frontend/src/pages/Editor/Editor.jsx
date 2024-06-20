@@ -26,11 +26,11 @@ const MAX_SIZE = 50; // should match shaders
 
 function Editor() {
     const [shapes, setShapes] = useState([obj1, obj2, obj3]);
-    const [currentShape, setCurrentShape] = useState(undefined);
+    const [currentShape, setCurrentShape] = useState(null);
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
     const updateAxis = (index, newValue, axis) => {
-        if (currentShape == undefined) {
+        if (currentShape == null) {
             return;
         }
         // This is how you can do it if you must actually update the state
@@ -44,7 +44,7 @@ function Editor() {
     };
 
     const updateRadius = (index, newValue) => {
-        if (currentShape == undefined) {
+        if (currentShape == null) {
             return;
         }
         shapes[index].radius = newValue;
@@ -56,12 +56,11 @@ function Editor() {
                 <div className='sliders border'>
                     <h1 className='text-3xl font-bold'>Editor</h1>
                     <div
-                        className='overflow-scroll border'
+                        className='no-scrollbar overflow-y-auto border'
                         // TODO move this custom CSS to tailwind somehow
                         style={{
-                            minHeight: '80vh',
+                            height: '70vh',
                             minWidth: '12vw',
-                            maxHeight: '80vh',
                         }}
                     >
                         {shapes.map((shape, index) => (
@@ -71,13 +70,13 @@ function Editor() {
                                     currentShape === shape.id
                                         ? 'bg-bg-yellow'
                                         : 'bg-editor-box hover:bg-editor-hover'
-                                } flex justify-between mr-3`}
+                                } flex justify-between`}
                                 onClick={() => {
-                                    if (shape.id != currentShape) {
-                                        setCurrentShape(shape.id);
-                                    } else {
-                                        setCurrentShape(undefined);
-                                    }
+                                    setCurrentShape(
+                                        shape.id == currentShape
+                                            ? null
+                                            : shape.id
+                                    );
                                 }}
                             >
                                 <p>Shape {shapes[index].id}</p>
@@ -125,8 +124,7 @@ function Editor() {
                         className='border p-1'
                         onClick={() =>
                             setShapes((state) => {
-                                const newState = [];
-                                return newState;
+                                return [];
                             })
                         }
                     >
@@ -134,7 +132,7 @@ function Editor() {
                     </button>
                 </div>
 
-                {currentShape != undefined && shapes.length > 0 && (
+                {currentShape != null && shapes.length > 0 && (
                     <EditorDetails
                         // TODO better way to find the shapes's index?
                         index={shapes.findIndex((s) => s.id === currentShape)}

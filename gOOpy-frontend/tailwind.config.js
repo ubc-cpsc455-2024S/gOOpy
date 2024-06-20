@@ -1,3 +1,5 @@
+import { plugin } from 'postcss';
+
 const defaultTheme = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 export default {
