@@ -26,7 +26,7 @@ const MAX_SIZE = 50; // should match shaders
 
 function Editor() {
     const [shapes, setShapes] = useState([obj1, obj2, obj3]);
-    const [currentShape, setCurrentShape] = useState(shapes[0].id);
+    const [currentShape, setCurrentShape] = useState(undefined);
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
     const updateAxis = (index, newValue, axis) => {
@@ -56,25 +56,14 @@ function Editor() {
                 <div className='sliders border'>
                     <h1 className='text-3xl font-bold'>Editor</h1>
                     <div
-                        className='overflow-auto ...'
+                        className='overflow-scroll border'
                         // TODO move this custom CSS to tailwind somehow
-                        style={{ minHeight: '80vh', minWidth: '10vw' }}
+                        style={{
+                            minHeight: '80vh',
+                            minWidth: '12vw',
+                            maxHeight: '80vh',
+                        }}
                     >
-                        <button
-                            onClick={() =>
-                                setShapes((state) => {
-                                    const newState = [...state];
-                                    newState.push({
-                                        center: new Vector3(0, 0, 0),
-                                        radius: 1.0,
-                                        id: state.length,
-                                    });
-                                    return newState;
-                                })
-                            }
-                        >
-                            Add Shape
-                        </button>
                         {shapes.map((shape, index) => (
                             <div
                                 key={index}
@@ -82,7 +71,7 @@ function Editor() {
                                     currentShape === shape.id
                                         ? 'bg-bg-yellow'
                                         : 'bg-editor-box hover:bg-editor-hover'
-                                } flex justify-between`}
+                                } flex justify-between mr-3`}
                                 onClick={() => {
                                     if (shape.id != currentShape) {
                                         setCurrentShape(shape.id);
@@ -103,6 +92,7 @@ function Editor() {
                                                         (s) => s.id == shape.id
                                                     )
                                                 );
+                                                console.log(index);
                                                 newState.splice(index, 1);
                                                 return newState;
                                             });
@@ -115,8 +105,36 @@ function Editor() {
                             </div>
                         ))}
                     </div>
+                    <button
+                        className='border p-1'
+                        onClick={() =>
+                            setShapes((state) => {
+                                const newState = [...state];
+                                newState.push({
+                                    center: new Vector3(0, 0, 0),
+                                    radius: 1.0,
+                                    id: state.length,
+                                });
+                                return newState;
+                            })
+                        }
+                    >
+                        Add Shape
+                    </button>
+                    <button
+                        className='border p-1'
+                        onClick={() =>
+                            setShapes((state) => {
+                                const newState = [];
+                                return newState;
+                            })
+                        }
+                    >
+                        Reset Scene
+                    </button>
                 </div>
-                {currentShape != undefined && (
+
+                {currentShape != undefined && shapes.length > 0 && (
                     <EditorDetails
                         // TODO better way to find the shapes's index?
                         index={shapes.findIndex((s) => s.id === currentShape)}
