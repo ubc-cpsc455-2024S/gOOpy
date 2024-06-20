@@ -2,8 +2,8 @@ import React from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
 import { useSelector } from 'react-redux';
 
-
 export default function UserPage() {
+    const userId = useSelector((state) => state.user.userID);
     const userName = useSelector((state) => state.user.username);
     const userImage = useSelector((state) => state.user.userImage);
     const userAbout = useSelector((state) => state.user.userAbout);
@@ -23,9 +23,15 @@ export default function UserPage() {
                         Welcome, {userName}!
                     </a>
                 </h1>
-                <h2 className='text-center text-1xl pt-5'>
-                    {userAbout}
-                </h2>
+                <div className='flex flex-col items-center pt-5'>
+                {userId == null ? (
+                    <a className=' text-1xl' href='/login'>
+                        login to access scenes
+                    </a>
+                ) : (
+                    <h2 className='text-center text-1xl pt-5'>{userAbout}</h2>
+                )}
+                </div>
             </div>
             <div className='flex justify-center w-full'>
                 <SceneGrid sceneList={userScenes} />

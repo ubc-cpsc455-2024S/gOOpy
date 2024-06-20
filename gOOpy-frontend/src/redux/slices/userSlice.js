@@ -38,7 +38,7 @@ const initialUserState = {
     userID: null,
     username: 'Guest',
     userImage: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-    userAbout: 'login to access scenes',
+    userAbout: '',
     userScenes: [],
 }
 
