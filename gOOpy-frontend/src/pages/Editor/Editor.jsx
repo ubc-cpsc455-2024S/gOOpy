@@ -50,6 +50,15 @@ function Editor() {
         shapes[index].radius = newValue;
     };
 
+    const determineNewID = () => {
+        const highestIndexUsed = Math.max(
+            ...shapes.map((shape) => shape.id),
+            0
+        );
+        console.log(shapes.map((shape) => shape.id));
+        return highestIndexUsed + 1;
+    };
+
     return (
         <div className='flex justify-between p-5'>
             <div className='flex'>
@@ -112,7 +121,7 @@ function Editor() {
                                 newState.push({
                                     center: new Vector3(0, 0, 0),
                                     radius: 1.0,
-                                    id: state.length,
+                                    id: determineNewID(),
                                 });
                                 return newState;
                             })
