@@ -7,6 +7,9 @@ import Editor from './pages/Editor/Editor.jsx';
 import UserPage from './pages/User/UserPage.jsx';
 import Login from './pages/User/Login.jsx';
 
+import { Provider } from 'react-redux';
+import store from './redux/store/store.js';
+
 const router = createBrowserRouter([
     {
         path: '/',
@@ -28,12 +31,14 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <header className='sticky top-0 z-50 flex justify-between items-center bg-hd-color p-2'>
-            <a className='text-3xl font-bold' href='/'>
-                gOOpy
-            </a>
-            <a href='/login'>Login</a>
-        </header>
-        <RouterProvider router={router} />
+        <Provider store={store}>
+            <header className='sticky top-0 z-50 flex justify-between items-center bg-hd-color p-2'>
+                <a className='text-3xl font-bold' href='/'>
+                    gOOpy
+                </a>
+                <a href='/login'>Login</a>
+            </header>
+            <RouterProvider router={router} />
+        </Provider>
     </React.StrictMode>
 );
