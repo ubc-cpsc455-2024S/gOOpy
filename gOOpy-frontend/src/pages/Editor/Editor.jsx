@@ -71,7 +71,7 @@ function Editor() {
                     setCurrentShape={setCurrentShape}
                     setCurrIndex={setCurrIndex}
                     determineNewID={determineNewID}
-                ></ShapeManager>
+                />
                 {currentShape != null && shapes.length > 0 && (
                     <ShapeDetails
                         // TODO better way to find the shapes's index?
