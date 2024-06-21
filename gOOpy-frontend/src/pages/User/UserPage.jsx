@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import GoopyButton from '../../components/GoopyButton.jsx';
 
 import {
     tempChangeUsername,
@@ -41,9 +42,11 @@ export default function UserPage() {
                 </h1>
                 <div className='flex flex-col items-center pt-5'>
                     {userID === null ? (
-                        <Link className=' text-1xl' to='/login'>
-                            login to access scenes
-                        </Link>
+                        <GoopyButton styleClass={''}>
+                            <Link className=' text-1xl' to='/login'>
+                                login to access scenes
+                            </Link>
+                        </GoopyButton>
                     ) : (
                         <div className=''>
                             <h2 className='text-center text-1xl pt-5 px-12'>
@@ -51,12 +54,16 @@ export default function UserPage() {
                             </h2>
                             <div className='flex justify-center items-center pt-3 '>
                                 {editUser === false ? (
-                                    <button
-                                        className='m-5 py-2 px-5 shadow-[0_0_0_4px_rgba(0,0,0,1)] rounded-full'
-                                        onClick={() => setEditUser(true)}
+                                    <GoopyButton
+                                        styleClass={
+                                            'm-5 py-2 px-5 shadow-[0_0_0_4px_rgba(0,0,0,1)] rounded-full'
+                                        }
+                                        onClickBehaviour={() =>
+                                            setEditUser(true)
+                                        }
                                     >
-                                        Edit Profile
-                                    </button>
+                                        <p>Edit User</p>
+                                    </GoopyButton>
                                 ) : (
                                     <form
                                         className='sliders rounded-lg'
