@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+// set up fake data for scenes
+
 router.get('/', (req, res) => {
     const { reqAmt } = req.query;
     const reqAmtInt = parseInt(reqAmt, 10);
