@@ -5,6 +5,7 @@ import { Canvas } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import GoopyButton from '../../components/GoopyButton';
+import ShapeManager from '../../components/ShapeManager';
 
 // hard coded list of objects (temporary)
 const obj1 = {
@@ -63,89 +64,14 @@ function Editor() {
     return (
         <div className='flex justify-between p-5'>
             <div className='flex'>
-                <div className='sliders border'>
-                    <h1 className='text-3xl font-bold'>Editor</h1>
-                    <div
-                        className='no-scrollbar overflow-y-auto border'
-                        // TODO move this custom CSS to tailwind somehow
-                        style={{
-                            height: '70vh',
-                            minWidth: '12vw',
-                        }}
-                    >
-                        {shapes.map((shape, index) => (
-                            <div className='flex justify-between'>
-                                <GoopyButton
-                                    key={index}
-                                    styleClasses={`border-b button cursor-pointer flex w-full`}
-                                    onClickBehavior={() => {
-                                        setCurrentShape(
-                                            shape.id == currentShape
-                                                ? null
-                                                : shape.id
-                                        );
-                                    }}
-                                    hovering={currentShape === shape.id}
-                                >
-                                    <p className='ps-1'>
-                                        Shape {shapes[index].id}
-                                    </p>
-                                </GoopyButton>
-                                {currentShape != shape.id && (
-                                    <GoopyButton
-                                        styleClasses={`border-l border-b pl-1 pr-1`}
-                                        onClickBehavior={(e) => {
-                                            setShapes((state) => {
-                                                const newState = [...state];
-                                                let index = newState.indexOf(
-                                                    newState.find(
-                                                        (s) => s.id == shape.id
-                                                    )
-                                                );
-                                                newState.splice(index, 1);
-                                                return newState;
-                                            });
-                                            e.stopPropagation();
-                                        }}
-                                        hovering={false}
-                                    >
-                                        <p>X</p>
-                                    </GoopyButton>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                    <GoopyButton
-                        styleClasses='border-l border-r border-b p-1'
-                        onClickBehavior={() => {
-                            const newId = determineNewID();
-                            setShapes((state) => {
-                                const newState = [...state];
-                                newState.push({
-                                    center: new Vector3(0, 0, 0),
-                                    radius: 1.0,
-                                    id: newId,
-                                });
-                                return newState;
-                            });
-                            setCurrentShape(newId);
-                        }}
-                    >
-                        Add Shape
-                    </GoopyButton>
-                    <GoopyButton
-                        styleClasses='border-l border-r border-b p-1'
-                        onClickBehavior={() => {
-                            setShapes((state) => {
-                                return [];
-                            });
-                            setCurrentShape(null);
-                        }}
-                    >
-                        Reset Scene
-                    </GoopyButton>
-                </div>
-
+                <ShapeManager
+                    shapes={shapes}
+                    currentShape={currentShape}
+                    setShapes={setShapes}
+                    setCurrentShape={setCurrentShape}
+                    setCurrIndex={setCurrIndex}
+                    determineNewID={determineNewID}
+                ></ShapeManager>
                 {currentShape != null && shapes.length > 0 && (
                     <EditorDetails
                         // TODO better way to find the shapes's index?
