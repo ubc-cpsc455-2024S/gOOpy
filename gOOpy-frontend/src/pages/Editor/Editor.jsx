@@ -69,14 +69,13 @@ function Editor() {
                         className='no-scrollbar overflow-y-auto border'
                         // TODO move this custom CSS to tailwind somehow
                         style={{
-                            height: '70vh',
+                            height: '65vh', // changed this so that editor fits on page
                             minWidth: '12vw',
                         }}
                     >
                         {shapes.map((shape, index) => (
-                            <div className='flex justify-between'>
+                            <div className='flex justify-between' key={index}>
                                 <GoopyButton
-                                    key={index}
                                     styleClasses={`border-b button cursor-pointer flex w-full`}
                                     onClickBehavior={() => {
                                         setCurrentShape(
@@ -143,6 +142,24 @@ function Editor() {
                         }}
                     >
                         Reset Scene
+                    </GoopyButton>
+                    <GoopyButton
+                        styleClasses='border-l border-r border-b p-1'
+                        onClickBehavior={() => {
+                            // TODO for shiyu!!! save scene to redux store
+                            let data = {
+                                shapes: shapes,
+                                metadata: {
+                                    userId: 123, // fake user id for now
+                                    title: 'new',
+                                    lastEdited: new Date(),
+                                },
+                            };
+                            let jsonData = JSON.stringify(data);
+                            console.log(jsonData);
+                        }}
+                    >
+                        Save Scene
                     </GoopyButton>
                 </div>
 
