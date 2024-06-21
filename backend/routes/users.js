@@ -6,25 +6,64 @@ const { v4: uuid } = require('uuid');
 let users = [
     {
         id: 123,
-        username: 'user1',
-        bio: 'abc',
-        scenes: ['a1', 'a2', 'b3'],
+        username: 'gregork',
+        bio: "I'm Gregor",
+        scenes: [
+            {
+                image: 'https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                name: 'ovals',
+                lastEditDate: new Date(),
+                id: 135,
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                name: '3D',
+                lastEditDate: new Date('2024-05-30'),
+                id: 246,
+            },
+        ],
         profilepic:
             'https://chiikawainfo.carrd.co/assets/images/image03.png?v=130a7b9b',
     },
     {
         id: 456,
-        username: 'user2',
-        bio: 'def',
-        scenes: ['b2', 'c3', 'd2'],
+        username: 'swolfman',
+        bio: 'Steve!',
+        scenes: [
+            {
+                image: 'https://images.unsplash.com/photo-1635241161466-541f065683ba?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                name: 'triangle',
+                lastEditDate: new Date('2024-06-15'),
+                id: 148,
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1648457257285-cfbc3781cc54?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                name: '3D',
+                lastEditDate: new Date('2024-05-25'),
+                id: 120,
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1656703306407-88adf9044949?q=80&w=2943&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                name: 'rope',
+                lastEditDate: new Date('2024-04-21'),
+                id: 435,
+            },
+        ],
         profilepic:
             'https://chiikawainfo.carrd.co/assets/images/image04.png?v=130a7b9b',
     },
     {
         id: 789,
-        username: 'user3',
-        bio: 'ghi',
-        scenes: ['m3', 'h7', 'j1'],
+        username: 'jordon',
+        bio: "I'm Jordon",
+        scenes: [
+            {
+                image: 'https://images.unsplash.com/photo-1660069870507-30dc28e6645b?q=80&w=3028&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                name: 'doors',
+                lastEditDate: new Date('2023-12-21'),
+                id: 297,
+            },
+        ],
         profilepic:
             'https://chiikawainfo.carrd.co/assets/images/image05.png?v=130a7b9b',
     },
