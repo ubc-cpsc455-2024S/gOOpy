@@ -4,6 +4,7 @@ import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
+import GoopyButton from '../../components/GoopyButton';
 
 // hard coded list of objects (temporary)
 const obj1 = {
@@ -74,31 +75,26 @@ function Editor() {
                     >
                         {shapes.map((shape, index) => (
                             <div className='flex justify-between'>
-                                <div
-                                key={index}
-                                className={`border-b button cursor-pointer ${
-                                    currentShape === shape.id
-                                        ? 'bg-bg-yellow'
-                                        : 'bg-editor-box hover:bg-editor-hover'
-                                } flex w-full`}
-                                onClick={() => {
-                                    setCurrentShape(
-                                        shape.id == currentShape
-                                            ? null
-                                            : shape.id
-                                    );
-                                }}
+                                <GoopyButton
+                                    key={index}
+                                    styleClasses={`border-b button cursor-pointer flex w-full`}
+                                    onClickBehavior={() => {
+                                        setCurrentShape(
+                                            shape.id == currentShape
+                                                ? null
+                                                : shape.id
+                                        );
+                                    }}
+                                    hovering={currentShape === shape.id}
                                 >
-                                <p className='ps-1'>Shape {shapes[index].id}</p>
-                                </div>
+                                    <p className='ps-1'>
+                                        Shape {shapes[index].id}
+                                    </p>
+                                </GoopyButton>
                                 {currentShape != shape.id && (
-                                    <button
-                                        className={`border-l border-b pl-1 pr-1 cursor-pointer ${
-                                            currentShape === shape.id
-                                                ? 'bg-bg-yellow'
-                                                : 'bg-editor-box hover:bg-editor-hover'
-                                        }`}
-                                        onClick={(e) => {
+                                    <GoopyButton
+                                        styleClasses={`border-l border-b pl-1 pr-1`}
+                                        onClickBehavior={(e) => {
                                             setShapes((state) => {
                                                 const newState = [...state];
                                                 let index = newState.indexOf(
@@ -106,46 +102,48 @@ function Editor() {
                                                         (s) => s.id == shape.id
                                                     )
                                                 );
-                                                console.log(index);
                                                 newState.splice(index, 1);
                                                 return newState;
                                             });
                                             e.stopPropagation();
                                         }}
+                                        hovering={false}
                                     >
-                                        X
-                                    </button>
+                                        <p>X</p>
+                                    </GoopyButton>
                                 )}
                             </div>
-
                         ))}
                     </div>
-                    <button
-                        className='border p-1'
-                        onClick={() =>
+                    <GoopyButton
+                        styleClasses='border-l border-r border-b p-1'
+                        onClickBehavior={() => {
+                            const newId = determineNewID();
                             setShapes((state) => {
                                 const newState = [...state];
                                 newState.push({
                                     center: new Vector3(0, 0, 0),
                                     radius: 1.0,
-                                    id: determineNewID(),
+                                    id: newId,
                                 });
                                 return newState;
-                            })
-                        }
+                            });
+                            setCurrentShape(newId);
+                        }}
                     >
                         Add Shape
-                    </button>
-                    <button
-                        className='border p-1'
-                        onClick={() =>
+                    </GoopyButton>
+                    <GoopyButton
+                        styleClasses='border-l border-r border-b p-1'
+                        onClickBehavior={() => {
                             setShapes((state) => {
                                 return [];
-                            })
-                        }
+                            });
+                            setCurrentShape(null);
+                        }}
                     >
                         Reset Scene
-                    </button>
+                    </GoopyButton>
                 </div>
 
                 {currentShape != null && shapes.length > 0 && (
