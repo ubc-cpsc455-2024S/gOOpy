@@ -73,13 +73,14 @@ function Editor() {
                         }}
                     >
                         {shapes.map((shape, index) => (
-                            <div
+                            <div className='flex justify-between'>
+                                <div
                                 key={index}
-                                className={`border button cursor-pointer ${
+                                className={`border-b button cursor-pointer ${
                                     currentShape === shape.id
                                         ? 'bg-bg-yellow'
                                         : 'bg-editor-box hover:bg-editor-hover'
-                                } flex justify-between`}
+                                } flex w-full`}
                                 onClick={() => {
                                     setCurrentShape(
                                         shape.id == currentShape
@@ -87,11 +88,16 @@ function Editor() {
                                             : shape.id
                                     );
                                 }}
-                            >
-                                <p>Shape {shapes[index].id}</p>
+                                >
+                                <p className='ps-1'>Shape {shapes[index].id}</p>
+                                </div>
                                 {currentShape != shape.id && (
                                     <button
-                                        className='border'
+                                        className={`border-l border-b pl-1 pr-1 cursor-pointer ${
+                                            currentShape === shape.id
+                                                ? 'bg-bg-yellow'
+                                                : 'bg-editor-box hover:bg-editor-hover'
+                                        }`}
                                         onClick={(e) => {
                                             setShapes((state) => {
                                                 const newState = [...state];
@@ -107,10 +113,11 @@ function Editor() {
                                             e.stopPropagation();
                                         }}
                                     >
-                                        x
+                                        X
                                     </button>
                                 )}
                             </div>
+
                         ))}
                     </div>
                     <button
