@@ -46,14 +46,18 @@ const initialUserState = {
 // TODO: have default values for userImage and login.
 export const userSlice = createSlice({
     name: 'user',
-    initialState: initialUserState,
+    initialState: exampleUser,
     reducers: {
         // TODO: delete when API calls are done 
         // temporary redux functions because we don't have a backend setup yet
         // takes in a fixed user object - this is temporary until we can actually retrieve a user.
         // NOTE: these reducers lack verification. No check to see if user is first logged in
         tempUserLogin: (state, action) => {
-            state = exampleUser;
+            state.userID = exampleUser.userID;
+            state.username = exampleUser.username;
+            state.userImage = exampleUser.userImage;
+            state.userAbout = exampleUser.userAbout;
+            state.userScenes = exampleUser.userScenes;
         },
         tempChangeUsername: (state, action) => {
             state.username = action.payload;
@@ -73,16 +77,18 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         // populate with asyncThunk
         builder.addCase(userLogin.fulfilled, (state, action) => {
-            // TODO: make the payload variables correspond. 
+            // TODO: make the payload variables correspond to the API call variable names
             state.userID = action.payload.userID;
             state.username = action.payload.username;
             state.userImage = action.payload.userImage;
             state.userAbout = action.payload.userAbout;
             state.userScenes = action.payload.userScenes;
         });
+        // TODO: optional - Make dropdown notification confirming if change has been made
+        // TODO: optional - Dropdown notification alerting user there was an error changing info
+
         builder.addCase(userLogin.rejected, (state, actions) => {
             console.log('error retrieving user info');
-            // TODO: optional - create a popup alerting user there was an error retrieving info
 
         });
 
@@ -91,7 +97,6 @@ export const userSlice = createSlice({
         });
         builder.addCase(changeUsername.rejected, () => {
             console.log('error changing username');
-            // TODO: optional - create a popup alerting user there was an error changing username
         });
 
         builder.addCase(changeProfilePhoto.fulfilled, (state, action) => {
@@ -99,10 +104,12 @@ export const userSlice = createSlice({
         });
         builder.addCase(changeProfilePhoto.rejected, () => {
             console.log('error changing profile photo');
-            // TODO: optional - create a popup alerting user there was an error changing profile photo
         });
 
     },
 });
+
+export const { tempUserLogin, tempChangeUsername, tempChangeAboutMe, tempChangeProfilePhoto, userLogout } = userSlice.actions;
+
 
 export default userSlice.reducer;

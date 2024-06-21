@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, useNavigate } from 'react-router-dom';
 import Home from './pages/Home/Home.jsx';
 import Editor from './pages/Editor/Editor.jsx';
 import UserPage from './pages/User/UserPage.jsx';
@@ -28,6 +28,8 @@ const router = createBrowserRouter([
         element: <Login />,
     },
 ]);
+
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
