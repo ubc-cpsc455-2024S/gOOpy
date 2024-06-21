@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
     tempChangeUsername,
@@ -36,15 +37,13 @@ export default function UserPage() {
                     />
                 </div>
                 <h1 className='text-center text-3xl'>
-                    <a className='underline decoration-hd-brown shadow-xl'>
-                        Welcome, {userName}!
-                    </a>
+                    <p>Welcome, {userName}!</p>
                 </h1>
                 <div className='flex flex-col items-center pt-5'>
                     {userID === null ? (
-                        <a className=' text-1xl' href='/login'>
+                        <Link className=' text-1xl' to='/login'>
                             login to access scenes
-                        </a>
+                        </Link>
                     ) : (
                         <div className=''>
                             <h2 className='text-center text-1xl pt-5 px-12'>

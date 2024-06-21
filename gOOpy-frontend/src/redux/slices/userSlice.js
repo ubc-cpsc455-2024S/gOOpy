@@ -1,54 +1,60 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getUserInfo, updateUser } from '../../apiCalls/userAPI.js';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { exampleUser } from '../../examples/exampleData';
 
-// TODO: standardize the names user properties with serverside storage. 
+// TODO: standardize the names user properties with serverside storage.
 
 export const userLogin = createAsyncThunk('member/login', async (userID) => {
     const response = await getUserInfo(userID);
-    return response.data
+    return response.data;
 });
 
-export const changeUsername = createAsyncThunk('member/changeUsername', async (username) => {
-    const user = useSelector(state => state.user);
-    const newUser = {
-        userID: user.userID,
-        name: username,
-        userImage: user.userImage,
-        about: user.about,
-    };
-    await updateUser(newUser);
-    return username;
-});
+export const changeUsername = createAsyncThunk(
+    'member/changeUsername',
+    async (username) => {
+        const user = useSelector((state) => state.user);
+        const newUser = {
+            userID: user.userID,
+            name: username,
+            userImage: user.userImage,
+            about: user.about,
+        };
+        await updateUser(newUser);
+        return username;
+    }
+);
 
-export const changeProfilePhoto = createAsyncThunk('member/changeProfilePhoto', async(userImage) => {
-    const user = useSelector(state => state.user);
-    const newUser = {
-        userID: user.userID,
-        name: user.username,
-        userImage: userImage,
-        about: user.about,
-    };
-    await updateUser(newUser);
-    return userImage;
-});
+export const changeProfilePhoto = createAsyncThunk(
+    'member/changeProfilePhoto',
+    async (userImage) => {
+        const user = useSelector((state) => state.user);
+        const newUser = {
+            userID: user.userID,
+            name: user.username,
+            userImage: userImage,
+            about: user.about,
+        };
+        await updateUser(newUser);
+        return userImage;
+    }
+);
 
 const initialUserState = {
     userID: null,
     username: 'Guest',
-    userImage: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+    userImage:
+        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
     userAbout: '',
     userScenes: [],
-}
-
+};
 
 // TODO: have default values for userImage and login.
 export const userSlice = createSlice({
     name: 'user',
-    initialState: exampleUser,
+    initialState: initialUserState,
     reducers: {
-        // TODO: delete when API calls are done 
+        // TODO: delete when API calls are done
         // temporary redux functions because we don't have a backend setup yet
         // takes in a fixed user object - this is temporary until we can actually retrieve a user.
         // NOTE: these reducers lack verification. No check to see if user is first logged in
@@ -69,7 +75,7 @@ export const userSlice = createSlice({
             state.userAbout = action.payload;
         },
 
-        // This one we can keep! 
+        // This one we can keep!
         userLogout: () => {
             state = initialUserState;
         },
@@ -89,7 +95,6 @@ export const userSlice = createSlice({
 
         builder.addCase(userLogin.rejected, (state, actions) => {
             console.log('error retrieving user info');
-
         });
 
         builder.addCase(changeUsername.fulfilled, (state, action) => {
@@ -105,11 +110,15 @@ export const userSlice = createSlice({
         builder.addCase(changeProfilePhoto.rejected, () => {
             console.log('error changing profile photo');
         });
-
     },
 });
 
-export const { tempUserLogin, tempChangeUsername, tempChangeAboutMe, tempChangeProfilePhoto, userLogout } = userSlice.actions;
-
+export const {
+    tempUserLogin,
+    tempChangeUsername,
+    tempChangeAboutMe,
+    tempChangeProfilePhoto,
+    userLogout,
+} = userSlice.actions;
 
 export default userSlice.reducer;
