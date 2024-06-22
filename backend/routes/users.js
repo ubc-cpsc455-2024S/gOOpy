@@ -6,7 +6,7 @@ const { v4: uuid } = require('uuid');
 let users = [
     {
         id: 123,
-        username: 'gregork',
+        name: 'gregork',
         bio: "I'm Gregor",
         scenes: [
             {
@@ -27,7 +27,7 @@ let users = [
     },
     {
         id: 456,
-        username: 'swolfman',
+        name: 'swolfman',
         bio: 'Steve!',
         scenes: [
             {
@@ -54,7 +54,7 @@ let users = [
     },
     {
         id: 789,
-        username: 'jordon',
+        name: 'jordon',
         bio: "I'm Jordon",
         scenes: [
             {
@@ -74,9 +74,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    // TODO: query db and return username, userinfo and a list of scenes belonging to user
-    let userName = req.params.id;
-    const user = users.find((user) => user.username === userName);
+    // TODO: query db and return name, userinfo and a list of scenes belonging to user
+    let name = req.params.id;
+    const user = users.find((user) => user.name === name);
     if (!user) {
         return res.status(404).send(`No user found with ID ${userId}`);
     }

@@ -12,11 +12,9 @@ import {
 
 export default function UserPage() {
     const dispatch = useDispatch();
-    const userID = useSelector((state) => state.user.userID);
-    const userName = useSelector((state) => state.user.username);
-    const userImage = useSelector((state) => state.user.userImage);
-    const userAbout = useSelector((state) => state.user.userAbout);
-    const userScenes = useSelector((state) => state.user.userScenes);
+    const { id, name, bio, scenes, profilepic } = useSelector(
+        (state) => state.user
+    );
 
     const [editUser, setEditUser] = useState(false);
 
@@ -33,15 +31,15 @@ export default function UserPage() {
             <div className='pt-5 pb-5 justify-center'>
                 <div className=''>
                     <img
-                        src={userImage}
+                        src={profilepic}
                         className='rounded-full h-[250px] w-[250px] border-4 mx-auto shadow-xl'
                     />
                 </div>
                 <h1 className='text-center text-3xl'>
-                    <p>Welcome, {userName}!</p>
+                    <p>Welcome, {name}!</p>
                 </h1>
                 <div className='flex flex-col items-center pt-5'>
-                    {userID === null ? (
+                    {id === null ? (
                         <GoopyButton styleClass={''}>
                             <Link className=' text-1xl' to='/login'>
                                 login to access scenes
@@ -50,7 +48,7 @@ export default function UserPage() {
                     ) : (
                         <div className=''>
                             <h2 className='text-center text-1xl pt-5 px-12'>
-                                {userAbout}
+                                {bio}
                             </h2>
                             <div className='flex justify-center items-center pt-3 '>
                                 {editUser === false ? (
@@ -98,7 +96,7 @@ export default function UserPage() {
                 </div>
             </div>
             <div className='flex justify-center w-full'>
-                <SceneGrid sceneList={userScenes} />
+                <SceneGrid sceneList={scenes} />
             </div>
         </main>
     );

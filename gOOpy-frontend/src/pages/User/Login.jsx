@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { tempUserLogin } from '../../redux/slices/userSlice.js';
+import { userLogin } from '../../redux/slices/userSlice.js';
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -10,15 +10,14 @@ const Login = () => {
     // for demo: delete after
     const [username, setUsername] = useState('');
 
-    async function userLogin(event) {
+    async function login(event) {
         event.preventDefault();
-        let resp = await axios.get(`http://127.0.0.1:3000/users/${username}`);
-        console.log(resp.data);
+        dispatch(userLogin(username));
     }
 
     return (
         <div className='flex align-middle'>
-            <form className='sliders' onSubmit={userLogin}>
+            <form className='sliders' onSubmit={login}>
                 <label>Username: </label>
                 <input
                     name='username'

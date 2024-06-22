@@ -1,25 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getUserInfo, updateUser } from '../../apiCalls/userAPI.js';
+import { updateUser, getUserInfoByUsername } from '../../apiCalls/userAPI.js';
 import { useSelector } from 'react-redux';
-import { exampleUser } from '../../examples/exampleData';
 
 // TODO: standardize the names user properties with serverside storage.
 
-export const userLogin = createAsyncThunk('member/login', async (userID) => {
-    const response = await getUserInfo(userID);
+export const userLogin = createAsyncThunk('member/login', async (username) => {
+    const response = await getUserInfoByUsername(username);
+    console.log(response);
     return response.data;
 });
 
 export const changeUsername = createAsyncThunk(
     'member/changeUsername',
-    async (username) => {
+    async (name) => {
         const user = useSelector((state) => state.user);
-        const newUser = {
-            userID: user.userID,
-            name: username,
-            userImage: user.userImage,
-            about: user.about,
-        };
+        const newUser = { ...user, name: name };
         await updateUser(newUser);
         return username;
     }
@@ -27,26 +22,21 @@ export const changeUsername = createAsyncThunk(
 
 export const changeProfilePhoto = createAsyncThunk(
     'member/changeProfilePhoto',
-    async (userImage) => {
+    async (profilepic) => {
         const user = useSelector((state) => state.user);
-        const newUser = {
-            userID: user.userID,
-            name: user.username,
-            userImage: userImage,
-            about: user.about,
-        };
+        const newUser = { ...user, profilepic: profilepic };
         await updateUser(newUser);
         return userImage;
     }
 );
 
 const initialUserState = {
-    userID: null,
-    username: 'Guest',
-    userImage:
+    id: null,
+    name: 'Guest',
+    profilepic:
         'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-    userAbout: '',
-    userScenes: [],
+    bio: '',
+    scenes: [],
 };
 
 // TODO: have default values for userImage and login.
@@ -58,41 +48,27 @@ export const userSlice = createSlice({
         // temporary redux functions because we don't have a backend setup yet
         // takes in a fixed user object - this is temporary until we can actually retrieve a user.
         // NOTE: these reducers lack verification. No check to see if user is first logged in
-        tempUserLogin: (state, action) => {
-            state.userID = exampleUser.userID;
-            state.username = exampleUser.username;
-            state.userImage = exampleUser.userImage;
-            state.userAbout = exampleUser.userAbout;
-            state.userScenes = exampleUser.userScenes;
-        },
         tempChangeUsername: (state, action) => {
-            state.username = action.payload;
+            state.name = action.payload;
         },
         tempChangeProfilePhoto: (state, action) => {
-            state.userImage = action.payload;
+            state.profilepic = action.payload;
         },
         tempChangeAboutMe: (state, action) => {
-            state.userAbout = action.payload;
+            state.about = action.payload;
         },
 
         // This one we can keep!
-        userLogout: (state, action) => {
-            state.userID = initialUserState.userID;
-            state.username = initialUserState.username;
-            state.userImage = initialUserState.userImage;
-            state.userAbout = initialUserState.userAbout;
-            state.userScenes = initialUserState.userScenes;
+        userLogout: () => {
+            return initialUserState;
         },
     },
     extraReducers: (builder) => {
         // populate with asyncThunk
         builder.addCase(userLogin.fulfilled, (state, action) => {
             // TODO: make the payload variables correspond to the API call variable names
-            state.userID = action.payload.userID;
-            state.username = action.payload.username;
-            state.userImage = action.payload.userImage;
-            state.userAbout = action.payload.userAbout;
-            state.userScenes = action.payload.userScenes;
+            console.log(action.payload);
+            return action.payload;
         });
         // TODO: optional - Make dropdown notification confirming if change has been made
         // TODO: optional - Dropdown notification alerting user there was an error changing info
@@ -102,14 +78,15 @@ export const userSlice = createSlice({
         });
 
         builder.addCase(changeUsername.fulfilled, (state, action) => {
-            state.username = action.payload;
+            state.name = action.payload;
         });
+
         builder.addCase(changeUsername.rejected, () => {
             console.log('error changing username');
         });
 
         builder.addCase(changeProfilePhoto.fulfilled, (state, action) => {
-            state.userImage = action.payload;
+            state.profilepic = action.payload;
         });
         builder.addCase(changeProfilePhoto.rejected, () => {
             console.log('error changing profile photo');

@@ -41,8 +41,10 @@ export const exampleSceneList = [
 
 export const exampleUser = {
     userID: 123,
-    username: 'GregorK1969',
-    userImage: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Gregor_Kiczales_AOSD.jpg/800px-Gregor_Kiczales_AOSD.jpg',
-    userAbout: 'Gregor Kiczales is an American computer scientist. He is currently a professor of computer science at the University of British Columbia in Vancouver, British Columbia, Canada. He is best known for developing the concept of aspect-oriented programming, and the AspectJ extension to the Java programming language, both of which he designed while working at Xerox PARC. He is also one of the co-authors of the specification for the Common Lisp Object System, and is the author of the book The Art of the Metaobject Protocol, along with Jim Des Rivières and Daniel G. Bobrow',
+    name: 'GregorK1969',
+    userImage:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Gregor_Kiczales_AOSD.jpg/800px-Gregor_Kiczales_AOSD.jpg',
+    userAbout:
+        'Gregor Kiczales is an American computer scientist. He is currently a professor of computer science at the University of British Columbia in Vancouver, British Columbia, Canada. He is best known for developing the concept of aspect-oriented programming, and the AspectJ extension to the Java programming language, both of which he designed while working at Xerox PARC. He is also one of the co-authors of the specification for the Common Lisp Object System, and is the author of the book The Art of the Metaobject Protocol, along with Jim Des Rivières and Daniel G. Bobrow',
     userScenes: exampleSceneList,
-}
+};
