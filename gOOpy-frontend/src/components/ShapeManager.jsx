@@ -14,9 +14,8 @@ function ShapeManager(props) {
                 }}
             >
                 {props.shapes.map((shape, index) => (
-                    <div className='flex justify-between'>
+                    <div className='flex justify-between' key={index}>
                         <GoopyButton
-                            key={index}
                             styleClasses={`border-b button cursor-pointer flex w-full`}
                             onClickBehavior={() => {
                                 props.setCurrentShape(
