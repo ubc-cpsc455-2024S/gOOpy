@@ -1,11 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../../redux/slices/userSlice.js';
 import { useState } from 'react';
-import axios from 'axios';
+import Button from '../../components/Button.jsx';
 
 const Login = () => {
     const dispatch = useDispatch();
-    const userID = useSelector((state) => state.user.userID);
 
     // for demo: delete after
     const [username, setUsername] = useState('');
@@ -25,12 +24,13 @@ const Login = () => {
                 />
                 <label>Password: </label>
                 <input name='password' />
-                <button
+                <Button
                     type='submit'
                     className='bg-font-brown hover:bg-editor-hover text-white font-bold py-2 px-4 rounded-full'
+                    onClick={() => login(username)}
                 >
                     Login
-                </button>
+                </Button>
             </form>
         </div>
     );

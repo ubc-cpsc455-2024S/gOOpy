@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import GoopyButton from '../../components/GoopyButton.jsx';
 
 import {
     tempChangeUsername,
     tempChangeAboutMe,
     tempChangeProfilePhoto,
 } from '../../redux/slices/userSlice.js';
+import Button from '../../components/Button.jsx';
 
 export default function UserPage() {
     const dispatch = useDispatch();
@@ -39,29 +39,20 @@ export default function UserPage() {
                     <p>Welcome, {name}!</p>
                 </h1>
                 <div className='flex flex-col items-center pt-5'>
-                    {id === null ? (
-                        <GoopyButton styleClass={''}>
-                            <Link className=' text-1xl' to='/login'>
-                                login to access scenes
-                            </Link>
-                        </GoopyButton>
+                    {!id ? (
+                        <Link className='hover:underline' to='/login'>
+                            login to access scenes
+                        </Link>
                     ) : (
                         <div className=''>
                             <h2 className='text-center text-1xl pt-5 px-12'>
                                 {bio}
                             </h2>
                             <div className='flex justify-center items-center pt-3 '>
-                                {editUser === false ? (
-                                    <GoopyButton
-                                        styleClass={
-                                            'm-5 py-2 px-5 shadow-[0_0_0_4px_rgba(0,0,0,1)] rounded-full'
-                                        }
-                                        onClickBehaviour={() =>
-                                            setEditUser(true)
-                                        }
-                                    >
-                                        <p>Edit User</p>
-                                    </GoopyButton>
+                                {!editUser ? (
+                                    <Button onClick={() => setEditUser(true)}>
+                                        Edit User
+                                    </Button>
                                 ) : (
                                     <form
                                         className='sliders rounded-lg'
@@ -86,7 +77,12 @@ export default function UserPage() {
                                             <input name='url' />
                                         </div>
                                         <div>
-                                            <input type='submit' />
+                                            <Button
+                                                type='submit'
+                                                className='button'
+                                            >
+                                                Submit
+                                            </Button>
                                         </div>
                                     </form>
                                 )}
