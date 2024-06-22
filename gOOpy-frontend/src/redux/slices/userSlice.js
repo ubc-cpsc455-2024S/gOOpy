@@ -76,8 +76,12 @@ export const userSlice = createSlice({
         },
 
         // This one we can keep!
-        userLogout: () => {
-            state = initialUserState;
+        userLogout: (state, action) => {
+            state.userID = initialUserState.userID;
+            state.username = initialUserState.username;
+            state.userImage = initialUserState.userImage;
+            state.userAbout = initialUserState.userAbout;
+            state.userScenes = initialUserState.userScenes;
         },
     },
     extraReducers: (builder) => {

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import GoopyButton from './GoopyButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogout } from '../redux/slices/userSlice';
 
@@ -14,12 +13,13 @@ export default function PageHeader() {
             {userID === null ? (
                 <Link to='/login'>Login</Link>
             ) : (
-                <GoopyButton
-                    styleClass={''}
-                    onClick={() => dispatch(userLogout())}
+                <button
+                    onClick={() => {
+                        dispatch(userLogout());
+                    }}
                 >
-                    <p>Logout</p>
-                </GoopyButton>
+                    Logout
+                </button>
             )}
         </header>
     );
