@@ -3,6 +3,17 @@ import GoopyButton from './GoopyButton';
 import axios from 'axios';
 
 function ShapeManager(props) {
+    const saveResult = async () => {
+        let data = {
+            shapes: props.shapes,
+            metadata: {
+                userId: 123,
+                title: 'new_model',
+                lastEdited: new Date(),
+            },
+        };
+        let result = await axios.post('http://127.0.0.1:3000/scene', data);
+    };
     return (
         <div className='sliders border'>
             <h1 className='text-3xl font-bold'>Editor</h1>
@@ -87,19 +98,7 @@ function ShapeManager(props) {
             <GoopyButton
                 styleClasses='border-l border-r border-b p-1'
                 onClickBehavior={async () => {
-                    let data = {
-                        shapes: props.shapes,
-                        metadata: {
-                            userId: 123,
-                            title: 'new_model',
-                            lastEdited: new Date(),
-                        },
-                    };
-                    let result = await axios.post(
-                        'http://127.0.0.1:3000/scene',
-                        data
-                    );
-                    console.log(result);
+                    saveResult();
                 }}
             >
                 Save Scene
