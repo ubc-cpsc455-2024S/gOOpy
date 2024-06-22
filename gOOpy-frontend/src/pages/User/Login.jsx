@@ -10,12 +10,16 @@ const Login = () => {
 
     // for demo: delete after
     const [username, setUsername] = useState('');
+    const [error, setError] = useState(false);
 
     async function login(event) {
         try {
             await dispatch(userLogin(username)).unwrap();
+            setError(false);
             navigate('/user');
-        } catch (error) {}
+        } catch (error) {
+            setError(true);
+        }
     }
 
     return (
@@ -37,6 +41,7 @@ const Login = () => {
                 >
                     Login
                 </Button>
+                <p className='text-error-red'>{error ? 'Login Error' : ''}</p>
             </form>
         </div>
     );

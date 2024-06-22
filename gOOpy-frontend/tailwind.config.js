@@ -15,6 +15,7 @@ export default {
             'editor-box': '#fed7aa',
             'editor-hover': '#EAB272',
             white: '#FFFFFF',
+            'error-red': '#D70040',
         },
     },
     plugins: [],
