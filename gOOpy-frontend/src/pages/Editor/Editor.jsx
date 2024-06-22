@@ -65,10 +65,27 @@ function Editor() {
         <div className='flex justify-between p-5'>
             <div className='flex'>
                 <div>
-                    <div className='border-t border-l border-r sliders flex-row'>
-                        <p>eee</p>
-                        <p>eee</p>
-                        <p>eee</p>
+                    <div
+                        className=' flex border-t border-l border-r flex-row overflow-auto bg'
+                        style={{
+                            backgroundColor:
+                                'rgb(254 215 170 / var(--tw-bg-opacity))',
+                        }}
+                    >
+                        <GoopyButton
+                            styleClasses={`pl-1 pr-1 border-r`}
+                            onClickBehavior={() => {}}
+                            hovering={false}
+                        >
+                            <h4 className='text-xl'>Shapes</h4>
+                        </GoopyButton>
+                        <GoopyButton
+                            styleClasses={`pl-1 pr-1 border-r`}
+                            onClickBehavior={() => {}}
+                            hovering={false}
+                        >
+                            <h4 className='text-xl'>Scene</h4>
+                        </GoopyButton>
                     </div>
                     <ShapeManager
                         shapes={shapes}
