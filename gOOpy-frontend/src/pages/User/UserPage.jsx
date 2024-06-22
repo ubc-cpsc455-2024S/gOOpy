@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,9 @@ export default function UserPage() {
     );
 
     const [editUser, setEditUser] = useState(false);
+    const nameRef = useRef('');
+    const aboutRef = useRef('');
+    const profilepicRef = useRef('');
 
     function makeEdit(event) {
         event.preventDefault();
@@ -36,7 +39,7 @@ export default function UserPage() {
                     />
                 </div>
                 <h1 className='text-center text-3xl'>
-                    <p>Welcome, {name}!</p>
+                    {!id ? <p>Guest</p> : <p>Welcome, {name}!</p>}
                 </h1>
                 <div className='flex flex-col items-center pt-5'>
                     {!id ? (
@@ -62,26 +65,73 @@ export default function UserPage() {
                                             <label>New Username: </label>
                                         </div>
                                         <div>
-                                            <input name='username' />
+                                            <input
+                                                name='username'
+                                                ref={nameRef}
+                                            />
+                                            <Button
+                                                onClick={() => {
+                                                    dispatch(
+                                                        tempChangeUsername(
+                                                            nameRef.current
+                                                                .value
+                                                        )
+                                                    );
+                                                    nameRef.current.value = '';
+                                                }}
+                                            >
+                                                Change Username
+                                            </Button>
                                         </div>
                                         <div>
                                             <label>New About: </label>
                                         </div>
                                         <div>
-                                            <input name='text' />
+                                            <input name='text' ref={aboutRef} />
+                                            <Button
+                                                onClick={() => {
+                                                    dispatch(
+                                                        tempChangeAboutMe(
+                                                            aboutRef.current
+                                                                .value
+                                                        )
+                                                    );
+
+                                                    aboutRef.current.value = '';
+                                                }}
+                                            >
+                                                Change About
+                                            </Button>
                                         </div>
                                         <div>
                                             <label>New Image: </label>
                                         </div>
                                         <div>
-                                            <input name='url' />
+                                            <input
+                                                name='url'
+                                                ref={profilepicRef}
+                                            />
+                                            <Button
+                                                onClick={() => {
+                                                    dispatch(
+                                                        tempChangeProfilePhoto(
+                                                            profilepicRef
+                                                                .current.value
+                                                        )
+                                                    );
+                                                    profilepicRef.current.value =
+                                                        '';
+                                                }}
+                                            >
+                                                Change Image
+                                            </Button>
                                         </div>
                                         <div>
                                             <Button
                                                 type='submit'
                                                 className='button'
                                             >
-                                                Submit
+                                                Close
                                             </Button>
                                         </div>
                                     </form>
