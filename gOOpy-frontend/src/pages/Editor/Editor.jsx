@@ -3,7 +3,6 @@ import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
-import GoopyButton from '../../components/GoopyButton';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
 

@@ -16,15 +16,15 @@ function ShapeManager(props) {
                 {props.shapes.map((shape, index) => (
                     <div className='flex justify-between' key={index}>
                         <GoopyButton
-                            styleClasses={`border-b button cursor-pointer flex w-full`}
-                            onClickBehavior={() => {
+                            classes={`border-b button cursor-pointer flex w-full`}
+                            onClick={() => {
                                 props.setCurrentShape(
                                     shape.id == props.currentShape
                                         ? null
                                         : shape.id
                                 );
                             }}
-                            hovering={props.currentShape === shape.id}
+                            isSelected={props.currentShape === shape.id}
                         >
                             <p className='ps-1'>
                                 Shape {props.shapes[index].id}
@@ -32,8 +32,8 @@ function ShapeManager(props) {
                         </GoopyButton>
                         {props.currentShape != shape.id && (
                             <GoopyButton
-                                styleClasses={`border-l border-b pl-1 pr-1`}
-                                onClickBehavior={(e) => {
+                                classes={`border-l border-b pl-1 pr-1`}
+                                onClick={(e) => {
                                     props.setShapes((state) => {
                                         const newState = [...state];
                                         let index = newState.indexOf(
@@ -44,9 +44,7 @@ function ShapeManager(props) {
                                         newState.splice(index, 1);
                                         return newState;
                                     });
-                                    e.stopPropagation();
                                 }}
-                                hovering={false}
                             >
                                 <p>X</p>
                             </GoopyButton>
@@ -55,8 +53,8 @@ function ShapeManager(props) {
                 ))}
             </div>
             <GoopyButton
-                styleClasses='border-l border-r border-b p-1'
-                onClickBehavior={() => {
+                classes='border-l border-r border-b p-1'
+                onClick={() => {
                     const newId = props.determineNewID();
                     props.setShapes((state) => {
                         const newState = [...state];
@@ -73,8 +71,8 @@ function ShapeManager(props) {
                 Add Shape
             </GoopyButton>
             <GoopyButton
-                styleClasses='border-l border-r border-b p-1'
-                onClickBehavior={() => {
+                classes='border-l border-r border-b p-1'
+                onClick={() => {
                     props.setShapes((state) => {
                         return [];
                     });

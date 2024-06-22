@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { tempUserLogin } from '../../redux/slices/userSlice.js';
+import Button from '../../components/Button.jsx';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -18,12 +19,12 @@ const Login = () => {
                 <input name='username' />
                 <label>Password: </label>
                 <input name='password' />
-                <button
+                <Button
                     type='submit'
                     className='bg-font-brown hover:bg-editor-hover text-white font-bold py-2 px-4 rounded-full'
                 >
                     Login
-                </button>
+                </Button>
             </form>
         </div>
     );
