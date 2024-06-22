@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
-import { tempUserLogin } from '../../redux/slices/userSlice.js'
+import { useDispatch, useSelector } from 'react-redux';
+import { tempUserLogin } from '../../redux/slices/userSlice.js';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -18,7 +18,12 @@ const Login = () => {
                 <input name='username' />
                 <label>Password: </label>
                 <input name='password' />
-                <input type="submit" />
+                <button
+                    type='submit'
+                    className='bg-font-brown hover:bg-editor-hover text-white font-bold py-2 px-4 rounded-full'
+                >
+                    Login
+                </button>
             </form>
         </div>
     );
@@ -26,8 +31,7 @@ const Login = () => {
 
 export default Login;
 
-
 // TODO: enable user to logout (edit store id to be null essentially)
 // TODO: change the login button to logout once the user is logged in (classname not null)
-// This above point will have to be done in the header. 
-// TODO: once user logs in take them to user page. 
+// This above point will have to be done in the header.
+// TODO: once user logs in take them to user page.
