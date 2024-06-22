@@ -1,65 +1,104 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import GoopyButton from '../../components/GoopyButton.jsx';
 
-const testDate = new Date();
-
-const exampleScene = {
-    image: 'https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp',
-    name: 'Test Name',
-    lastEditDate: testDate.toDateString(),
-    link: '',
-};
-const exampleScene2 = {
-    image: 'https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp',
-    name: 'KING GREGOR LORD OF CPSC 110',
-    lastEditDate:
-        'just a really long string to test what happens when it goes over',
-    link: '',
-};
-
-const exampleScene3 = {
-    image: 'https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp',
-    name: 'A Nice Landscape',
-    lastEditDate: testDate.toDateString(),
-    link: '',
-};
-
-const exampleSceneList = [
-    exampleScene,
-    exampleScene2,
-    exampleScene3,
-
-    exampleScene,
-    exampleScene2,
-    exampleScene3,
-
-    exampleScene,
-    exampleScene2,
-    exampleScene3,
-
-    exampleScene,
-    exampleScene2,
-    exampleScene3,
-];
+import {
+    tempChangeUsername,
+    tempChangeAboutMe,
+    tempChangeProfilePhoto,
+} from '../../redux/slices/userSlice.js';
 
 export default function UserPage() {
+    const dispatch = useDispatch();
+    const userID = useSelector((state) => state.user.userID);
+    const userName = useSelector((state) => state.user.username);
+    const userImage = useSelector((state) => state.user.userImage);
+    const userAbout = useSelector((state) => state.user.userAbout);
+    const userScenes = useSelector((state) => state.user.userScenes);
+
+    const [editUser, setEditUser] = useState(false);
+
+    function makeEdit(event) {
+        event.preventDefault();
+        dispatch(tempChangeUsername(event.target.elements.username.value));
+        dispatch(tempChangeAboutMe(event.target.elements.text.value));
+        dispatch(tempChangeProfilePhoto(event.target.elements.url.value));
+        setEditUser(false);
+    }
+
     return (
         <main className=''>
             <div className='pt-5 pb-5 justify-center'>
                 <div className=''>
                     <img
-                        src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Gregor_Kiczales_AOSD.jpg/800px-Gregor_Kiczales_AOSD.jpg'
+                        src={userImage}
                         className='rounded-full h-[250px] w-[250px] border-4 mx-auto shadow-xl'
                     />
                 </div>
                 <h1 className='text-center text-3xl'>
-                    <a className='underline decoration-hd-brown shadow-xl'>
-                        Welcome, Gregor Kizcales!
-                    </a>
+                    <p>Welcome, {userName}!</p>
                 </h1>
+                <div className='flex flex-col items-center pt-5'>
+                    {userID === null ? (
+                        <GoopyButton styleClass={''}>
+                            <Link className=' text-1xl' to='/login'>
+                                login to access scenes
+                            </Link>
+                        </GoopyButton>
+                    ) : (
+                        <div className=''>
+                            <h2 className='text-center text-1xl pt-5 px-12'>
+                                {userAbout}
+                            </h2>
+                            <div className='flex justify-center items-center pt-3 '>
+                                {editUser === false ? (
+                                    <GoopyButton
+                                        styleClass={
+                                            'm-5 py-2 px-5 shadow-[0_0_0_4px_rgba(0,0,0,1)] rounded-full'
+                                        }
+                                        onClickBehaviour={() =>
+                                            setEditUser(true)
+                                        }
+                                    >
+                                        <p>Edit User</p>
+                                    </GoopyButton>
+                                ) : (
+                                    <form
+                                        className='sliders rounded-lg'
+                                        onSubmit={makeEdit}
+                                    >
+                                        <div>
+                                            <label>New Username: </label>
+                                        </div>
+                                        <div>
+                                            <input name='username' />
+                                        </div>
+                                        <div>
+                                            <label>New About: </label>
+                                        </div>
+                                        <div>
+                                            <input name='text' />
+                                        </div>
+                                        <div>
+                                            <label>New Image: </label>
+                                        </div>
+                                        <div>
+                                            <input name='url' />
+                                        </div>
+                                        <div>
+                                            <input type='submit' />
+                                        </div>
+                                    </form>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
             <div className='flex justify-center w-full'>
-                <SceneGrid sceneList={exampleSceneList} />
+                <SceneGrid sceneList={userScenes} />
             </div>
         </main>
     );
