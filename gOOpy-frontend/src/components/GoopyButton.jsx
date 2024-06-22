@@ -1,14 +1,14 @@
-function GoopyButton(props) {
+function GoopyButton({ onClick, classes, children, isSelected = false }) {
     return (
         <div
             className={`cursor-pointer ${
-                props.hovering
+                isSelected
                     ? 'bg-bg-yellow'
                     : 'bg-editor-box hover:bg-editor-hover'
-            } ${props.styleClasses}`}
-            onClick={props.onClickBehavior}
+            } ${classes}`}
+            onClick={onClick}
         >
-            {props.children}
+            {children}
         </div>
     );
 }
