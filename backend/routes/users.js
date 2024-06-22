@@ -75,10 +75,8 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     // TODO: query db and return username, userinfo and a list of scenes belonging to user
-    const userId = parseInt(req.params.id, 10);
-    console.log(req.params.id);
-
-    const user = users.find((user) => user.id === userId);
+    let userName = req.params.id;
+    const user = users.find((user) => user.username === userName);
     if (!user) {
         return res.status(404).send(`No user found with ID ${userId}`);
     }
