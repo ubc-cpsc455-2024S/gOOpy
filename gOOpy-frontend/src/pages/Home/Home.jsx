@@ -1,4 +1,5 @@
 import '../../index.css';
+import { Link } from 'react-router-dom';
 
 function Home() {
     return (
@@ -7,14 +8,14 @@ function Home() {
             <h1 className='text-5xl font-bold'>gOOpy</h1>
             <h2 className='text-1xl'>The 3D scene editor</h2>
             <div className='pt-10'>
-                <a href='/editor' className='hover:underline'>
+                <Link to='/editor' className='hover:underline'>
                     Click here to see the editor
-                </a>
+                </Link>
             </div>
             <div className='pt-10'>
-                <a href='/user' className='hover:underline'>
+                <Link to='/user' className='hover:underline'>
                     Click here to see the user page
-                </a>
+                </Link>
             </div>
         </main>
     );
