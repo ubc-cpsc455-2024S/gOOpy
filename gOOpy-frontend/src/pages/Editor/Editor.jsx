@@ -64,108 +64,6 @@ function Editor() {
     return (
         <div className='flex justify-between p-5'>
             <div className='flex'>
-<<<<<<< HEAD
-                <div className='sliders border'>
-                    <h1 className='text-3xl font-bold'>Editor</h1>
-                    <div
-                        className='no-scrollbar overflow-y-auto border'
-                        // TODO move this custom CSS to tailwind somehow
-                        style={{
-                            height: '65vh', // changed this so that editor fits on page
-                            minWidth: '12vw',
-                        }}
-                    >
-                        {shapes.map((shape, index) => (
-                            <div className='flex justify-between' key={index}>
-                                <GoopyButton
-                                    styleClasses={`border-b button cursor-pointer flex w-full`}
-                                    onClickBehavior={() => {
-                                        setCurrentShape(
-                                            shape.id == currentShape
-                                                ? null
-                                                : shape.id
-                                        );
-                                    }}
-                                    hovering={currentShape === shape.id}
-                                >
-                                    <p className='ps-1'>
-                                        Shape {shapes[index].id}
-                                    </p>
-                                </GoopyButton>
-                                {currentShape != shape.id && (
-                                    <GoopyButton
-                                        styleClasses={`border-l border-b pl-1 pr-1`}
-                                        onClickBehavior={(e) => {
-                                            setShapes((state) => {
-                                                const newState = [...state];
-                                                let index = newState.indexOf(
-                                                    newState.find(
-                                                        (s) => s.id == shape.id
-                                                    )
-                                                );
-                                                newState.splice(index, 1);
-                                                return newState;
-                                            });
-                                            e.stopPropagation();
-                                        }}
-                                        hovering={false}
-                                    >
-                                        <p>X</p>
-                                    </GoopyButton>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                    <GoopyButton
-                        styleClasses='border-l border-r border-b p-1'
-                        onClickBehavior={() => {
-                            const newId = determineNewID();
-                            setShapes((state) => {
-                                const newState = [...state];
-                                newState.push({
-                                    center: new Vector3(0, 0, 0),
-                                    radius: 1.0,
-                                    id: newId,
-                                });
-                                return newState;
-                            });
-                            setCurrentShape(newId);
-                        }}
-                    >
-                        Add Shape
-                    </GoopyButton>
-                    <GoopyButton
-                        styleClasses='border-l border-r border-b p-1'
-                        onClickBehavior={() => {
-                            setShapes((state) => {
-                                return [];
-                            });
-                            setCurrentShape(null);
-                        }}
-                    >
-                        Reset Scene
-                    </GoopyButton>
-                    <GoopyButton
-                        styleClasses='border-l border-r border-b p-1'
-                        onClickBehavior={() => {
-                            // TODO for shiyu!!! save scene to redux store
-                            let data = {
-                                shapes: shapes,
-                                metadata: {
-                                    userId: 123, // fake user id for now
-                                    title: 'new',
-                                    lastEdited: new Date(),
-                                },
-                            };
-                            let jsonData = JSON.stringify(data);
-                            console.log(jsonData);
-                        }}
-                    >
-                        Save Scene
-                    </GoopyButton>
-                </div>
-
-=======
                 <ShapeManager
                     shapes={shapes}
                     currentShape={currentShape}
@@ -174,7 +72,6 @@ function Editor() {
                     setCurrIndex={setCurrIndex}
                     determineNewID={determineNewID}
                 />
->>>>>>> 0f3d8acb187682400d51ad52412252ba077b5cf7
                 {currentShape != null && shapes.length > 0 && (
                     <ShapeDetails
                         // TODO better way to find the shapes's index?
