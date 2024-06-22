@@ -26,7 +26,12 @@ const Login = () => {
                 />
                 <label>Password: </label>
                 <input name='password' />
-                <input type='submit' />
+                <button
+                    type='submit'
+                    className='bg-font-brown hover:bg-editor-hover text-white font-bold py-2 px-4 rounded-full'
+                >
+                    Login
+                </button>
             </form>
         </div>
     );
