@@ -95,7 +95,7 @@ function ShapeManager(props) {
             </GoopyButton>
             <GoopyButton
                 classes='border-l border-r border-b p-1'
-                onClickBehavior={async () => {
+                onClick={async () => {
                     saveResult();
                 }}
             >
