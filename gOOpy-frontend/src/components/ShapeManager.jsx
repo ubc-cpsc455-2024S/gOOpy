@@ -94,8 +94,8 @@ function ShapeManager(props) {
                 Reset Scene
             </GoopyButton>
             <GoopyButton
-                styleClasses='border-l border-r border-b p-1'
-                onClickBehavior={async () => {
+                classes='border-l border-r border-b p-1'
+                onClick={async () => {
                     saveResult();
                 }}
             >
