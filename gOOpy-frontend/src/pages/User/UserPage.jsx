@@ -21,11 +21,8 @@ export default function UserPage() {
     const aboutRef = useRef('');
     const profilepicRef = useRef('');
 
-    function makeEdit(event) {
+    function closeEdit(event) {
         event.preventDefault();
-        dispatch(tempChangeUsername(event.target.elements.username.value));
-        dispatch(tempChangeAboutMe(event.target.elements.text.value));
-        dispatch(tempChangeProfilePhoto(event.target.elements.url.value));
         setEditUser(false);
     }
 
@@ -59,7 +56,7 @@ export default function UserPage() {
                                 ) : (
                                     <form
                                         className='sliders rounded-lg'
-                                        onSubmit={makeEdit}
+                                        onSubmit={closeEdit}
                                     >
                                         <div>
                                             <label>New Username: </label>
