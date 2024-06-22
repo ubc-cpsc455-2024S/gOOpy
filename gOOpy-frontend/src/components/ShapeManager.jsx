@@ -9,7 +9,7 @@ function ShapeManager(props) {
                 className='no-scrollbar overflow-y-auto border'
                 // TODO move this custom CSS to tailwind somehow
                 style={{
-                    height: '70vh',
+                    height: '65vh', // shorten to avoid scroll-bar
                     minWidth: '18vw',
                 }}
             >
@@ -82,6 +82,23 @@ function ShapeManager(props) {
                 }}
             >
                 Reset Scene
+            </GoopyButton>
+            <GoopyButton
+                styleClasses='border-l border-r border-b p-1'
+                onClickBehavior={() => {
+                    let data = {
+                        shapes: props.shapes,
+                        metadata: {
+                            userId: 123,
+                            title: 'new_model',
+                            lastEdited: new Date(),
+                        },
+                    };
+                    let jsonData = JSON.stringify(data);
+                    console.log(jsonData);
+                }}
+            >
+                Save Scene
             </GoopyButton>
         </div>
     );

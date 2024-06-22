@@ -50,7 +50,7 @@ let users = [
             },
         ],
         profilepic:
-            'https://chiikawainfo.carrd.co/assets/images/image04.png?v=130a7b9b',
+            'https://chiikawainfo.carrd.co/assets/images/image06.png?v=130a7b9b',
     },
     {
         id: 789,
