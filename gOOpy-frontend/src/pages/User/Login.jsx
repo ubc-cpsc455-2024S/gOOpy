@@ -2,15 +2,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../../redux/slices/userSlice.js';
 import { useState } from 'react';
 import Button from '../../components/Button.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // for demo: delete after
     const [username, setUsername] = useState('');
 
     async function login(event) {
-        dispatch(userLogin(username));
+        try {
+            await dispatch(userLogin(username)).unwrap();
+            navigate('/user');
+        } catch (error) {}
     }
 
     return (
@@ -26,7 +31,9 @@ const Login = () => {
                 <Button
                     type='submit'
                     className='bg-font-brown hover:bg-editor-hover text-white font-bold py-2 px-4 rounded-full'
-                    onClick={() => login(username)}
+                    onClick={() => {
+                        login(username);
+                    }}
                 >
                     Login
                 </Button>
@@ -37,7 +44,4 @@ const Login = () => {
 
 export default Login;
 
-// TODO: enable user to logout (edit store id to be null essentially)
-// TODO: change the login button to logout once the user is logged in (classname not null)
-// This above point will have to be done in the header.
 // TODO: once user logs in take them to user page.
