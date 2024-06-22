@@ -6,6 +6,8 @@ import { Vector3 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
+import GoopyButton from '../../components/GoopyButton';
+import SceneManager from '../../components/SceneManager.jsx';
 
 // hard coded list of objects (temporary)
 const obj1 = {
@@ -33,6 +35,7 @@ function Editor() {
     const [currentIndex, setCurrIndex] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
+    const [editorView, setEditorView] = useState('shapes');
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
     const updateAxis = (index, newValue, axis) => {
@@ -86,24 +89,53 @@ function Editor() {
     return (
         <div className='flex justify-between p-5'>
             <div className='flex'>
-                <ShapeManager
-                    shapes={shapes}
-                    currentShape={currentShape}
-                    setShapes={setShapes}
-                    setCurrentShape={setCurrentShape}
-                    setCurrIndex={setCurrIndex}
-                    determineNewID={determineNewID}
-                />
-                {currentShape != null && shapes.length > 0 && (
-                    <ShapeDetails
-                        // TODO better way to find the shapes's index?
-                        index={shapes.findIndex((s) => s.id === currentShape)}
-                        shapes={shapes}
-                        updateAxis={updateAxis}
-                        updateRadius={updateRadius}
-                        Slider={Slider}
-                    />
-                )}
+                <div>
+                    <div className='flex flex-row border-t border-l border-r overflow-scroll bg-panel-primary'>
+                        <GoopyButton
+                            classes='border-r p-2'
+                            onClick={() => {
+                                setEditorView('shapes');
+                            }}
+                        >
+                            Shapes
+                        </GoopyButton>
+                        <GoopyButton
+                            classes='border-r p-2'
+                            onClick={() => {
+                                setEditorView('scene');
+                            }}
+                        >
+                            Scene
+                        </GoopyButton>
+                    </div>
+                    <div style={{ width: '20vw', height: '80vh' }}>
+                        {editorView == 'shapes' && (
+                            <ShapeManager
+                                shapes={shapes}
+                                currentShape={currentShape}
+                                setShapes={setShapes}
+                                setCurrentShape={setCurrentShape}
+                                setCurrIndex={setCurrIndex}
+                                determineNewID={determineNewID}
+                            />
+                        )}
+                        {editorView == 'scene' && <SceneManager></SceneManager>}
+                    </div>
+                </div>
+                {currentShape != null &&
+                    editorView == 'shapes' &&
+                    shapes.length > 0 && (
+                        <ShapeDetails
+                            // TODO better way to find the shapes's index?
+                            index={shapes.findIndex(
+                                (s) => s.id === currentShape
+                            )}
+                            shapes={shapes}
+                            updateAxis={updateAxis}
+                            updateRadius={updateRadius}
+                            Slider={Slider}
+                        />
+                    )}
             </div>
 
             <div>

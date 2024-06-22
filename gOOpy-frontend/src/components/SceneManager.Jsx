@@ -1,5 +1,5 @@
-function SceneManager(props) {
-    return <div className='sliders border'>eeee</div>;
+function SceneManager({ children }) {
+    return <div className='sliders border h-full'>eeee</div>;
 }
 
 export default SceneManager;
