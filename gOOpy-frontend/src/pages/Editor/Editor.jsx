@@ -64,14 +64,21 @@ function Editor() {
     return (
         <div className='flex justify-between p-5'>
             <div className='flex'>
-                <ShapeManager
-                    shapes={shapes}
-                    currentShape={currentShape}
-                    setShapes={setShapes}
-                    setCurrentShape={setCurrentShape}
-                    setCurrIndex={setCurrIndex}
-                    determineNewID={determineNewID}
-                />
+                <div>
+                    <div className='border-t border-l border-r sliders flex-row'>
+                        <p>eee</p>
+                        <p>eee</p>
+                        <p>eee</p>
+                    </div>
+                    <ShapeManager
+                        shapes={shapes}
+                        currentShape={currentShape}
+                        setShapes={setShapes}
+                        setCurrentShape={setCurrentShape}
+                        setCurrIndex={setCurrIndex}
+                        determineNewID={determineNewID}
+                    />
+                </div>
                 {currentShape != null && shapes.length > 0 && (
                     <ShapeDetails
                         // TODO better way to find the shapes's index?

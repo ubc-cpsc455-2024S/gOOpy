@@ -4,7 +4,6 @@ import GoopyButton from './GoopyButton';
 function ShapeManager(props) {
     return (
         <div className='sliders border'>
-            <h1 className='text-3xl font-bold'>Editor</h1>
             <div
                 className='no-scrollbar overflow-y-auto border'
                 // TODO move this custom CSS to tailwind somehow
