@@ -1,9 +1,9 @@
-import React, { useReducer, useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
-import GoopyButton from '../../components/GoopyButton';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
 
@@ -27,6 +27,7 @@ const obj3 = {
 const MAX_SIZE = 50; // should match shaders
 
 function Editor() {
+    const [loading, setLoading] = useState(true);
     const [shapes, setShapes] = useState([obj1, obj2, obj3]);
     const [currentShape, setCurrentShape] = useState(null);
     const [currentIndex, setCurrIndex] = useState(() => {
@@ -60,6 +61,27 @@ function Editor() {
         setCurrIndex(newCurrIndex);
         return newCurrIndex;
     };
+
+    useEffect(() => {
+        const fetchShape = async () => {
+            try {
+                const resp = await axios.get('http://127.0.0.1:3000/scene/ab');
+                if (resp.data) {
+                    let data = resp.data;
+                    console.log(data.shapes);
+                    setShapes(data.shapes);
+                }
+            } catch (error) {
+                setLoading(true);
+            }
+            setLoading(false);
+        };
+        fetchShape();
+    }, []);
+
+    if (loading) {
+        return <p>loading</p>;
+    }
 
     return (
         <div className='flex justify-between p-5'>

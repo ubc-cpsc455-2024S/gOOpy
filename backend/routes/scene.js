@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-// set up fake data for scenes
+// set up fake data for scenes (not linked to users, just for persistence right now)
+
+let currentScene = null;
 
 router.get('/', (req, res) => {
     const { reqAmt } = req.query;
@@ -17,12 +19,15 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     // TODO: return the scene requested
     const id = req.params.id;
-    res.send(`return the ${id} requested`);
+    res.json(currentScene);
 });
 
 router.post('/', (req, res) => {
     // TODO: save the scene to the current logged in user's scenes
-    res.send('adding a new member');
+
+    // let scenedata = JSON.parse(req.body);
+    currentScene = req.body;
+    res.send('adding a new scene');
 });
 
 router.patch('/:id', (req, res) => {

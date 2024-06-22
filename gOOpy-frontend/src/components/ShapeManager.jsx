@@ -1,7 +1,19 @@
 import { Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
+import axios from 'axios';
 
 function ShapeManager(props) {
+    const saveResult = async () => {
+        let data = {
+            shapes: props.shapes,
+            metadata: {
+                userId: 123,
+                title: 'new_model',
+                lastEdited: new Date(),
+            },
+        };
+        let result = await axios.post('http://127.0.0.1:3000/scene', data);
+    };
     return (
         <div className='sliders border'>
             <h1 className='text-3xl font-bold'>Editor</h1>
@@ -9,7 +21,7 @@ function ShapeManager(props) {
                 className='no-scrollbar overflow-y-auto border'
                 // TODO move this custom CSS to tailwind somehow
                 style={{
-                    height: '70vh',
+                    height: '65vh', // shorten to avoid scroll-bar
                     minWidth: '18vw',
                 }}
             >
@@ -82,6 +94,14 @@ function ShapeManager(props) {
                 }}
             >
                 Reset Scene
+            </GoopyButton>
+            <GoopyButton
+                styleClasses='border-l border-r border-b p-1'
+                onClickBehavior={async () => {
+                    saveResult();
+                }}
+            >
+                Save Scene
             </GoopyButton>
         </div>
     );
