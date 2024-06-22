@@ -1,27 +1,32 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { tempUserLogin } from '../../redux/slices/userSlice.js';
+import { userLogin } from '../../redux/slices/userSlice.js';
+import { useState } from 'react';
 import Button from '../../components/Button.jsx';
 
 const Login = () => {
     const dispatch = useDispatch();
-    const userID = useSelector((state) => state.user.userID);
 
-    function userLogin(event) {
-        event.preventDefault();
-        dispatch(tempUserLogin());
-        // console.log(userID);
+    // for demo: delete after
+    const [username, setUsername] = useState('');
+
+    async function login(event) {
+        dispatch(userLogin(username));
     }
 
     return (
         <div className='flex align-middle'>
-            <form className='sliders' onSubmit={userLogin}>
+            <form className='sliders' onSubmit={login}>
                 <label>Username: </label>
-                <input name='username' />
+                <input
+                    name='username'
+                    onChange={(e) => setUsername(e.target.value)}
+                />
                 <label>Password: </label>
                 <input name='password' />
                 <Button
                     type='submit'
                     className='bg-font-brown hover:bg-editor-hover text-white font-bold py-2 px-4 rounded-full'
+                    onClick={() => login(username)}
                 >
                     Login
                 </Button>
