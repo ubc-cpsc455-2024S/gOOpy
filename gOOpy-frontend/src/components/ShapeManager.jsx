@@ -1,5 +1,6 @@
 import { Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
+import axios from 'axios';
 
 function ShapeManager(props) {
     return (
@@ -85,7 +86,7 @@ function ShapeManager(props) {
             </GoopyButton>
             <GoopyButton
                 styleClasses='border-l border-r border-b p-1'
-                onClickBehavior={() => {
+                onClickBehavior={async () => {
                     let data = {
                         shapes: props.shapes,
                         metadata: {
@@ -94,8 +95,11 @@ function ShapeManager(props) {
                             lastEdited: new Date(),
                         },
                     };
-                    let jsonData = JSON.stringify(data);
-                    console.log(jsonData);
+                    let result = await axios.post(
+                        'http://127.0.0.1:3000/scene',
+                        data
+                    );
+                    console.log(result);
                 }}
             >
                 Save Scene
