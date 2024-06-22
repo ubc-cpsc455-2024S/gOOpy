@@ -10,7 +10,6 @@ const Login = () => {
     const [username, setUsername] = useState('');
 
     async function login(event) {
-        event.preventDefault();
         dispatch(userLogin(username));
     }
 

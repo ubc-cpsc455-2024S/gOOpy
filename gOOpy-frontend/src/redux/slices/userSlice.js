@@ -55,7 +55,7 @@ export const userSlice = createSlice({
             state.profilepic = action.payload;
         },
         tempChangeAboutMe: (state, action) => {
-            state.about = action.payload;
+            state.bio = action.payload;
         },
 
         // This one we can keep!
