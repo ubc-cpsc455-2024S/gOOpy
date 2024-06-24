@@ -2,6 +2,9 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+
+const passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var logger = require('morgan');
 const cors = require('cors');
 
@@ -24,6 +27,22 @@ app.use('/users', usersRouter);
 app.use(function (req, res, next) {
     next(createError(404));
 });
+
+// configure oauth strategy
+passport.use(
+    new GoogleStrategy({
+        clientID: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        callbackURL: 'http://localhost:3000/auth/google/callback',
+        passReqToCallback: true,
+    }),
+    function (request, accessToken, refreshToken, profile, done) {
+        // TODO: find or create a userID
+        // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        //     return done(err, user);
+        // });
+    }
+);
 
 // error handler
 app.use(function (err, req, res, next) {
