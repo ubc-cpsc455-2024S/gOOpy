@@ -19,6 +19,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(
+    require('express-session')({
+        secret: 'keyboard cat',
+        resave: false,
+        saveUninitialized: false,
+    })
+);
 
 app.use('/scene', sceneRouter);
 app.use('/users', usersRouter);
@@ -37,7 +46,6 @@ passport.use(
         passReqToCallback: true,
     }),
     function (request, accessToken, refreshToken, profile, done) {
-        // TODO: find or create a userID
         // User.findOrCreate({ googleId: profile.id }, function (err, user) {
         //     return done(err, user);
         // });
