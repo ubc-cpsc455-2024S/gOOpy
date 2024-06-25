@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+require('./db');
 
 const passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
