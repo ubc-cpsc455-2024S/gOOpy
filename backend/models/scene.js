@@ -2,11 +2,14 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const vectorSchema = new Schema({
-    x: { type: Number, required: true },
-    y: { type: Number, required: true },
-    z: { type: Number, required: true },
-});
+const vectorSchema = new Schema(
+    {
+        x: { type: Number, required: true },
+        y: { type: Number, required: true },
+        z: { type: Number, required: true },
+    },
+    { _id: false }
+);
 
 const shapeSchema = new Schema({
     center: { type: vectorSchema, required: true },
@@ -18,9 +21,9 @@ const shapeSchema = new Schema({
 const sceneSchema = Schema({
     shapes: [shapeSchema],
     metadata: {
-        userID: String,
+        user_id: String,
         title: String,
-        lastEdited: { type: Date, default: Date.now },
+        last_edited: { type: Date, default: Date.now },
         thumbnail: String, // should this be a link to the thumbnail image?
     },
 });
