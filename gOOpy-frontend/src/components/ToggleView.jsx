@@ -10,7 +10,7 @@ function ToggleView(props) {
                 }}
                 classes={`border-b button cursor-pointer flex w-full`}
             >
-                {props.label}
+                <h4 className='text-xl'>{props.label}</h4>
             </GoopyButton>
             {showing && props.children}
         </div>

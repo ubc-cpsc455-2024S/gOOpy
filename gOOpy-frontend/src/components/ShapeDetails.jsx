@@ -1,7 +1,7 @@
 import { ColorPicker, useColor } from 'react-color-palette';
 function ShapeDetails({ index, shapes, updateAxis, updateRadius, Slider }) {
     // TODO: change 'FF0000' to currentShape's color
-    const [color, setColor] = useColor('FF0000');
+    // const [color, setColor] = useColor('FF0000');
     return (
         <div className='sliders border ms-2' key={index}>
             <h4 className='text-2xl font-bold'>
@@ -51,12 +51,12 @@ function ShapeDetails({ index, shapes, updateAxis, updateRadius, Slider }) {
             </div>
             <div className='border-b border-l border-r flex flex-col p-2'>
                 <h4 className='text-1xl font-bold mr-2'>Colour</h4>
-                <ColorPicker
+                {/* <ColorPicker
                     color={color}
                     onChange={setColor}
                     hideAlpha={true}
                     hideInput={true}
-                />
+                /> */}
             </div>
         </div>
     );

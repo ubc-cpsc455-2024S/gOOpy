@@ -12,6 +12,7 @@ struct Sphere
 uniform Sphere spheres[MAX_SPHERES];
 uniform int n_spheres; // should change to match number of spheres in editor.
 uniform vec3 camera_pos;
+uniform vec4 skybox_col;
 
 varying vec2 texCoord;
 
@@ -82,7 +83,7 @@ void main() {
         // sky hack
         if (i == 63) {
             // might be able to use the angle here to render a skybox
-            gl_FragColor = vec4(0.3, 0.8, 1.0, 1.0);
+            gl_FragColor = skybox_col;
             return;
         }
     }
@@ -90,7 +91,7 @@ void main() {
     // lighting (blinn phong for now)
 
     // ambient
-    vec3 color = vec3(1., 0.7, 1.0);
+    vec3 color = vec3(1., 0.2, 1.0);
     vec3 ambient = color * 0.2;
 
     // diffuse

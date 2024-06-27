@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
-import { Vector3 } from 'three';
+import { Color, Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
 import GoopyButton from '../../components/GoopyButton';
 import SceneManager from '../../components/SceneManager';
+import { useColor } from 'react-color-palette';
 
 // hard coded list of objects (temporary)
 const obj1 = {
@@ -35,6 +36,7 @@ function Editor() {
     const [currentIndex, setCurrIndex] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
+    const [skyboxColor, setSkyboxColor] = useColor('FFFFFF');
     const [editorView, setEditorView] = useState('shapes');
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
@@ -119,7 +121,12 @@ function Editor() {
                                 determineNewID={determineNewID}
                             />
                         )}
-                        {editorView == 'scene' && <SceneManager></SceneManager>}
+                        {editorView == 'scene' && (
+                            <SceneManager
+                                skyboxColController={setSkyboxColor}
+                                skyboxColor={skyboxColor}
+                            ></SceneManager>
+                        )}
                     </div>
                 </div>
                 {currentShape != null &&
@@ -152,7 +159,18 @@ function Editor() {
                         position: [0, 0, 0.5],
                     }}
                 >
-                    <RayMarching scale={[2.0, 2.0, 1.0]} shapes={shapes} />
+                    <RayMarching
+                        scale={[2.0, 2.0, 1.0]}
+                        shapes={shapes}
+                        skybox={{
+                            color: new Vector4(
+                                skyboxColor.rgb.r / 255,
+                                skyboxColor.rgb.g / 255,
+                                skyboxColor.rgb.b / 255,
+                                1 - skyboxColor.rgb.a / 255
+                            ),
+                        }}
+                    />
                 </Canvas>
             </div>
         </div>
