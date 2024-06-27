@@ -7,7 +7,7 @@ import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
 import GoopyButton from '../../components/GoopyButton';
-import SceneManager from '../../components/SceneManager.jsx';
+import SceneManager from '../../components/SceneManager';
 
 // hard coded list of objects (temporary)
 const obj1 = {
