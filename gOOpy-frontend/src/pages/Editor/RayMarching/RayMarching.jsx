@@ -35,6 +35,7 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
             value: new Vector3(0.0, 0.0, -3.0),
         },
         skybox_col: { type: 'vec4', value: skybox.color },
+        skybox_l_color: { type: 'vec3', value: skybox.lightColor },
     });
 
     useEffect(() => {
@@ -55,6 +56,10 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
     useEffect(() => {
         uniforms.current.skybox_col.value = skybox.color;
     }, [skybox.color]);
+
+    useEffect(() => {
+        uniforms.current.skybox_l_color.value = skybox.lightColor;
+    }, [skybox.lightColor]);
 
     return (
         <mesh {...props}>

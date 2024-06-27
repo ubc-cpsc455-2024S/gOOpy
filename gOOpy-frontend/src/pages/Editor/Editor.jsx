@@ -9,6 +9,7 @@ import ShapeDetails from '../../components/ShapeDetails';
 import GoopyButton from '../../components/GoopyButton';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
+import Slider from '../../components/Slider';
 
 // hard coded list of objects (temporary)
 const obj1 = {
@@ -37,6 +38,7 @@ function Editor() {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
     const [skyboxColor, setSkyboxColor] = useColor('FFFFFF');
+    const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
     const [editorView, setEditorView] = useState('shapes');
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
@@ -125,6 +127,8 @@ function Editor() {
                             <SceneManager
                                 skyboxColController={setSkyboxColor}
                                 skyboxColor={skyboxColor}
+                                skyboxLightController={setSkyboxLightColor}
+                                skyboxLightColor={skyboxLightColor}
                             ></SceneManager>
                         )}
                     </div>
@@ -169,36 +173,16 @@ function Editor() {
                                 skyboxColor.rgb.b / 255,
                                 1 - skyboxColor.rgb.a / 255
                             ),
+                            lightColor: new Vector3(
+                                skyboxLightColor.rgb.r / 255,
+                                skyboxLightColor.rgb.g / 255,
+                                skyboxLightColor.rgb.b / 255
+                            ),
                         }}
                     />
                 </Canvas>
             </div>
         </div>
-    );
-}
-
-function Slider({
-    defaultValue,
-    index,
-    callback,
-    callbackParams = [],
-    max = 5,
-    min = -5,
-}) {
-    const [val, setVal] = useState(defaultValue);
-    return (
-        <input
-            value={val}
-            onChange={(e) => {
-                const newValue = parseFloat(e.target.value);
-                setVal(newValue);
-                callback(index, newValue, ...callbackParams);
-            }}
-            type='range'
-            min={min}
-            max={max}
-            step='0.001'
-        ></input>
     );
 }
 

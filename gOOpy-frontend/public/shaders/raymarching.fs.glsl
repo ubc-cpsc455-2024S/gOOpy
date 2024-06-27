@@ -13,6 +13,7 @@ uniform Sphere spheres[MAX_SPHERES];
 uniform int n_spheres; // should change to match number of spheres in editor.
 uniform vec3 camera_pos;
 uniform vec4 skybox_col;
+uniform vec3 skybox_l_color;
 
 varying vec2 texCoord;
 
@@ -91,7 +92,7 @@ void main() {
     // lighting (blinn phong for now)
 
     // ambient
-    vec3 color = vec3(1., 0.2, 1.0);
+    vec3 color = skybox_l_color;
     vec3 ambient = color * 0.2;
 
     // diffuse

@@ -2,7 +2,12 @@ import { ColorPicker, useColor } from 'react-color-palette';
 import GoopyButton from './GoopyButton';
 import ToggleView from './ToggleView';
 
-function SceneManager({ skyboxColController, skyboxColor }) {
+function SceneManager({
+    skyboxColController,
+    skyboxColor,
+    skyboxLightController,
+    skyboxLightColor,
+}) {
     return (
         <div className='bg-panel-primary border h-full pt-1'>
             <ToggleView label={'Properties'} classes={'border-t'}>
@@ -25,6 +30,16 @@ function SceneManager({ skyboxColController, skyboxColor }) {
                         hideAlpha={true}
                         hideInput={true}
                     />
+                    <h4 className='text-1xl mr-2 pt-2'>Skybox Light Colour</h4>
+                    <ColorPicker
+                        color={skyboxLightColor}
+                        onChange={(e) => {
+                            skyboxLightController(e);
+                        }}
+                        hideAlpha={true}
+                        hideInput={true}
+                    />
+                    <h4 className='text-1xl mr-2  pt-1'>Ambient Intensity</h4>
                 </div>
             </ToggleView>
         </div>
