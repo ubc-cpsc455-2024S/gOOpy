@@ -19,6 +19,7 @@ function Slider({
                     setVal(newValue);
                     callback(index, newValue, ...callbackParams);
                 } else {
+                    setVal(newValue);
                     simpleCallBack(newValue);
                 }
             }}
