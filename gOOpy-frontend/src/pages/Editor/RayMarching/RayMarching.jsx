@@ -63,7 +63,6 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
     }, [skybox.lightColor]);
 
     useEffect(() => {
-        console.log(skybox.ambientIntensity);
         uniforms.current.ambientIntensity.value = skybox.ambientIntensity;
     }, [skybox.ambientIntensity]);
 

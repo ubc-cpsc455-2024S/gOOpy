@@ -19,7 +19,7 @@ function ShapeManager(props) {
             {/* <h1 className='text-3xl font-bold'>Editor</h1> */}
             <div
                 className='no-scrollbar overflow-y-auto border'
-                style={{ minHeight: '65vh' }}
+                style={{ minHeight: '65vh', maxHeight: '65vh' }}
             >
                 {props.shapes.map((shape, index) => (
                     <div className='flex justify-between' key={index}>
