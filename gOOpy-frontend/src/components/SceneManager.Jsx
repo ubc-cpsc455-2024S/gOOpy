@@ -12,19 +12,37 @@ function SceneManager({
     skyboxAmbient,
 }) {
     return (
-        <div className='bg-panel-primary border h-full pt-1'>
+        <div className='bg-panel-primary border h-full pt-1 overflow-hidden'>
             <ToggleView label={'Properties'} classes={'border-t'}>
-                <div className='border-b'></div>
-            </ToggleView>
-            <ToggleView label={'Environment'} classes={''}>
-                <div className='border-b sliders'></div>
-            </ToggleView>
-            <ToggleView label={'Lighting'} classes={''}>
                 <div
                     className='border-b sliders overflow-y-auto'
                     style={{ maxHeight: '65vh' }}
                 >
-                    <h4 className='text-1xl mr-2'>Skybox Colour</h4>
+                    <h4 className='text-sm mr-2'>Information</h4>
+                    <div className=' justify-between'>
+                        <h4 className='text-xs mr-2'>Scene Name:</h4>
+                        <input type='text' style={{ maxWidth: '100%' }} />
+                    </div>
+                    <div className=' justify-between'>
+                        <h4 className='text-xs mr-2'>Scene Description:</h4>
+                        <textarea
+                            type='textarea'
+                            style={{ maxWidth: '100%' }}
+                        />
+                    </div>
+                    <h4 className='text-sm mr-2'>Access Control</h4>
+                    <div className='flex justify-between'>
+                        <h4 className='text-xs mr-2'>Allow Copying</h4>
+                        <input type='checkbox' />
+                    </div>
+                </div>
+            </ToggleView>
+            <ToggleView label={'Scene Lighting'} classes={''}>
+                <div
+                    className='border-b sliders overflow-y-auto'
+                    style={{ maxHeight: '65vh' }}
+                >
+                    <h4 className='text-sm mr-2'>Skybox Colour</h4>
                     <ColorPicker
                         color={skyboxColor}
                         onChange={(e) => {
@@ -33,7 +51,7 @@ function SceneManager({
                         hideAlpha={true}
                         hideInput={true}
                     />
-                    <h4 className='text-1xl mr-2 pt-2'>Skybox Light Colour</h4>
+                    <h4 className='text-sm mr-2 pt-2'>Skybox Light Colour</h4>
                     <ColorPicker
                         color={skyboxLightColor}
                         onChange={(e) => {
@@ -42,7 +60,7 @@ function SceneManager({
                         hideAlpha={true}
                         hideInput={true}
                     />
-                    <h4 className='text-1xl mr-2  pt-1'>Ambient Intensity</h4>
+                    <h4 className='text-sm mr-2  pt-1'>Ambient Intensity</h4>
                     <Slider
                         min={0.0}
                         max={1.0}

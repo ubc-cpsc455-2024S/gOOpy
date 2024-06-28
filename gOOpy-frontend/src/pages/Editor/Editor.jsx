@@ -154,7 +154,8 @@ function Editor() {
 
             <div>
                 <Canvas
-                    className='!h-96 !w-96'
+                    style={{ width: '50vw' }}
+                    className='h-full'
                     orthographic
                     camera={{
                         left: -1,
@@ -167,7 +168,7 @@ function Editor() {
                     }}
                 >
                     <RayMarching
-                        scale={[2.0, 2.0, 1.0]}
+                        scale={[1.5, 1.0, 1.0]}
                         shapes={shapes}
                         skybox={{
                             color: new Vector4(
