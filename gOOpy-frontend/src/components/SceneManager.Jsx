@@ -1,12 +1,15 @@
 import { ColorPicker, useColor } from 'react-color-palette';
 import GoopyButton from './GoopyButton';
 import ToggleView from './ToggleView';
+import Slider from './Slider';
 
 function SceneManager({
     skyboxColController,
     skyboxColor,
     skyboxLightController,
     skyboxLightColor,
+    skyboxAmbientController,
+    skyboxAmbient,
 }) {
     return (
         <div className='bg-panel-primary border h-full pt-1'>
@@ -40,6 +43,13 @@ function SceneManager({
                         hideInput={true}
                     />
                     <h4 className='text-1xl mr-2  pt-1'>Ambient Intensity</h4>
+                    <Slider
+                        min={0.0}
+                        max={1.0}
+                        defaultValue={skyboxAmbient}
+                        useSimpleCallback={true}
+                        simpleCallBack={skyboxAmbientController}
+                    ></Slider>
                 </div>
             </ToggleView>
         </div>

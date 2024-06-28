@@ -14,6 +14,7 @@ uniform int n_spheres; // should change to match number of spheres in editor.
 uniform vec3 camera_pos;
 uniform vec4 skybox_col;
 uniform vec3 skybox_l_color;
+uniform float ambientIntensity;
 
 varying vec2 texCoord;
 
@@ -93,7 +94,7 @@ void main() {
 
     // ambient
     vec3 color = skybox_l_color;
-    vec3 ambient = color * 0.2;
+    vec3 ambient = color * ambientIntensity;
 
     // diffuse
     vec3 L = normalize(vec3(1.0,1.0,-1.0));

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
-import { Color, Vector3, Vector4 } from 'three';
+import { AmbientLight, Color, Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
@@ -39,6 +39,7 @@ function Editor() {
     });
     const [skyboxColor, setSkyboxColor] = useColor('FFFFFF');
     const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
+    const [skyboxAmbientIntensity, setAmbientIntensity] = useState(0.2);
     const [editorView, setEditorView] = useState('shapes');
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
@@ -129,6 +130,8 @@ function Editor() {
                                 skyboxColor={skyboxColor}
                                 skyboxLightController={setSkyboxLightColor}
                                 skyboxLightColor={skyboxLightColor}
+                                skyboxAmbientController={setAmbientIntensity}
+                                skyboxAmbient={skyboxAmbientIntensity}
                             ></SceneManager>
                         )}
                     </div>
@@ -178,6 +181,7 @@ function Editor() {
                                 skyboxLightColor.rgb.g / 255,
                                 skyboxLightColor.rgb.b / 255
                             ),
+                            ambientIntensity: skyboxAmbientIntensity,
                         }}
                     />
                 </Canvas>

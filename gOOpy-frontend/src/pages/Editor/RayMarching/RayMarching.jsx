@@ -36,6 +36,7 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
         },
         skybox_col: { type: 'vec4', value: skybox.color },
         skybox_l_color: { type: 'vec3', value: skybox.lightColor },
+        ambientIntensity: { type: 'float', value: skybox.ambientIntensity },
     });
 
     useEffect(() => {
@@ -60,6 +61,11 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
     useEffect(() => {
         uniforms.current.skybox_l_color.value = skybox.lightColor;
     }, [skybox.lightColor]);
+
+    useEffect(() => {
+        console.log(skybox.ambientIntensity);
+        uniforms.current.ambientIntensity.value = skybox.ambientIntensity;
+    }, [skybox.ambientIntensity]);
 
     return (
         <mesh {...props}>
