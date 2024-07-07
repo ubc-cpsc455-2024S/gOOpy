@@ -6,13 +6,14 @@ class Database {
     }
 
     _connect() {
+        console.log(process.env.MONGODB_CONNECTION_STRING);
         mongoose
-            .connect('mongodb://127.0.0.1/goopy_database')
+            .connect(process.env.MONGODB_CONNECTION_STRING) // replace later
             .then(() => {
                 console.log('Database connection successful');
             })
             .catch((err) => {
-                console.error('Database connection error');
+                console.error('Database connection error:', err);
             });
     }
 }

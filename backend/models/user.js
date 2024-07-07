@@ -11,4 +11,4 @@ const userSchema = new Schema({
     // TODO: might have to store oauth access tokens, refresh tokens etc
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Users', userSchema);

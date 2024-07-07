@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const { v4: uuid } = require('uuid');
+const dotenv = require('dotenv');
+dotenv.config();
 
 // fake data for users
 let users = [
