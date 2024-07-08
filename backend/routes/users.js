@@ -69,10 +69,6 @@ let users = [
     },
 ];
 
-router.get('/', (req, res) => {
-    res.send('Hello World!');
-});
-
 router.get('/:id', (req, res) => {
     // TODO: query db and return name, userinfo and a list of scenes belonging to user
     let name = req.params.id;

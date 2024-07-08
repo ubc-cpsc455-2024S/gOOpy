@@ -15,11 +15,15 @@ function ShapeManager(props) {
         let result = await axios.post('http://127.0.0.1:3000/scene', data);
     };
     return (
-        <div className='sliders border h-full'>
-            {/* <h1 className='text-3xl font-bold'>Editor</h1> */}
+        <div className='sliders border'>
+            <h1 className='text-3xl font-bold'>Editor</h1>
             <div
                 className='no-scrollbar overflow-y-auto border'
-                style={{ minHeight: '65vh', maxHeight: '65vh' }}
+                // TODO move this custom CSS to tailwind somehow
+                style={{
+                    height: '65vh', // shorten to avoid scroll-bar
+                    minWidth: '18vw',
+                }}
             >
                 {props.shapes.map((shape, index) => (
                     <div className='flex justify-between' key={index}>
@@ -91,7 +95,7 @@ function ShapeManager(props) {
             </GoopyButton>
             <GoopyButton
                 classes='border-l border-r border-b p-1'
-                onClickBehavior={async () => {
+                onClick={async () => {
                     saveResult();
                 }}
             >
