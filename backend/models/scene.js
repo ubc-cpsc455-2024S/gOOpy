@@ -13,7 +13,8 @@ const vectorSchema = new Schema(
 
 const shapeSchema = new Schema({
     center: { type: vectorSchema, required: true },
-    radius: { type: Number, required: true },
+    property1: { type: Number, required: true },
+    shapeType: { type: String, required: true },
     id: { type: Number, required: true },
 });
 
