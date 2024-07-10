@@ -15,7 +15,6 @@ const shapeSchema = new Schema({
     center: { type: vectorSchema, required: true },
     property1: { type: Number, required: true },
     shapeType: { type: String, required: true },
-    id: { type: Number, required: true },
 });
 
 // TODO: will need to update with things like camera, colour etc
