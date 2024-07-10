@@ -2,17 +2,25 @@ import { Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
 import axios from 'axios';
 
-function ShapeManager(props) {
+const MAX_SHAPES = 50; // should match shaders
+
+function ShapeManager({
+    shapes,
+    setShapes,
+    setCurrentShape,
+    currentShape,
+    determineNewID,
+}) {
     const saveResult = async () => {
         let data = {
-            shapes: props.shapes,
+            shapes: shapes,
             metadata: {
                 userId: 123,
                 title: 'new_model',
                 lastEdited: new Date(),
             },
         };
-        let result = await axios.post('http://127.0.0.1:3000/scene', data);
+        await axios.post('http://127.0.0.1:3000/scene', data);
     };
     return (
         <div className='sliders border'>
@@ -25,28 +33,24 @@ function ShapeManager(props) {
                     minWidth: '18vw',
                 }}
             >
-                {props.shapes.map((shape, index) => (
+                {shapes.map((shape, index) => (
                     <div className='flex justify-between' key={index}>
                         <GoopyButton
                             classes={`border-b button cursor-pointer flex w-full`}
                             onClick={() => {
-                                props.setCurrentShape(
-                                    shape.id == props.currentShape
-                                        ? null
-                                        : shape.id
+                                setCurrentShape(
+                                    shape.id == currentShape ? null : shape.id
                                 );
                             }}
-                            isSelected={props.currentShape === shape.id}
+                            isSelected={currentShape === shape.id}
                         >
-                            <p className='ps-1'>
-                                Shape {props.shapes[index].id}
-                            </p>
+                            <p className='ps-1'>Shape {shapes[index].id}</p>
                         </GoopyButton>
-                        {props.currentShape != shape.id && (
+                        {currentShape != shape.id && (
                             <GoopyButton
                                 classes={`border-l border-b pl-1 pr-1`}
                                 onClick={(e) => {
-                                    props.setShapes((state) => {
+                                    setShapes((state) => {
                                         const newState = [...state];
                                         let index = newState.indexOf(
                                             newState.find(
@@ -66,9 +70,11 @@ function ShapeManager(props) {
             </div>
             <GoopyButton
                 classes='border-l border-r border-b p-1'
+                isDisabled={shapes.length >= MAX_SHAPES}
                 onClick={() => {
-                    const newId = props.determineNewID();
-                    props.setShapes((state) => {
+                    if (shapes.length >= MAX_SHAPES) return;
+                    const newId = determineNewID();
+                    setShapes((state) => {
                         const newState = [...state];
                         newState.push({
                             center: new Vector3(0, 0, 0),
@@ -77,7 +83,7 @@ function ShapeManager(props) {
                         });
                         return newState;
                     });
-                    props.setCurrentShape(newId);
+                    setCurrentShape(newId);
                 }}
             >
                 Add Shape
@@ -85,10 +91,10 @@ function ShapeManager(props) {
             <GoopyButton
                 classes='border-l border-r border-b p-1'
                 onClick={() => {
-                    props.setShapes((state) => {
+                    setShapes((state) => {
                         return [];
                     });
-                    props.setCurrentShape(null);
+                    setCurrentShape(null);
                 }}
             >
                 Reset Scene

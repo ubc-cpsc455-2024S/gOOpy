@@ -24,8 +24,6 @@ const obj3 = {
     id: 2,
 };
 
-const MAX_SIZE = 50; // should match shaders
-
 function Editor() {
     const [loading, setLoading] = useState(true);
     const [shapes, setShapes] = useState([obj1, obj2, obj3]);

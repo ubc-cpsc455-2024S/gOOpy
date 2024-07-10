@@ -16,6 +16,7 @@ export default {
             'editor-hover': '#EAB272',
             white: '#FFFFFF',
             'error-red': '#D70040',
+            'disabled-gray': '#DDBB94',
         },
     },
     plugins: [],
