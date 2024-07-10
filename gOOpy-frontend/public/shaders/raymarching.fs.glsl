@@ -3,17 +3,19 @@ precision highp float;
 // Ray Marching help from https://barradeau.com/blog/?p=575
 
 // our object representation. This should be expanded to be more versatile later on
-struct Sphere
+struct Shape
 {
     vec3 center;
     float radius;
 };
-#define MAX_SPHERES 50
-uniform Sphere spheres[MAX_SPHERES];
-uniform int n_spheres; // should change to match number of spheres in editor.
+#define MAX_SHAPES 50
+uniform Shape shapes[MAX_SHAPES];
+uniform int n_shapes; // should change to match max number of shapes in editor.
 uniform vec3 camera_pos;
 
-varying vec2 texCoord;
+in vec2 texCoord;
+
+out vec4 fragColor;
 
 // Smooth Min - goopy shapes!
 // adapted from https://iquilezles.org/articles/smin/
@@ -40,19 +42,28 @@ float sdf(vec3 p) {
     // TODO this can probably be done cleaner
     float min_val = 99999.0;
 
-    for (int i = 0; i < MAX_SPHERES; i++) {
-        if (i > n_spheres - 1) {
+    for (int i = 0; i < MAX_SHAPES; i++) {
+        if (i > n_shapes - 1) {
             break;
         }
-        Sphere s = spheres[i];
+        Shape s = shapes[i];
         vec3 center = s.center;
         float radius = s.radius;
 
-        min_val = smin(sphere(p, center, radius), min_val, 0.3);
+        float sdf_val = 0.0;
+        switch(0) {
+            case 0:
+                sdf_val = sphere(p, center, radius);
+                break;
+            case 1:
+                sdf_val = box(p, center, vec3(radius), 0.3);
+                break;
+        }
+
+        min_val = smin(sdf_val, min_val, 0.3);
     }
 
-    // Here I manually add a box to the scene. This will be different when editor has more work done.
-    return smin(min_val, box(p, vec3(1.0,0.0,0.0), vec3(0.2,0.9,0.2), 0.2), 0.3);
+    return min_val;
 }
 
 // from https://iquilezles.org/articles/normalsSDF/
@@ -82,7 +93,7 @@ void main() {
         // sky hack
         if (i == 63) {
             // might be able to use the angle here to render a skybox
-            gl_FragColor = vec4(0.3, 0.8, 1.0, 1.0);
+            fragColor = vec4(0.3, 0.8, 1.0, 1.0);
             return;
         }
     }
@@ -105,5 +116,5 @@ void main() {
     float S = dot(N,H);
     vec3 specular = pow(clamp(S, 0.0, 1.0), 8.0) * vec3(0.3);
 
-    gl_FragColor = vec4(diffuse + specular + ambient, 1.0);
+    fragColor = vec4(diffuse + specular + ambient, 1.0);
 }
