@@ -9,6 +9,7 @@ class Database {
         mongoose
             .connect(process.env.MONGODB_CONNECTION_STRING) // replace later
             .then(() => {
+                console.log(process.env.MONGODB_CONNECTION_STRING);
                 console.log('Database connection successful');
             })
             .catch((err) => {
