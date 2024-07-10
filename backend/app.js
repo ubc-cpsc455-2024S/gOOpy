@@ -6,8 +6,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 require('./db');
 
-const passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var logger = require('morgan');
 const cors = require('cors');
 
