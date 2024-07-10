@@ -14,7 +14,8 @@ const vectorSchema = new Schema(
 const shapeSchema = new Schema({
     center: { type: vectorSchema, required: true },
     property1: { type: Number, required: true },
-    shapeType: { type: String, required: true },
+    shape_type: { type: String, required: true },
+    id: { type: Number, required: true },
 });
 
 // TODO: will need to update with things like camera, colour etc
@@ -26,6 +27,7 @@ const sceneSchema = Schema({
         last_edited: { type: Date, default: Date.now },
         thumbnail: String, // should this be a link to the thumbnail image?
     },
+    next_id: { type: Number, required: true },
 });
 
 module.exports = mongoose.model('Scene', sceneSchema);
