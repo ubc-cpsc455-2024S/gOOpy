@@ -9,7 +9,7 @@ router.get('/:id', async (req, res) => {
     let name = req.params.id;
     console.log(name);
     try {
-        const user = await userModel.find({});
+        const user = await userModel.find({ oauth_id: name });
         console.log(user);
         res.json(user);
     } catch (err) {
