@@ -2,6 +2,12 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
+dotenv.config();
+require('./db');
+
+const passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var logger = require('morgan');
 const cors = require('cors');
 
