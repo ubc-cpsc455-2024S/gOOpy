@@ -55,7 +55,7 @@ float sdf(vec3 p) {
     }
 
     // Here I manually add a box to the scene. This will be different when editor has more work done.
-    return smin(min_val, box(p, vec3(0.0,0.0,0.0), vec3(0.0,0.0,0.0), 0.0), 0.3);
+    return min_val;
 }
 
 // from https://iquilezles.org/articles/normalsSDF/

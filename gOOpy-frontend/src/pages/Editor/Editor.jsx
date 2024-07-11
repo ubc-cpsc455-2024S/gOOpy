@@ -10,6 +10,7 @@ import GoopyButton from '../../components/GoopyButton';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
 import Slider from '../../components/Slider';
+import EditorTabCarousel from '../../components/EditorTabCarousel';
 
 // hard coded list of objects (temporary)
 const obj1 = {
@@ -95,24 +96,9 @@ function Editor() {
         <div className='flex justify-between p-5'>
             <div className='flex'>
                 <div>
-                    <div className='flex flex-row border-t border-l border-r overflow-scroll bg-panel-primary'>
-                        <GoopyButton
-                            classes='border-r p-2'
-                            onClick={() => {
-                                setEditorView('shapes');
-                            }}
-                        >
-                            Shapes
-                        </GoopyButton>
-                        <GoopyButton
-                            classes='border-r p-2'
-                            onClick={() => {
-                                setEditorView('scene');
-                            }}
-                        >
-                            Scene
-                        </GoopyButton>
-                    </div>
+                    <EditorTabCarousel
+                        setEditorView={setEditorView}
+                    ></EditorTabCarousel>
                     <div style={{ width: '20vw', height: '80vh' }}>
                         {editorView == 'shapes' && (
                             <ShapeManager
@@ -154,8 +140,7 @@ function Editor() {
 
             <div>
                 <Canvas
-                    style={{ width: '50vw' }}
-                    className='h-full'
+                    className='!h-96 !w-96'
                     orthographic
                     camera={{
                         left: -1,
@@ -168,7 +153,7 @@ function Editor() {
                     }}
                 >
                     <RayMarching
-                        scale={[1.5, 1.0, 1.0]}
+                        scale={[2.0, 2.0, 1.0]}
                         shapes={shapes}
                         skybox={{
                             color: new Vector4(
