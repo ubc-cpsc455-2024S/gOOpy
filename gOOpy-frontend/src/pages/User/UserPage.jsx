@@ -12,7 +12,7 @@ import Button from '../../components/Button.jsx';
 
 export default function UserPage() {
     const dispatch = useDispatch();
-    const { id, name, bio, scenes, profilepic } = useSelector(
+    const { oauth_id, name, description, scenes, profile_pic } = useSelector(
         (state) => state.user
     );
 
@@ -31,22 +31,22 @@ export default function UserPage() {
             <div className='pt-5 pb-5 justify-center'>
                 <div className=''>
                     <img
-                        src={profilepic}
+                        src={profile_pic}
                         className='rounded-full h-[250px] w-[250px] border-4 mx-auto shadow-xl'
                     />
                 </div>
                 <h1 className='text-center text-3xl'>
-                    {!id ? <p>Guest</p> : <p>Welcome, {name}!</p>}
+                    {!oauth_id ? <p>Guest</p> : <p>Welcome, {name}!</p>}
                 </h1>
                 <div className='flex flex-col items-center pt-5'>
-                    {!id ? (
+                    {!oauth_id ? (
                         <Link className='hover:underline' to='/login'>
                             login to access scenes
                         </Link>
                     ) : (
                         <div className=''>
                             <h2 className='text-center text-1xl pt-5 px-12'>
-                                {bio}
+                                {description}
                             </h2>
                             <div className='flex justify-center items-center pt-3 '>
                                 {!editUser ? (

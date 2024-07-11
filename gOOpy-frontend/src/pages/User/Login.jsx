@@ -16,7 +16,7 @@ const Login = () => {
         try {
             const user = await dispatch(userLogin(username)).unwrap();
             setError(false);
-            navigate(`/user/${user.id}`);
+            navigate(`/user/${user.oauth_id}`);
         } catch (error) {
             setError(true);
         }
