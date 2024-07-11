@@ -27,7 +27,7 @@ export default function RayMarching({ testPos, shapes, ...props }) {
     const uniforms = useRef({
         n_shapes: { type: 'int', value: shapes.length },
         shapes: {
-            type: [{ center: 'vec3', radius: 'float' }],
+            type: [{ center: 'vec3', radius: 'float', shape_type: 'int' }],
             value: buffer,
         },
         camera_pos: {

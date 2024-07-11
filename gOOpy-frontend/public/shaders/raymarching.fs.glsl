@@ -6,6 +6,7 @@ precision highp float;
 struct Shape
 {
     vec3 center;
+    int shape_type;
     float radius;
 };
 #define MAX_SHAPES 50
@@ -51,7 +52,7 @@ float sdf(vec3 p) {
         float radius = s.radius;
 
         float sdf_val = 0.0;
-        switch(0) {
+        switch(shapes[i].shape_type) {
             case 0:
                 sdf_val = sphere(p, center, radius);
                 break;

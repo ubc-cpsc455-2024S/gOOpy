@@ -11,16 +11,19 @@ import ShapeDetails from '../../components/ShapeDetails';
 const obj1 = {
     center: new Vector3(0.0, 0.0, 0.0),
     radius: 1.0,
+    shape_type: 0,
     id: 0,
 };
 const obj2 = {
     center: new Vector3(1.0, 1.0, 1.0),
     radius: 1.3,
+    shape_type: 0,
     id: 1,
 };
 const obj3 = {
     center: new Vector3(-1.0, -1.0, 1.0),
     radius: 0.8,
+    shape_type: 1,
     id: 2,
 };
 
@@ -52,6 +55,15 @@ function Editor() {
             return;
         }
         shapes[index].radius = newValue;
+    };
+
+    // TODO update above with this as generic?
+    const updateField = (index, newValue, field) => {
+        if (currentShape == null) {
+            return;
+        }
+        shapes[index][field] = newValue;
+        console.log(shapes[index]);
     };
 
     const determineNewID = () => {
@@ -99,6 +111,7 @@ function Editor() {
                         shapes={shapes}
                         updateAxis={updateAxis}
                         updateRadius={updateRadius}
+                        updateField={updateField}
                         Slider={Slider}
                     />
                 )}
