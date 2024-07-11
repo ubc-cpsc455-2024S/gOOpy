@@ -130,6 +130,7 @@ function Editor() {
                         far: 1,
                         position: [0, 0, 0.5],
                     }}
+                    gl={{ preserveDrawingBuffer: true }}
                 >
                     <RayMarching scale={[2.0, 2.0, 1.0]} shapes={shapes} />
                 </Canvas>
