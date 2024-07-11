@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { userLogin } from '../../redux/slices/userSlice.js';
 import { useState } from 'react';
 import Button from '../../components/Button.jsx';
@@ -14,9 +14,9 @@ const Login = () => {
 
     async function login(event) {
         try {
-            await dispatch(userLogin(username)).unwrap();
+            const user = await dispatch(userLogin(username)).unwrap();
             setError(false);
-            navigate('/user');
+            navigate(`/user/${user.id}`);
         } catch (error) {
             setError(true);
         }
