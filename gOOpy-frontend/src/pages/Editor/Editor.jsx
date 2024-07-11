@@ -8,19 +8,32 @@ import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
 
 // hard coded list of objects (temporary)
+// TODO: make sure shape has property1 and shape type
 const obj1 = {
     center: new Vector3(0.0, 0.0, 0.0),
     radius: 1.0,
+    get property1() {
+        return this.radius;
+    },
+    shape_type: 'Sphere',
     id: 0,
 };
 const obj2 = {
     center: new Vector3(1.0, 1.0, 1.0),
     radius: 1.3,
+    get property1() {
+        return this.radius;
+    },
+    shape_type: 'Sphere',
     id: 1,
 };
 const obj3 = {
     center: new Vector3(-1.0, -1.0, 1.0),
     radius: 0.8,
+    get property1() {
+        return this.radius;
+    },
+    shape_type: 'Sphere',
     id: 2,
 };
 

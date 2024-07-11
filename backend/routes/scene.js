@@ -1,4 +1,6 @@
 var express = require('express');
+const sceneQueries = require('../queries/scene-queries');
+
 var router = express.Router();
 
 // set up fake data for scenes (not linked to users, just for persistence right now)
@@ -23,10 +25,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    // TODO: save the scene to the current logged in user's scenes
-
-    // let scenedata = JSON.parse(req.body);
-    currentScene = req.body;
+    sceneQueries.saveScene(req.body);
     res.send('adding a new scene');
 });
 

@@ -1,16 +1,24 @@
 import { Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 function ShapeManager(props) {
+    console.log(props.shapes);
     const saveResult = async () => {
         let data = {
             shapes: props.shapes,
             metadata: {
-                userId: 123,
+                // TODO: determine if oauth_id or _id from mongoDB
+                user_id: 'asdf',
                 title: 'new_model',
                 lastEdited: new Date(),
+                // TODO: create thumbnail from scene
+                thumbnail:
+                    'https://static.vecteezy.com/system/resources/thumbnails/022/014/063/small_2x/missing-picture-page-for-website-design-or-mobile-app-design-no-image-available-icon-vector.jpg',
             },
+            // TODO: determine next ID
+            next_id: 123,
         };
         let result = await axios.post('http://127.0.0.1:3000/scene', data);
     };
@@ -68,12 +76,17 @@ function ShapeManager(props) {
                 classes='border-l border-r border-b p-1'
                 onClick={() => {
                     const newId = props.determineNewID();
+                    // TODO: ensure shapes of correct property and shape_type are created
                     props.setShapes((state) => {
                         const newState = [...state];
                         newState.push({
                             center: new Vector3(0, 0, 0),
                             radius: 1.0,
                             id: newId,
+                            get property1() {
+                                return this.radius;
+                            },
+                            shape_type: 'Sphere',
                         });
                         return newState;
                     });
