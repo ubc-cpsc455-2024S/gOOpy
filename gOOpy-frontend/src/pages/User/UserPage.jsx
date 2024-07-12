@@ -13,7 +13,7 @@ import { getSceneInfo } from '../../apiCalls/sceneAPI.js';
 
 export default function UserPage() {
     const dispatch = useDispatch();
-    const { oauth_id, name, description, scenes, profile_pic } = useSelector(
+    const { _id, name, description, scenes, profile_pic } = useSelector(
         (state) => state.user
     );
     // TODO: figure out how to get all the necessary scene info for the scene grid component.
