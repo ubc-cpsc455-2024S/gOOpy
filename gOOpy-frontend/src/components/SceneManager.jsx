@@ -12,12 +12,9 @@ function SceneManager({
     skyboxAmbient,
 }) {
     return (
-        <div className='bg-panel-primary border h-full pt-1 overflow-hidden'>
+        <div className='bg-panel-primary border h-full pt-1 overflow-y-auto'>
             <ToggleView label={'Properties'} classes={'border-t'}>
-                <div
-                    className='border-b sliders overflow-y-auto'
-                    style={{ maxHeight: '65vh' }}
-                >
+                <div className='border-b sliders'>
                     <h4 className='text-sm mr-2'>Information</h4>
                     <div className=' justify-between'>
                         <h4 className='text-xs mr-2'>Scene Name:</h4>
@@ -38,10 +35,7 @@ function SceneManager({
                 </div>
             </ToggleView>
             <ToggleView label={'Scene Lighting'} classes={''}>
-                <div
-                    className='border-b sliders overflow-y-auto'
-                    style={{ maxHeight: '65vh' }}
-                >
+                <div style={{ maxHeight: '65vh' }}>
                     <h4 className='text-sm mr-2'>Skybox Colour</h4>
                     <ColorPicker
                         color={skyboxColor}

@@ -94,12 +94,12 @@ function Editor() {
 
     return (
         <div className='flex justify-between p-5'>
-            <div className='flex'>
-                <div>
+            <div className='flex absolute top-0 start-0 h-screen w-screen z-10'>
+                <div className='mt-14 ml-5'>
                     <EditorTabCarousel
                         setEditorView={setEditorView}
                     ></EditorTabCarousel>
-                    <div style={{ width: '20vw', height: '80vh' }}>
+                    <div className='editor-panel'>
                         {editorView == 'shapes' && (
                             <ShapeManager
                                 shapes={shapes}
@@ -122,25 +122,27 @@ function Editor() {
                         )}
                     </div>
                 </div>
-                {currentShape != null &&
-                    editorView == 'shapes' &&
-                    shapes.length > 0 && (
-                        <ShapeDetails
-                            // TODO better way to find the shapes's index?
-                            index={shapes.findIndex(
-                                (s) => s.id === currentShape
-                            )}
-                            shapes={shapes}
-                            updateAxis={updateAxis}
-                            updateRadius={updateRadius}
-                            Slider={Slider}
-                        />
-                    )}
+                <div className='mt-14'>
+                    {currentShape != null &&
+                        editorView == 'shapes' &&
+                        shapes.length > 0 && (
+                            <ShapeDetails
+                                // TODO better way to find the shapes's index?
+                                index={shapes.findIndex(
+                                    (s) => s.id === currentShape
+                                )}
+                                shapes={shapes}
+                                updateAxis={updateAxis}
+                                updateRadius={updateRadius}
+                                Slider={Slider}
+                            />
+                        )}
+                </div>
             </div>
 
-            <div>
+            <div className='w-full h-full z-0 absolute top-0 start-0'>
                 <Canvas
-                    className='!h-96 !w-96'
+                    className=''
                     orthographic
                     camera={{
                         left: -1,
