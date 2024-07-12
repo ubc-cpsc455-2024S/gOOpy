@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { updateUser, getUserInfoByUsername } from '../../apiCalls/userAPI.js';
 import { useSelector } from 'react-redux';
 
-// TODO: standardize the names user properties with serverside storage.
-
 export const userLogin = createAsyncThunk('member/login', async (username) => {
     const response = await getUserInfoByUsername(username);
     console.log(response);

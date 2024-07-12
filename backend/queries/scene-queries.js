@@ -1,8 +1,8 @@
 const Scene = require('../models/scene.js');
 
 const sceneQueries = {
-    findScene: async function (filter) {
-        return await Scene.findOne(filter);
+    findSceneById: async function (id) {
+        return await Scene.findById(id);
     },
     saveScene: async function (scene) {
         const s = new Scene(scene);

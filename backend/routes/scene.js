@@ -18,15 +18,18 @@ router.get('/', (req, res) => {
     res.send(`Sending ${reqAmt} scenes`);
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     // TODO: return the scene requested
     const id = req.params.id;
+    const currentScene = await sceneQueries.findSceneById(
+        '66904969d96c06fee4fe059f'
+    );
     res.json(currentScene);
 });
 
 router.post('/', (req, res) => {
     sceneQueries.saveScene(req.body);
-    res.send('adding a new scene');
+    res.send();
 });
 
 router.patch('/:id', (req, res) => {

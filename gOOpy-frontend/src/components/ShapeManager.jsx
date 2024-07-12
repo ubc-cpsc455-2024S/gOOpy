@@ -21,6 +21,7 @@ function ShapeManager(props) {
             next_id: 123,
         };
         let result = await axios.post('http://127.0.0.1:3000/scene', data);
+        // TODO - Optional: add popup for save fail or success
     };
     return (
         <div className='sliders border'>

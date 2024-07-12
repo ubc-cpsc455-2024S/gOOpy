@@ -6,7 +6,6 @@ const usersQueries = {
     },
     saveUser: async function (user) {
         const u = new Users(user);
-        console.log(u);
         await u.save();
     },
 };
