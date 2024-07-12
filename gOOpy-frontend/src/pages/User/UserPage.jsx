@@ -16,13 +16,18 @@ import { getUserInfo } from '../../apiCalls/userAPI.js';
 export default function UserPage() {
     const { id } = useParams();
     const [user, setUserState] = useState({});
+    const [scenesInfo, setScenesInfo] = useState([]);
+    const [editUser, setEditUser] = useState(false);
+    const nameRef = useRef('');
+    const aboutRef = useRef('');
+    const profilepicRef = useRef('');
 
     useEffect(() => {
         async function setUser() {
             try {
-                // TODO: replace with method that only gets the metadata.
-                const res = await getUserInfo(id);
-                setUserState(res.data);
+                getUserInfo(id).then((userRes) => {
+                    setUserState(userRes.data);
+                });
             } catch (e) {
                 console.log('Error retrieving user info');
             }
@@ -30,26 +35,27 @@ export default function UserPage() {
         setUser();
     }, []);
 
-    const [scenesInfo, setScenesInfo] = useState([]);
     useEffect(() => {
         async function setScene() {
-            for (const scene of user.scenes) {
-                try {
-                    // TODO: replace with method that only gets the metadata.
-                    const res = await getSceneInfo(scene);
-                    setScenesInfo([...scenesInfo, res.data]);
-                } catch (e) {
-                    console.log('Error retrieving scene info');
+            try {
+                for (const scene of user.scenes) {
+                    getSceneInfo(scene).then((sceneRes) => {
+                        setScenesInfo([...scenesInfo, sceneRes.data]);
+                    });
                 }
+            } catch (e) {
+                console.log('Error getting scene info');
             }
         }
         setScene();
-    }, []);
+    }, [user]);
 
-    const [editUser, setEditUser] = useState(false);
-    const nameRef = useRef('');
-    const aboutRef = useRef('');
-    const profilepicRef = useRef('');
+    // useEffect(() => {
+    //     async function setScene() {
+    //         console.log('ran already');
+    //     }
+    //     setScene();
+    // }, []);
 
     function closeEdit(event) {
         event.preventDefault();
