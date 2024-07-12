@@ -2,14 +2,9 @@ import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Scene({ image, name, lastEditDate, sceneId }) {
-    // const navigate = useNavigate();
-    // function goToScene() {
-    //     // navigate(`/editor/${sceneId}`);
-    //     // <Navigate to={`/editor/${sceneId}`} state={{ sceneId }} />;
-    // }
     return (
         <div className='bg-white max-w-56 w-full rounded-lg shadow-lg'>
-            <Link to={`/editor/${sceneId}`} state={{ sceneId: sceneId }}>
+            <Link to={`/editor/${sceneId}`}>
                 <div className='aspect-w-1 aspect-h-1'>
                     <img
                         className='rounded-t-lg object-cover w-full h-full'
