@@ -6,8 +6,6 @@ function Slider({
     callbackParams = [],
     max = 5,
     min = -5,
-    useSimpleCallback = false,
-    simpleCallBack,
 }) {
     const [val, setVal] = useState(defaultValue);
     return (
@@ -15,13 +13,8 @@ function Slider({
             value={val}
             onChange={(e) => {
                 const newValue = parseFloat(e.target.value);
-                if (!useSimpleCallback) {
-                    setVal(newValue);
-                    callback(index, newValue, ...callbackParams);
-                } else {
-                    setVal(newValue);
-                    simpleCallBack(newValue);
-                }
+                setVal(newValue);
+                callback(newValue, index, ...callbackParams);
             }}
             type='range'
             min={min}

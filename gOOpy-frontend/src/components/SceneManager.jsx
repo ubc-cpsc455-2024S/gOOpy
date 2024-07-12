@@ -71,8 +71,7 @@ function SceneManager({
                             min={0.0}
                             max={1.0}
                             defaultValue={skyboxAmbient}
-                            useSimpleCallback={true}
-                            simpleCallBack={skyboxAmbientController}
+                            callback={skyboxAmbientController}
                         ></Slider>
                     </div>
                 </ToggleView>

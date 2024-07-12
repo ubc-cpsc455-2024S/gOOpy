@@ -44,7 +44,7 @@ function Editor() {
     const [editorView, setEditorView] = useState('shapes');
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
-    const updateAxis = (index, newValue, axis) => {
+    const updateAxis = (newValue, index, axis) => {
         if (currentShape == null) {
             return;
         }
