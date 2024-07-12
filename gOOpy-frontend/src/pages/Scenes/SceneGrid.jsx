@@ -1,7 +1,6 @@
 import Scene from './Scene';
 
 // TODO: Should replace key with unique identifier instead of index
-// TODO: Replace link with database access key
 export default function SceneGrid({ sceneList }) {
     const scenes = sceneList.map((s, index) => (
         <Scene

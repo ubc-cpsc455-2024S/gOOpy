@@ -54,10 +54,10 @@ export default function UserPage() {
                     />
                 </div>
                 <h1 className='text-center text-3xl'>
-                    {!oauth_id ? <p>Guest</p> : <p>Welcome, {name}!</p>}
+                    {!_id ? <p>Guest</p> : <p>Welcome, {name}!</p>}
                 </h1>
                 <div className='flex flex-col items-center pt-5'>
-                    {!oauth_id ? (
+                    {!_id ? (
                         <Link className='hover:underline' to='/login'>
                             login to access scenes
                         </Link>
