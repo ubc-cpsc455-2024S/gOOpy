@@ -101,7 +101,7 @@ void main() {
         t += temp;
         
         // sky hack
-        if (i == 63) {
+        if (i == 63 && temp >= 0.5) {
             // might be able to use the angle here to render a skybox
             fragColor = vec4(0.3, 0.8, 1.0, 1.0);
             return;
