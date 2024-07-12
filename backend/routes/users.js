@@ -5,7 +5,6 @@ dotenv.config();
 const userModel = require('../models/user');
 
 router.get('/:id', async (req, res) => {
-    // TODO: query db and return name, userinfo and a list of scenes belonging to user
     let name = req.params.id;
     console.log(name);
     try {
@@ -19,6 +18,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', (req, res) => {
     // TODO: create a new user and add it to the users db
+    // after OAuth2 setup
     const userId = uuid();
     const userInfo = req.params.info;
     users.push({
