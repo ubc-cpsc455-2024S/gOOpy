@@ -21,7 +21,6 @@ export default function UserPage() {
     useEffect(() => {
         async function gsi() {
             for (const scene of scenes) {
-                console.log(scene);
                 try {
                     // TODO: replace with method that only gets the metadata.
                     const res = await getSceneInfo(scene);

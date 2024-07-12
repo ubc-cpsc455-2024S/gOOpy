@@ -1,15 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function Scene({ image, name, lastEditDate, sceneId }) {
-    const navigate = useNavigate();
-    console.log(sceneId);
-    function goToScene() {
-        navigate(`/editor/${sceneId}`);
-    }
+    // const navigate = useNavigate();
+    // function goToScene() {
+    //     // navigate(`/editor/${sceneId}`);
+    //     // <Navigate to={`/editor/${sceneId}`} state={{ sceneId }} />;
+    // }
     return (
         <div className='bg-white max-w-56 w-full rounded-lg shadow-lg'>
-            <button onClick={goToScene}>
+            <Link to={`/editor/${sceneId}`} state={{ sceneId: sceneId }}>
                 <div className='aspect-w-1 aspect-h-1'>
                     <img
                         className='rounded-t-lg object-cover w-full h-full'
@@ -17,7 +17,7 @@ export default function Scene({ image, name, lastEditDate, sceneId }) {
                         alt={name}
                     />
                 </div>
-            </button>
+            </Link>
             <div className='px-2 pt-1 pb-1'>
                 <h1 className='truncate ... w-full text-lg' aria-label={name}>
                     {name}

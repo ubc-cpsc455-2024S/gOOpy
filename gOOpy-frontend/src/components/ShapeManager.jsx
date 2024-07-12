@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 function ShapeManager(props) {
-    console.log(props.shapes);
     const saveResult = async () => {
         let data = {
             shapes: props.shapes,

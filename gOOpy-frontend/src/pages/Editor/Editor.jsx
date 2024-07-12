@@ -6,6 +6,7 @@ import { Vector3 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
+import { useLocation } from 'react-router-dom';
 
 // hard coded list of objects (temporary)
 // TODO: make sure shape has property1 and shape type
@@ -47,6 +48,9 @@ function Editor() {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
 
+    const location = useLocation();
+    const { sceneId } = location.state || {};
+
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
     const updateAxis = (index, newValue, axis) => {
         if (currentShape == null) {
@@ -79,9 +83,10 @@ function Editor() {
         const fetchShape = async () => {
             try {
                 var resp = null;
-                const sceneUrl = window.location.pathname;
-                const path = sceneUrl.split('/');
-                const sceneId = path[2];
+                // const sceneUrl = window.location.pathname;
+                // const path = sceneUrl.split('/');
+                // const sceneId = path[2];
+                console.log(sceneId);
                 if (sceneId) {
                     resp = await axios.get(
                         `http://127.0.0.1:3000/scene/${sceneId}`
@@ -89,7 +94,7 @@ function Editor() {
                 }
                 if (resp.data) {
                     let data = resp.data;
-                    console.log(data.shapes);
+                    // console.log(data.shapes);
                     setShapes(data.shapes);
                 }
             } catch (error) {
