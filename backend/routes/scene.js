@@ -27,6 +27,7 @@ router.post('/', (req, res) => {
 
     // let scenedata = JSON.parse(req.body);
     currentScene = req.body;
+    console.log(currentScene);
     res.send('adding a new scene');
 });
 
