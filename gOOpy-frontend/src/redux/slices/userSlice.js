@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 export const userLogin = createAsyncThunk('member/login', async (username) => {
     const response = await getUserInfoByUsername(username);
-    console.log(response);
+    // console.log(response);
     return response.data;
 });
 
@@ -63,7 +63,7 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(userLogin.fulfilled, (state, action) => {
-            console.log(action.payload);
+            // console.log(action.payload);
             return action.payload;
         });
         // TODO: optional - Make dropdown notification confirming if change has been made

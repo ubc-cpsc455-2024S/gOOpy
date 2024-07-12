@@ -6,10 +6,10 @@ export default function SceneGrid({ sceneList }) {
     const scenes = sceneList.map((s, index) => (
         <Scene
             key={index}
-            image={s.image}
-            name={s.name}
-            lastEditDate={s.lastEditDate}
-            link={s.link}
+            image={s.metadata.thumbnail}
+            name={s.metadata.title}
+            lastEditDate={s.metadata.last_edited}
+            link={s._id}
         />
     ));
 

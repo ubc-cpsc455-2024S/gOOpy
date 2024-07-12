@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -9,12 +9,30 @@ import {
     tempChangeProfilePhoto,
 } from '../../redux/slices/userSlice.js';
 import Button from '../../components/Button.jsx';
+import { getSceneInfo } from '../../apiCalls/sceneAPI.js';
 
 export default function UserPage() {
     const dispatch = useDispatch();
     const { oauth_id, name, description, scenes, profile_pic } = useSelector(
         (state) => state.user
     );
+    // TODO: figure out how to get all the necessary scene info for the scene grid component.
+    const [scenesInfo, setScenesInfo] = useState([]);
+    useEffect(() => {
+        async function gsi() {
+            for (const scene of scenes) {
+                console.log(scene);
+                try {
+                    // TODO: replace with method that only gets the metadata.
+                    const res = await getSceneInfo(scene);
+                    setScenesInfo([...scenesInfo, res.data]);
+                } catch (e) {
+                    console.log('Error retrieving scene info');
+                }
+            }
+        }
+        gsi();
+    }, []);
 
     const [editUser, setEditUser] = useState(false);
     const nameRef = useRef('');
@@ -139,7 +157,7 @@ export default function UserPage() {
                 </div>
             </div>
             <div className='flex justify-center w-full'>
-                <SceneGrid sceneList={scenes} />
+                <SceneGrid sceneList={scenesInfo} />
             </div>
         </main>
     );

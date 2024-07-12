@@ -19,7 +19,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    // TODO: return the scene requested
     const id = req.params.id;
     const currentScene = await sceneQueries.findSceneById(id);
     res.json(currentScene);
