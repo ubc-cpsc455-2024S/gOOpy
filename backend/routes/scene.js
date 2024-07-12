@@ -29,9 +29,6 @@ router.post('/', async (req, res) => {
     currentScene = req.body;
     shapes = [];
 
-    console.log(currentScene);
-    console.log(currentScene.shapes[0].center);
-
     currentScene.shapes.map((currShape) => {
         vec = currShape.center;
         property = currShape.radius;
