@@ -19,14 +19,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', (req, res) => {
     // TODO: create a new user and add it to the users db
     // after OAuth2 setup
-    const userId = uuid();
-    const userInfo = req.params.info;
-    users.push({
-        id: userId,
-        info: userInfo,
-        scenes: [],
-    });
-    res.status(201).send(userId);
+    res.status(201).send('userID');
 });
 
 router.put('/:id', (req, res) => {
