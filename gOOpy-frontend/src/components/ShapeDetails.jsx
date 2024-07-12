@@ -104,6 +104,7 @@ function SelectType({ defaultValue, callback, index }) {
         >
             <option value={0}>Sphere</option>
             <option value={1}>Box</option>
+            <option value={2}>Torus</option>
         </select>
     );
 }

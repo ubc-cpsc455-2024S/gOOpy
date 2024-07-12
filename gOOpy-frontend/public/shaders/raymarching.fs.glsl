@@ -39,6 +39,13 @@ float box( vec3 pos, vec3 center, vec3 size, float corner )
     return length( max( abs( pos-center )-size, 0.0 ) ) - corner;
 }
 
+float torus( vec3 pos, vec3 center, vec2 t )
+{
+    vec3 p = (pos - center);
+    vec2 q = vec2(length(p.xz)-t.x,p.y);
+    return length(q)-t.y;
+}
+
 float sdf(vec3 p) {
     // TODO this can probably be done cleaner
     float min_val = 99999.0;
@@ -57,8 +64,10 @@ float sdf(vec3 p) {
                 sdf_val = sphere(p, center, radius);
                 break;
             case 1:
-                sdf_val = box(p, center, vec3(radius), 0.3);
+                sdf_val = box(p, center, vec3(radius), 0.2); // TODO controls
                 break;
+            case 2:
+                sdf_val = torus(p, center, vec2(radius, 1.0)); // TODO controls
         }
 
         min_val = smin(sdf_val, min_val, 0.3);
