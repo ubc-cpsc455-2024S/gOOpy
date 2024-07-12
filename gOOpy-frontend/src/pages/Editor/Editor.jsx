@@ -78,7 +78,15 @@ function Editor() {
     useEffect(() => {
         const fetchShape = async () => {
             try {
-                const resp = await axios.get('http://127.0.0.1:3000/scene/ab');
+                var resp = null;
+                const sceneUrl = window.location.pathname;
+                const path = sceneUrl.split('/');
+                const sceneId = path[2];
+                if (sceneId) {
+                    resp = await axios.get(
+                        `http://127.0.0.1:3000/scene/${sceneId}`
+                    );
+                }
                 if (resp.data) {
                     let data = resp.data;
                     console.log(data.shapes);
