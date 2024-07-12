@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
 
 import {
     tempChangeUsername,
@@ -10,17 +10,30 @@ import {
 } from '../../redux/slices/userSlice.js';
 import Button from '../../components/Button.jsx';
 import { getSceneInfo } from '../../apiCalls/sceneAPI.js';
+import { getUserInfo } from '../../apiCalls/userAPI.js';
 
+// TODO: make the userPage take in an _id and work for any arbitrary user
 export default function UserPage() {
-    const dispatch = useDispatch();
-    const { _id, name, description, scenes, profile_pic } = useSelector(
-        (state) => state.user
-    );
-    // TODO: figure out how to get all the necessary scene info for the scene grid component.
+    const { id } = useParams();
+    const [user, setUserState] = useState({});
+
+    useEffect(() => {
+        async function setUser() {
+            try {
+                // TODO: replace with method that only gets the metadata.
+                const res = await getUserInfo(id);
+                setUserState(res.data);
+            } catch (e) {
+                console.log('Error retrieving user info');
+            }
+        }
+        setUser();
+    }, []);
+
     const [scenesInfo, setScenesInfo] = useState([]);
     useEffect(() => {
-        async function gsi() {
-            for (const scene of scenes) {
+        async function setScene() {
+            for (const scene of user.scenes) {
                 try {
                     // TODO: replace with method that only gets the metadata.
                     const res = await getSceneInfo(scene);
@@ -30,7 +43,7 @@ export default function UserPage() {
                 }
             }
         }
-        gsi();
+        setScene();
     }, []);
 
     const [editUser, setEditUser] = useState(false);
@@ -48,22 +61,22 @@ export default function UserPage() {
             <div className='pt-5 pb-5 justify-center'>
                 <div className=''>
                     <img
-                        src={profile_pic}
+                        src={user.profile_pic}
                         className='rounded-full h-[250px] w-[250px] border-4 mx-auto shadow-xl'
                     />
                 </div>
                 <h1 className='text-center text-3xl'>
-                    {!_id ? <p>Guest</p> : <p>Welcome, {name}!</p>}
+                    {!user._id ? <p>Guest</p> : <p>Welcome, {user.name}!</p>}
                 </h1>
                 <div className='flex flex-col items-center pt-5'>
-                    {!_id ? (
+                    {!user._id ? (
                         <Link className='hover:underline' to='/login'>
                             login to access scenes
                         </Link>
                     ) : (
                         <div className=''>
                             <h2 className='text-center text-1xl pt-5 px-12'>
-                                {description}
+                                {user.description}
                             </h2>
                             <div className='flex justify-center items-center pt-3 '>
                                 {!editUser ? (

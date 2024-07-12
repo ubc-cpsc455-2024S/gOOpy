@@ -61,6 +61,18 @@ let users = [
 
 router.get('/:id', async (req, res) => {
     // TODO: query db and return name, userinfo and a list of scenes belonging to user
+
+    let id = req.params.id;
+    const user = await userQueries.findUserById(id);
+
+    if (!user) {
+        return res.status(404).send(`No user found with id ${id}`);
+    }
+    return res.send(user);
+});
+
+router.get('/username/:id', async (req, res) => {
+    // TODO: query db and return name, userinfo and a list of scenes belonging to user
     // TODO: use ID to find names?
 
     // await userQueries.saveUser(users[0]);
