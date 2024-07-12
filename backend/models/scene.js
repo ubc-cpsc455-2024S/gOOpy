@@ -29,7 +29,7 @@ const sceneSchema = Schema(
         },
         next_id: { type: Number, required: false }, // setting this to false cos not sent for now
     },
-    { collection: 'Scenes' }
+    { collection: 'scenes' }
 );
 
-module.exports = mongoose.model('Scenes', sceneSchema);
+module.exports = mongoose.model('scenes', sceneSchema);
