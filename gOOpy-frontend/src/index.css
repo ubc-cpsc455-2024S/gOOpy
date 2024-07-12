@@ -30,6 +30,10 @@ body {
 }
 
 .editor-panel {
-    height: 86vh;
+    height: 90vh;
     width: 20vw;
+}
+
+.scroll-container {
+    height: 1px;
 }

@@ -95,11 +95,8 @@ function Editor() {
     return (
         <div className='flex justify-between p-5'>
             <div className='flex absolute top-0 start-0 h-screen w-screen z-10'>
-                <div className='mt-14 ml-5'>
-                    <EditorTabCarousel
-                        setEditorView={setEditorView}
-                    ></EditorTabCarousel>
-                    <div className='editor-panel'>
+                <div className='mt-14 ml-5 editor-panel flex flex-col'>
+                    <div className='grow'>
                         {editorView == 'shapes' && (
                             <ShapeManager
                                 shapes={shapes}
@@ -108,6 +105,7 @@ function Editor() {
                                 setCurrentShape={setCurrentShape}
                                 setCurrIndex={setCurrIndex}
                                 determineNewID={determineNewID}
+                                setEditorView={setEditorView}
                             />
                         )}
                         {editorView == 'scene' && (
@@ -118,11 +116,12 @@ function Editor() {
                                 skyboxLightColor={skyboxLightColor}
                                 skyboxAmbientController={setAmbientIntensity}
                                 skyboxAmbient={skyboxAmbientIntensity}
+                                setEditorView={setEditorView}
                             ></SceneManager>
                         )}
                     </div>
                 </div>
-                <div className='mt-14'>
+                <div className='mt-14 editor-panel'>
                     {currentShape != null &&
                         editorView == 'shapes' &&
                         shapes.length > 0 && (
@@ -140,7 +139,7 @@ function Editor() {
                 </div>
             </div>
 
-            <div className='w-2/5 h-4/5 z-0 absolute top-15 right-5'>
+            <div className='w-96 h-96 z-0 absolute top-15 right-5'>
                 <Canvas
                     className=''
                     orthographic
