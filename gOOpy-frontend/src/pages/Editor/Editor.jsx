@@ -140,7 +140,7 @@ function Editor() {
                 </div>
             </div>
 
-            <div className='w-full h-full z-0 absolute top-0 start-0'>
+            <div className='w-2/5 h-4/5 z-0 absolute top-15 right-5'>
                 <Canvas
                     className=''
                     orthographic
