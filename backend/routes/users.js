@@ -3,6 +3,7 @@ const userQueries = require('../queries/user-queries');
 var express = require('express');
 var router = express.Router();
 const dotenv = require('dotenv');
+const { isValidObjectId } = require('mongoose');
 dotenv.config();
 
 // fake data for users
@@ -63,6 +64,9 @@ router.get('/:id', async (req, res) => {
     // TODO: query db and return name, userinfo and a list of scenes belonging to user
 
     let id = req.params.id;
+    if (!isValidObjectId(id)) {
+        return res.status(404).send(`No user found with id ${id}`);
+    }
     const user = await userQueries.findUserById(id);
 
     if (!user) {
