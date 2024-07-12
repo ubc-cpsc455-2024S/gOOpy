@@ -9,7 +9,7 @@ export default function SceneGrid({ sceneList }) {
             image={s.metadata.thumbnail}
             name={s.metadata.title}
             lastEditDate={s.metadata.last_edited}
-            link={s._id}
+            sceneId={s._id}
         />
     ));
 
