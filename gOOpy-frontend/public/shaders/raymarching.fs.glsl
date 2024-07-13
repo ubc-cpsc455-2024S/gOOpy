@@ -7,7 +7,7 @@ struct Shape
 {
     vec3 center;
     int shape_type;
-    float radius;
+    float property1;
 };
 #define MAX_SHAPES 50
 #define SPHERE 0
@@ -61,18 +61,18 @@ float sdf(vec3 p) {
         }
         Shape s = shapes[i];
         vec3 center = s.center;
-        float radius = s.radius;
+        float property1 = s.property1;
 
         float sdf_val = 0.0;
         switch(shapes[i].shape_type) {
             case SPHERE:
-                sdf_val = sphere(p, center, radius);
+                sdf_val = sphere(p, center, property1);
                 break;
             case BOX:
-                sdf_val = box(p, center, vec3(radius), 0.2); // TODO controls
+                sdf_val = box(p, center, vec3(property1), 0.2); // TODO controls
                 break;
             case TORUS:
-                sdf_val = torus(p, center, vec2(radius, 1.0)); // TODO controls
+                sdf_val = torus(p, center, vec2(property1, 1.0)); // TODO controls
         }
 
         min_val = smin(sdf_val, min_val, 0.3);
