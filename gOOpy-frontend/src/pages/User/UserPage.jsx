@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 import {
     tempChangeUsername,
@@ -84,12 +85,19 @@ export default function UserPage() {
                                                 ref={nameRef}
                                             />
                                             <Button
-                                                onClick={() => {
+                                                onClick={async () => {
                                                     dispatch(
                                                         tempChangeUsername(
                                                             nameRef.current
                                                                 .value
                                                         )
+                                                    );
+                                                    await axios.patch(
+                                                        'http://127.0.0.1:3000/users/668f76634cfd55de99230ca9',
+                                                        {
+                                                            name: nameRef
+                                                                .current.value,
+                                                        }
                                                     );
                                                     nameRef.current.value = '';
                                                 }}
@@ -103,14 +111,21 @@ export default function UserPage() {
                                         <div>
                                             <input name='text' ref={aboutRef} />
                                             <Button
-                                                onClick={() => {
+                                                onClick={async () => {
                                                     dispatch(
                                                         tempChangeAboutMe(
                                                             aboutRef.current
                                                                 .value
                                                         )
                                                     );
-
+                                                    await axios.patch(
+                                                        'http://127.0.0.1:3000/users/668f76634cfd55de99230ca9',
+                                                        {
+                                                            description:
+                                                                aboutRef.current
+                                                                    .value,
+                                                        }
+                                                    );
                                                     aboutRef.current.value = '';
                                                 }}
                                             >
@@ -126,12 +141,21 @@ export default function UserPage() {
                                                 ref={profilepicRef}
                                             />
                                             <Button
-                                                onClick={() => {
+                                                onClick={async () => {
                                                     dispatch(
                                                         tempChangeProfilePhoto(
                                                             profilepicRef
                                                                 .current.value
                                                         )
+                                                    );
+                                                    await axios.patch(
+                                                        'http://127.0.0.1:3000/users/668f76634cfd55de99230ca9',
+                                                        {
+                                                            profile_pic:
+                                                                profilepicRef
+                                                                    .current
+                                                                    .value,
+                                                        }
                                                     );
                                                     profilepicRef.current.value =
                                                         '';

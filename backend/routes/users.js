@@ -31,12 +31,28 @@ router.post('/', (req, res) => {
     res.status(201).send('userID');
 });
 
-router.put('/:id', (req, res) => {
-    const userId = parseInt(req.params.id);
-
+router.patch('/:id', async (req, res) => {
     // TODO: search up user in MongoDB database, if found, update fields with non-null fields in the request body
     // if not found send 404
-    res.send(`editing user at id: ${userId}`);
+
+    let id = req.params.id;
+    let updates = req.body;
+
+    try {
+        const updatedUser = await userModel.findByIdAndUpdate(id, updates, {
+            new: true,
+        });
+        console.log(updatedUser);
+
+        if (!updatedUser) {
+            return res.status(404).send('User not found');
+        }
+
+        res.send(updatedUser);
+    } catch (error) {
+        console.error('Update failed:', error);
+        res.status(500).send('Error updating user');
+    }
 });
 
 module.exports = router;
