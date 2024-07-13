@@ -28,3 +28,12 @@ body {
         scrollbar-width: none; /* Firefox */
     }
 }
+
+.editor-panel {
+    height: 90vh;
+    width: 20vw;
+}
+
+.scroll-container {
+    height: 1px;
+}

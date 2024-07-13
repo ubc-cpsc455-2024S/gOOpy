@@ -12,6 +12,9 @@ struct Sphere
 uniform Sphere spheres[MAX_SPHERES];
 uniform int n_spheres; // should change to match number of spheres in editor.
 uniform vec3 camera_pos;
+uniform vec4 skybox_col;
+uniform vec3 skybox_l_color;
+uniform float ambientIntensity;
 
 varying vec2 texCoord;
 
@@ -52,7 +55,7 @@ float sdf(vec3 p) {
     }
 
     // Here I manually add a box to the scene. This will be different when editor has more work done.
-    return smin(min_val, box(p, vec3(1.0,0.0,0.0), vec3(0.2,0.9,0.2), 0.2), 0.3);
+    return min_val;
 }
 
 // from https://iquilezles.org/articles/normalsSDF/
@@ -82,7 +85,7 @@ void main() {
         // sky hack
         if (i == 63) {
             // might be able to use the angle here to render a skybox
-            gl_FragColor = vec4(0.3, 0.8, 1.0, 1.0);
+            gl_FragColor = skybox_col;
             return;
         }
     }
@@ -90,8 +93,8 @@ void main() {
     // lighting (blinn phong for now)
 
     // ambient
-    vec3 color = vec3(1., 0.7, 1.0);
-    vec3 ambient = color * 0.2;
+    vec3 color = skybox_l_color;
+    vec3 ambient = color * ambientIntensity;
 
     // diffuse
     vec3 L = normalize(vec3(1.0,1.0,-1.0));

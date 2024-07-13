@@ -11,7 +11,7 @@ const userSchema = new Schema(
         scenes: [{ type: Schema.Types.ObjectId, ref: 'Scenes' }],
         // TODO: might have to store oauth access tokens, refresh tokens etc
     },
-    { collection: 'Users' }
+    { collection: 'users' }
 );
 
-module.exports = mongoose.model('Users', userSchema);
+module.exports = mongoose.model('users', userSchema);

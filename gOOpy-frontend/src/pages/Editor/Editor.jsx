@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
-import { Vector3 } from 'three';
+import { AmbientLight, Color, Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
+import GoopyButton from '../../components/GoopyButton';
+import SceneManager from '../../components/SceneManager';
+import { useColor } from 'react-color-palette';
+import Slider from '../../components/Slider';
+import EditorTabCarousel from '../../components/EditorTabCarousel';
 
 // hard coded list of objects (temporary)
 const obj1 = {
@@ -33,9 +38,13 @@ function Editor() {
     const [currentIndex, setCurrIndex] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
+    const [skyboxColor, setSkyboxColor] = useColor('FFFFFF');
+    const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
+    const [skyboxAmbientIntensity, setAmbientIntensity] = useState(0.2);
+    const [editorView, setEditorView] = useState('shapes');
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
-    const updateAxis = (index, newValue, axis) => {
+    const updateAxis = (newValue, index, axis) => {
         if (currentShape == null) {
             return;
         }
@@ -49,7 +58,7 @@ function Editor() {
         shapes[index].center[axis] = newValue;
     };
 
-    const updateRadius = (index, newValue) => {
+    const updateRadius = (newValue, index) => {
         if (currentShape == null) {
             return;
         }
@@ -85,30 +94,54 @@ function Editor() {
 
     return (
         <div className='flex justify-between p-5'>
-            <div className='flex'>
-                <ShapeManager
-                    shapes={shapes}
-                    currentShape={currentShape}
-                    setShapes={setShapes}
-                    setCurrentShape={setCurrentShape}
-                    setCurrIndex={setCurrIndex}
-                    determineNewID={determineNewID}
-                />
-                {currentShape != null && shapes.length > 0 && (
-                    <ShapeDetails
-                        // TODO better way to find the shapes's index?
-                        index={shapes.findIndex((s) => s.id === currentShape)}
-                        shapes={shapes}
-                        updateAxis={updateAxis}
-                        updateRadius={updateRadius}
-                        Slider={Slider}
-                    />
-                )}
+            <div className='flex absolute top-0 start-0 h-screen w-screen z-10'>
+                <div className='mt-14 ml-5 editor-panel flex flex-col'>
+                    <div className='grow'>
+                        {editorView == 'shapes' && (
+                            <ShapeManager
+                                shapes={shapes}
+                                currentShape={currentShape}
+                                setShapes={setShapes}
+                                setCurrentShape={setCurrentShape}
+                                setCurrIndex={setCurrIndex}
+                                determineNewID={determineNewID}
+                                setEditorView={setEditorView}
+                            />
+                        )}
+                        {editorView == 'scene' && (
+                            <SceneManager
+                                skyboxColController={setSkyboxColor}
+                                skyboxColor={skyboxColor}
+                                skyboxLightController={setSkyboxLightColor}
+                                skyboxLightColor={skyboxLightColor}
+                                skyboxAmbientController={setAmbientIntensity}
+                                skyboxAmbient={skyboxAmbientIntensity}
+                                setEditorView={setEditorView}
+                            ></SceneManager>
+                        )}
+                    </div>
+                </div>
+                <div className='mt-14 editor-panel'>
+                    {currentShape != null &&
+                        editorView == 'shapes' &&
+                        shapes.length > 0 && (
+                            <ShapeDetails
+                                // TODO better way to find the shapes's index?
+                                index={shapes.findIndex(
+                                    (s) => s.id === currentShape
+                                )}
+                                shapes={shapes}
+                                updateAxis={updateAxis}
+                                updateRadius={updateRadius}
+                                Slider={Slider}
+                            />
+                        )}
+                </div>
             </div>
 
-            <div>
+            <div className='w-96 h-96 z-0 absolute top-15 right-5'>
                 <Canvas
-                    className='!h-96 !w-96'
+                    className=''
                     orthographic
                     camera={{
                         left: -1,
@@ -121,35 +154,27 @@ function Editor() {
                     }}
                     gl={{ preserveDrawingBuffer: true }}
                 >
-                    <RayMarching scale={[2.0, 2.0, 1.0]} shapes={shapes} />
+                    <RayMarching
+                        scale={[2.0, 2.0, 1.0]}
+                        shapes={shapes}
+                        skybox={{
+                            color: new Vector4(
+                                skyboxColor.rgb.r / 255,
+                                skyboxColor.rgb.g / 255,
+                                skyboxColor.rgb.b / 255,
+                                1 - skyboxColor.rgb.a / 255
+                            ),
+                            lightColor: new Vector3(
+                                skyboxLightColor.rgb.r / 255,
+                                skyboxLightColor.rgb.g / 255,
+                                skyboxLightColor.rgb.b / 255
+                            ),
+                            ambientIntensity: skyboxAmbientIntensity,
+                        }}
+                    />
                 </Canvas>
             </div>
         </div>
-    );
-}
-
-function Slider({
-    defaultValue,
-    index,
-    callback,
-    callbackParams = [],
-    max = 5,
-    min = -5,
-}) {
-    const [val, setVal] = useState(defaultValue);
-    return (
-        <input
-            value={val}
-            onChange={(e) => {
-                const newValue = parseFloat(e.target.value);
-                setVal(newValue);
-                callback(index, newValue, ...callbackParams);
-            }}
-            type='range'
-            min={min}
-            max={max}
-            step='0.001'
-        ></input>
     );
 }
 
