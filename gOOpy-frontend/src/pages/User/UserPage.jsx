@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
-import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import {
@@ -49,13 +48,6 @@ export default function UserPage() {
         }
         setScene();
     }, [user]);
-
-    // useEffect(() => {
-    //     async function setScene() {
-    //         console.log('ran already');
-    //     }
-    //     setScene();
-    // }, []);
 
     function closeEdit(event) {
         event.preventDefault();

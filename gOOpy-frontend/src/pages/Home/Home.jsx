@@ -19,6 +19,11 @@ function Home() {
                     Click here to see the user page
                 </Link>
             </div>
+            <div className='pt-10'>
+                <Link to={`/createuser`} className='hover:underline'>
+                    Create a new user
+                </Link>
+            </div>
         </main>
     );
 }
