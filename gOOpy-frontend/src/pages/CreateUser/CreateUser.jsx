@@ -39,15 +39,15 @@ export default function CreateUser() {
                         <label>Username: </label>
                         <input required name='username' ref={nameRef} />
                     </div>
-                    <div>
+                    <div className='pt-2'>
                         <label>About: </label>
                         <input required name='text' ref={descriptionRef} />
                     </div>
-                    <div>
+                    <div className='pt-2'>
                         <label>Image: </label>
                         <input required name='url' ref={profilePicRef} />
                     </div>
-                    <div className='flex justify-center'>
+                    <div className='flex justify-center pt-2'>
                         <Button type='submit' className='button'>
                             Create
                         </Button>

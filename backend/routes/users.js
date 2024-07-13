@@ -34,12 +34,12 @@ router.get('/username/:username', async (req, res) => {
     }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     // TODO: create a new user and add it to the users db
     // after OAuth2 setup
     console.log(req.body);
     try {
-        userQueries.saveUser(req.body);
+        await userQueries.saveUser(req.body);
         res.status(201).send('user created successfully');
     } catch (e) {
         res.status(400).send('error creating user');
