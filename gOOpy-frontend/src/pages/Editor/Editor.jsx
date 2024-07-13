@@ -44,7 +44,6 @@ const obj3 = {
     get property1() {
         return this.radius;
     },
-    shap
     shape_type: SHAPE_TYPES.Box,
     id: 2,
 };
@@ -56,7 +55,7 @@ function Editor() {
     const [currentIndex, setCurrIndex] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
-  
+
     const { sceneId } = useParams();
     const [skyboxColor, setSkyboxColor] = useColor('FFFFFF');
     const [skyboxLightColor, setSkyboxLightColor] = useColor('white');

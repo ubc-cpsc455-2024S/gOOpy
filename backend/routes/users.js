@@ -6,7 +6,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 const userModel = require('../models/user');
 
-
 router.get('/:id', async (req, res) => {
     // TODO: query db and return name, userinfo and a list of scenes belonging to user
     // TODO: use ID to find names?
@@ -20,6 +19,8 @@ router.get('/:id', async (req, res) => {
         // TODO: replace with search by ID once we begin using IDs
         return res.status(404).send(`No user found with name ${name}`);
         // return res.status(404).send(`No user found with ID ${userId}`);
+    } else {
+        res.json(user);
     }
 });
 

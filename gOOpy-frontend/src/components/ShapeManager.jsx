@@ -21,12 +21,10 @@ function ShapeManager({
             shapes: shapes,
             metadata: {
                 // TODO: determine if oauth_id or _id from mongoDB
-                user_id: 'asdf',
+                user_id: '668f76634cfd55de99230ca9',
                 title: 'new_model',
                 lastEdited: new Date(),
                 // TODO: create thumbnail from scene
-                thumbnail:
-                    'https://static.vecteezy.com/system/resources/thumbnails/022/014/063/small_2x/missing-picture-page-for-website-design-or-mobile-app-design-no-image-available-icon-vector.jpg',
             },
             next_id: newId,
         };

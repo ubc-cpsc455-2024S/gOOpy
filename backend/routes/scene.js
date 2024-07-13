@@ -7,8 +7,6 @@ const userModel = require('../models/user');
 
 // set up fake data for scenes (not linked to users, just for persistence right now)
 
-let currentScene = null;
-
 router.get('/', (req, res) => {
     const { reqAmt } = req.query;
     const reqAmtInt = parseInt(reqAmt, 10);
@@ -26,9 +24,47 @@ router.get('/:id', async (req, res) => {
     res.json(currentScene);
 });
 
-router.post('/', (req, res) => {
-    sceneQueries.saveScene(req.body);
-    res.send();
+router.post('/', async (req, res) => {
+    const currentScene = req.body;
+    shapes = [];
+
+    currentScene.shapes.map((currShape) => {
+        vec = currShape.center;
+        property = currShape.radius;
+        id = currShape.id;
+        shape = {
+            center: vec,
+            property1: property,
+            id: id,
+        };
+        shapes.push(shape);
+    });
+    const scene = {
+        shapes: shapes,
+        metadata: currentScene.metadata,
+        next_id: currentScene.next_id,
+    };
+
+    try {
+        // add to scene db
+        const savedScene = await new sceneModel(scene).save();
+        // add to user's scene
+
+        const updatedUser = await userModel.findByIdAndUpdate(
+            currentScene.metadata.user_id,
+            { $push: { scenes: savedScene._id } }, // Push the new scene's ID into the user's scenes array
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedUser) {
+            res.status(404).send('User not found');
+        } else {
+            res.status(201).send('added scene successfully');
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).send('failed to add scene');
+    }
 });
 
 router.patch('/:id', (req, res) => {
