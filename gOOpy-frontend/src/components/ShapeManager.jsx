@@ -16,7 +16,6 @@ function ShapeManager({
     sceneId,
 }) {
     const saveResult = async () => {
-        const newId = determineNewID();
         let data = {
             shapes: shapes,
             metadata: {
@@ -26,7 +25,6 @@ function ShapeManager({
                 lastEdited: new Date(),
                 // TODO: create thumbnail from scene
             },
-            next_id: newId,
         };
         console.log(shapes);
         await axios.post(`http://127.0.0.1:3000/scene/${sceneId}`, data);

@@ -43,7 +43,7 @@ function Editor() {
     const [loading, setLoading] = useState(true);
     const [shapes, setShapes] = useState([obj1, obj2, obj3]);
     const [currentShape, setCurrentShape] = useState(null);
-    const [currentIndex, setCurrIndex] = useState(() => {
+    const [nextId, setNextId] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
 
@@ -86,9 +86,9 @@ function Editor() {
     };
 
     const determineNewID = () => {
-        const newCurrIndex = currentIndex + 1;
-        setCurrIndex(newCurrIndex);
-        return newCurrIndex;
+        const newNextId = nextId + 1;
+        setNextId(newNextId);
+        return newNextId;
     };
 
     useEffect(() => {
@@ -102,6 +102,9 @@ function Editor() {
                     let data = resp.data;
                     // console.log(data.shapes);
                     setShapes(data.shapes);
+                    setNextId(
+                        Math.max(...data.shapes.map((shape) => shape.id), 0)
+                    );
                 }
             } catch (error) {
                 setLoading(true);
@@ -128,7 +131,6 @@ function Editor() {
                                 currentShape={currentShape}
                                 setShapes={setShapes}
                                 setCurrentShape={setCurrentShape}
-                                setCurrIndex={setCurrIndex}
                                 determineNewID={determineNewID}
                                 setEditorView={setEditorView}
                             />
