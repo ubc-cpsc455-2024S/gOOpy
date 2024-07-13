@@ -12,28 +12,19 @@ import { useParams } from 'react-router-dom';
 // TODO: make sure shape has property1 and shape type
 const obj1 = {
     center: new Vector3(0.0, 0.0, 0.0),
-    radius: 1.0,
-    get property1() {
-        return this.radius;
-    },
+    property1: 1.0,
     shape_type: 'Sphere',
     id: 0,
 };
 const obj2 = {
     center: new Vector3(1.0, 1.0, 1.0),
-    radius: 1.3,
-    get property1() {
-        return this.radius;
-    },
+    property1: 1.3,
     shape_type: 'Sphere',
     id: 1,
 };
 const obj3 = {
     center: new Vector3(-1.0, -1.0, 1.0),
-    radius: 0.8,
-    get property1() {
-        return this.radius;
-    },
+    property1: 0.8,
     shape_type: 'Sphere',
     id: 2,
 };
