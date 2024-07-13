@@ -23,18 +23,14 @@ router.get('/:id', async (req, res) => {
 });
 
 router.get('/username/:username', async (req, res) => {
-    // TODO: query db and return name, userinfo and a list of scenes belonging to user
-    // TODO: use ID to find names?
-
+    // TODO: temp endpoint - replace with search by ID once we begin using IDs
     // await userQueries.saveUser(users[0]);
     let username = req.params.username;
     // console.log(name);
-    const user = await userQueries.findUser({ name: `${username}` });
-    // console.log(user);
-    if (!user) {
-        // TODO: replace with search by ID once we begin using IDs
+    try {
+        const user = await userQueries.findUser({ name: `${username}` });
+    } catch (e) {
         return res.status(404).send(`No user found with name ${username}`);
-        // return res.status(404).send(`No user found with ID ${userId}`);
     }
 });
 
