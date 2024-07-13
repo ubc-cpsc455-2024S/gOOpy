@@ -21,19 +21,19 @@ export const SHAPE_TYPES = {
 // TODO: make sure shape has property1 and shape type
 const obj1 = {
     center: new Vector3(0.0, 0.0, 0.0),
-    property1: 1.0,
+    radius: 1.0,
     shape_type: SHAPE_TYPES.Sphere,
     id: 0,
 };
 const obj2 = {
     center: new Vector3(1.0, 1.0, 1.0),
-    property1: 1.3,
+    radius: 1.3,
     shape_type: SHAPE_TYPES.Sphere,
     id: 1,
 };
 const obj3 = {
     center: new Vector3(-1.0, -1.0, 1.0),
-    property1: 0.8,
+    radius: 0.8,
     shape_type: SHAPE_TYPES.Box,
     id: 2,
 };
@@ -90,8 +90,8 @@ function Editor() {
 
     useEffect(() => {
         const fetchShape = async () => {
-            try {
-                if (!sceneId) return;
+            fetchUserInfo: try {
+                if (!sceneId) break fetchUserInfo;
                 let resp = await axios.get(
                     `http://127.0.0.1:3000/scene/${sceneId}`
                 );
