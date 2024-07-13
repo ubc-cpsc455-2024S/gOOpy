@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 export const userLogin = createAsyncThunk('member/login', async (username) => {
     const response = await getUserInfoByUsername(username);
-    // console.log(response);
     return response.data;
 });
 

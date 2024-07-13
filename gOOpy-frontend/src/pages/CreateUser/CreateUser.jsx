@@ -11,7 +11,8 @@ export default function CreateUser() {
         e.preventDefault();
 
         const user = {
-            oauth_id: 'tempid',
+            // TODO: replace with oauth_id - current way to get unique oauth_id values.
+            oauth_id: new Date(),
             name: nameRef.current.value,
             description: descriptionRef.current.value,
             profile_pic: profilePicRef.current.value,

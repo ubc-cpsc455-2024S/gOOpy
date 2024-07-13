@@ -5,11 +5,11 @@ uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 uniform vec3 cameraPosition;
 
-attribute vec3 position;
-attribute vec3 normal;
-attribute vec2 uv;
+in vec3 position;
+in vec3 normal;
+in vec2 uv;
 
-varying vec2 texCoord;
+out vec2 texCoord;
 
 // standard vertex shader transformations.
 

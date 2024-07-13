@@ -29,15 +29,14 @@ router.get('/username/:username', async (req, res) => {
     // console.log(name);
     try {
         const user = await userQueries.findUser({ name: `${username}` });
+        return res.status(200).send(user);
     } catch (e) {
         return res.status(404).send(`No user found with name ${username}`);
     }
 });
 
 router.post('/', async (req, res) => {
-    // TODO: create a new user and add it to the users db
-    // after OAuth2 setup
-    console.log(req.body);
+    // TODO: revisit after OAuth2 setup
     try {
         await userQueries.saveUser(req.body);
         res.status(201).send('user created successfully');
