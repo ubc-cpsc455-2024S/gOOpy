@@ -19,18 +19,27 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    const id = req.params.id;
     try {
-        const currentScene = await sceneQueries.findSceneById(id);
-        res.json(currentScene);
+        const id = req.params.id;
+        const scene = await sceneQueries.findSceneById(id);
+        if (!scene) {
+            res.status(404).send('No such scene');
+            return;
+        }
+        res.json(scene);
     } catch (e) {
         res.status(500).send('error getting scene by id');
     }
 });
 
-router.post('/', (req, res) => {
+router.post('/:id', async (req, res) => {
     try {
-        sceneQueries.saveScene(req.body);
+        const id = req.params.id;
+        const scene = await sceneQueries.saveScene(id, req.body);
+        if (!scene) {
+            res.status(404).send('No such scene');
+            return;
+        }
         res.status(200).send('scene added');
     } catch (e) {
         res.status(500).send('failed to add scene');

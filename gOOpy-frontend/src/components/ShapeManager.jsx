@@ -18,7 +18,6 @@ function ShapeManager({
     const saveResult = async () => {
         const newId = determineNewID();
         let data = {
-            _id: sceneId,
             shapes: shapes,
             metadata: {
                 // TODO: determine if oauth_id or _id from mongoDB
@@ -30,7 +29,7 @@ function ShapeManager({
             next_id: newId,
         };
         console.log(shapes);
-        await axios.post('http://127.0.0.1:3000/scene', data);
+        await axios.post(`http://127.0.0.1:3000/scene/${sceneId}`, data);
     };
     return (
         <div className='sliders border h-full flex flex-col ...'>
