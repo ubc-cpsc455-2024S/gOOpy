@@ -6,6 +6,7 @@ import EditorTabCarousel from './EditorTabCarousel';
 import { SHAPE_TYPES } from '../pages/Editor/Editor';
 
 const MAX_SHAPES = 50; // should match shaders
+import { useSelector } from 'react-redux';
 
 function ShapeManager({
     shapes,
@@ -28,7 +29,6 @@ function ShapeManager({
             },
             next_id: newId,
         };
-        console.log(data);
         await axios.post('http://127.0.0.1:3000/scene', data);
     };
     return (

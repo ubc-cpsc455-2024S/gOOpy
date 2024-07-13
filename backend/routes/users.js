@@ -3,32 +3,46 @@ const userQueries = require('../queries/user-queries');
 var express = require('express');
 var router = express.Router();
 const dotenv = require('dotenv');
+const { isValidObjectId } = require('mongoose');
 dotenv.config();
 const userModel = require('../models/user');
 
 router.get('/:id', async (req, res) => {
     // TODO: query db and return name, userinfo and a list of scenes belonging to user
-    // TODO: use ID to find names?
 
-    // await userQueries.saveUser(users[0]);
-    let name = req.params.id;
-    // console.log(name);
-    const user = await userQueries.findUser({ name: `${name}` });
-    // console.log(user);
+    let id = req.params.id;
+    if (!isValidObjectId(id)) {
+        return res.status(404).send(`No user found with id ${id}`);
+    }
+    const user = await userQueries.findUserById(id);
+
     if (!user) {
-        // TODO: replace with search by ID once we begin using IDs
-        return res.status(404).send(`No user found with name ${name}`);
-        // return res.status(404).send(`No user found with ID ${userId}`);
-    } else {
-        res.json(user);
+        return res.status(404).send(`No user found with id ${id}`);
+    }
+    return res.send(user);
+});
+
+router.get('/username/:username', async (req, res) => {
+    // TODO: temp endpoint - replace with search by ID once we begin using IDs
+    // await userQueries.saveUser(users[0]);
+    let username = req.params.username;
+    // console.log(name);
+    try {
+        const user = await userQueries.findUser({ name: `${username}` });
+        return res.status(200).send(user);
+    } catch (e) {
+        return res.status(500).send(`No user found with name ${username}`);
     }
 });
 
-router.post('/', (req, res) => {
-    // TODO: create a new user and add it to the users db
-
-    // after OAuth2 setup
-    res.status(201).send('userID');
+router.post('/', async (req, res) => {
+    // TODO: revisit after OAuth2 setup
+    try {
+        await userQueries.saveUser(req.body);
+        res.status(201).send('user created successfully');
+    } catch (e) {
+        res.status(400).send('error creating user');
+    }
 });
 
 router.patch('/:id', async (req, res) => {

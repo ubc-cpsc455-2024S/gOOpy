@@ -101,15 +101,11 @@ function Editor() {
 
     useEffect(() => {
         const fetchShape = async () => {
-            try {
-                var resp = null;
-                console.log('printing sceneId: ', `${sceneId}`);
-
-                if (sceneId) {
-                    resp = await axios.get(
-                        `http://127.0.0.1:3000/scene/${sceneId}`
-                    );
-                }
+            fetchUserInfo: try {
+                if (!sceneId) break fetchUserInfo;
+                let resp = await axios.get(
+                    `http://127.0.0.1:3000/scene/${sceneId}`
+                );
                 if (resp.data) {
                     let data = resp.data;
                     // console.log(data.shapes);
