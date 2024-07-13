@@ -10,16 +10,20 @@ const userModel = require('../models/user');
 router.get('/:id', async (req, res) => {
     // TODO: query db and return name, userinfo and a list of scenes belonging to user
 
-    let id = req.params.id;
-    if (!isValidObjectId(id)) {
-        return res.status(404).send(`No user found with id ${id}`);
-    }
-    const user = await userQueries.findUserById(id);
+    try {
+        let id = req.params.id;
+        if (!isValidObjectId(id)) {
+            return res.status(404).send(`No user found with id ${id}`);
+        }
+        const user = await userQueries.findUserById(id);
 
-    if (!user) {
-        return res.status(404).send(`No user found with id ${id}`);
+        if (!user) {
+            return res.status(404).send(`No user found with id ${id}`);
+        }
+        return res.send(user);
+    } catch (error) {
+        return res.status(500).send(`Error finding user with id ${id}`);
     }
-    return res.send(user);
 });
 
 router.get('/username/:username', async (req, res) => {
