@@ -13,6 +13,9 @@ struct Shape
 uniform Shape shapes[MAX_SHAPES];
 uniform int n_shapes; // should change to match max number of shapes in editor.
 uniform vec3 camera_pos;
+uniform vec4 skybox_col;
+uniform vec3 skybox_l_color;
+uniform float ambientIntensity;
 
 in vec2 texCoord;
 
@@ -103,7 +106,7 @@ void main() {
         // sky hack
         if (i == 63 && temp >= 0.5) {
             // might be able to use the angle here to render a skybox
-            fragColor = vec4(0.3, 0.8, 1.0, 1.0);
+            fragColor = skybox_col;
             return;
         }
     }
@@ -111,8 +114,8 @@ void main() {
     // lighting (blinn phong for now)
 
     // ambient
-    vec3 color = vec3(1., 0.7, 1.0);
-    vec3 ambient = color * 0.2;
+    vec3 color = skybox_l_color;
+    vec3 ambient = color * ambientIntensity;
 
     // diffuse
     vec3 L = normalize(vec3(1.0,1.0,-1.0));
