@@ -58,7 +58,7 @@ function Editor() {
         shapes[index].center[axis] = newValue;
     };
 
-    const updateRadius = (index, newValue) => {
+    const updateRadius = (newValue, index) => {
         if (currentShape == null) {
             return;
         }
