@@ -19,7 +19,7 @@ export default function UserPage() {
     const [editUser, setEditUser] = useState(false);
     const nameRef = useRef('');
     const aboutRef = useRef('');
-    const profilepicRef = useRef('');
+    const profilePicRef = useRef('');
 
     useEffect(() => {
         async function setUser() {
@@ -134,17 +134,17 @@ export default function UserPage() {
                                         <div>
                                             <input
                                                 name='url'
-                                                ref={profilepicRef}
+                                                ref={profilePicRef}
                                             />
                                             <Button
                                                 onClick={() => {
                                                     dispatch(
                                                         tempChangeProfilePhoto(
-                                                            profilepicRef
+                                                            profilePicRef
                                                                 .current.value
                                                         )
                                                     );
-                                                    profilepicRef.current.value =
+                                                    profilePicRef.current.value =
                                                         '';
                                                 }}
                                             >

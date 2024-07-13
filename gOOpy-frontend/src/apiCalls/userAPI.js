@@ -14,3 +14,7 @@ export function getUserInfoByUsername(username) {
 export function updateUser(user) {
     return axios.put(`${LOCAL_SERVER_URL}/users/${user.userID}`, user);
 }
+
+export function createUser(user) {
+    return axios.post(`${LOCAL_SERVER_URL}/users/`, user);
+}
