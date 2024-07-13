@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ColorPicker, useColor } from 'react-color-palette';
 import { SHAPE_TYPES } from '../pages/Editor/Editor';
 function ShapeDetails({
     index,
@@ -61,7 +60,7 @@ function ShapeDetails({
                 <div className='flex'>
                     <h4 className='text-1xl font-bold mr-2'>x:</h4>
                     <Slider
-                        defaultValue={shapes[index].radius}
+                        defaultValue={shapes[index].property1}
                         index={index}
                         callback={updateRadius}
                         min={0}
@@ -98,7 +97,7 @@ function SelectType({ defaultValue, callback, index }) {
         <select
             value={val}
             onChange={(e) => {
-                const newValue = e.target.value;
+                const newValue = parseInt(e.target.value);
                 setVal(newValue);
                 callback(index, newValue, 'shape_type');
             }}

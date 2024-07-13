@@ -11,6 +11,7 @@ import Editor from './pages/Editor/Editor.jsx';
 import UserPage from './pages/User/UserPage.jsx';
 import Login from './pages/User/Login.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import CreateUser from './pages/CreateUser/CreateUser.jsx';
 
 const router = createBrowserRouter([
     {
@@ -26,12 +27,20 @@ const router = createBrowserRouter([
                 element: <Editor />,
             },
             {
-                path: 'user',
+                path: 'editor/:sceneId',
+                element: <Editor />,
+            },
+            {
+                path: 'user/:id',
                 element: <UserPage />,
             },
             {
                 path: 'login',
                 element: <Login />,
+            },
+            {
+                path: 'createuser',
+                element: <CreateUser />,
             },
         ],
     },

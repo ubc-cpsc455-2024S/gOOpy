@@ -13,17 +13,21 @@ function ShapeManager({
     currentShape,
     setShapes,
     determineNewID,
+    sceneId,
 }) {
     const saveResult = async () => {
         let data = {
             shapes: shapes,
             metadata: {
-                user_id: '668e1348087d83a007064076',
+                // TODO: determine if oauth_id or _id from mongoDB
+                user_id: '668f76634cfd55de99230ca9',
                 title: 'new_model',
                 lastEdited: new Date(),
+                // TODO: create thumbnail from scene
             },
         };
-        await axios.post('http://127.0.0.1:3000/scene', data);
+        console.log(shapes);
+        await axios.post(`http://127.0.0.1:3000/scene/${sceneId}`, data);
     };
     return (
         <div className='sliders border h-full flex flex-col ...'>
@@ -87,7 +91,7 @@ function ShapeManager({
                             const newState = [...state];
                             newState.push({
                                 center: new Vector3(0, 0, 0),
-                                radius: 1.0,
+                                property1: 1.0,
                                 shape_type: SHAPE_TYPES.Sphere,
                                 id: newId,
                             });

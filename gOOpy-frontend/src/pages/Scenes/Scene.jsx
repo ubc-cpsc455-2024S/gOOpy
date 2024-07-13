@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Scene({ image, name, lastEditDate }) {
-    const link = '/editor';
+export default function Scene({ image, name, lastEditDate, sceneId }) {
     return (
         <div className='bg-white max-w-56 w-full rounded-lg shadow-lg'>
-            <Link to={link}>
+            <Link to={`/editor/${sceneId}`}>
                 <div className='aspect-w-1 aspect-h-1'>
                     <img
                         className='rounded-t-lg object-cover w-full h-full'

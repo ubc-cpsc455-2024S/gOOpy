@@ -1,11 +1,11 @@
 var express = require('express');
+const sceneQueries = require('../queries/scene-queries');
+
 var router = express.Router();
 const sceneModel = require('../models/scene');
 const userModel = require('../models/user');
 
 // set up fake data for scenes (not linked to users, just for persistence right now)
-
-let currentScene = null;
 
 router.get('/', (req, res) => {
     const { reqAmt } = req.query;
@@ -18,50 +18,30 @@ router.get('/', (req, res) => {
     res.send(`Sending ${reqAmt} scenes`);
 });
 
-router.get('/:id', (req, res) => {
-    // TODO: return the scene requested
-    const id = req.params.id;
-    res.json(currentScene);
+router.get('/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const scene = await sceneQueries.findSceneById(id);
+        if (!scene) {
+            res.status(404).send('No such scene');
+            return;
+        }
+        res.json(scene);
+    } catch (e) {
+        res.status(500).send('error getting scene by id');
+    }
 });
 
-router.post('/', async (req, res) => {
-    // TODO: save the scene to the current logged in user's scenes\
-    currentScene = req.body;
-    shapes = [];
-
-    currentScene.shapes.map((currShape) => {
-        vec = currShape.center;
-        property = currShape.radius;
-        id = currShape.id;
-        shape = {
-            center: vec,
-            property1: property,
-            id: id,
-        };
-        shapes.push(shape);
-    });
-    const scene = {
-        shapes: shapes,
-        metadata: currentScene.metadata,
-    };
-
+router.post('/:id', async (req, res) => {
     try {
-        // add to scene db
-        const savedScene = await new sceneModel(scene).save();
-        // add to user's scene
-
-        const updatedUser = await userModel.findByIdAndUpdate(
-            currentScene.metadata.user_id,
-            { $push: { scenes: savedScene._id } }, // Push the new scene's ID into the user's scenes array
-            { new: true } // Return the updated document
-        );
-
-        if (!updatedUser) {
-            res.status(404).send('User not found');
+        const id = req.params.id;
+        const scene = await sceneQueries.saveScene(id, req.body);
+        if (!scene) {
+            res.status(404).send('No such scene');
+            return;
         }
-        res.status(201).send('added scene successfully');
+        res.status(200).send('scene added');
     } catch (e) {
-        console.error(e);
         res.status(500).send('failed to add scene');
     }
 });

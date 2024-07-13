@@ -1,5 +1,4 @@
 import { ColorPicker, useColor } from 'react-color-palette';
-import GoopyButton from './GoopyButton';
 import ToggleView from './ToggleView';
 import Slider from './Slider';
 import EditorTabCarousel from './EditorTabCarousel';

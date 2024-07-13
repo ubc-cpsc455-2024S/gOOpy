@@ -6,6 +6,8 @@ import { Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
+import { useParams } from 'react-router-dom';
+import GoopyButton from '../../components/GoopyButton';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
 import Slider from '../../components/Slider';
@@ -17,21 +19,22 @@ export const SHAPE_TYPES = {
 };
 
 // hard coded list of objects (temporary)
+// TODO: make sure shape has property1 and shape type
 const obj1 = {
     center: new Vector3(0.0, 0.0, 0.0),
-    radius: 1.0,
+    property1: 1.0,
     shape_type: SHAPE_TYPES.Sphere,
     id: 0,
 };
 const obj2 = {
     center: new Vector3(1.0, 1.0, 1.0),
-    radius: 1.3,
+    property1: 1.3,
     shape_type: SHAPE_TYPES.Sphere,
     id: 1,
 };
 const obj3 = {
     center: new Vector3(-1.0, -1.0, 1.0),
-    radius: 0.8,
+    property1: 0.8,
     shape_type: SHAPE_TYPES.Box,
     id: 2,
 };
@@ -40,9 +43,11 @@ function Editor() {
     const [loading, setLoading] = useState(true);
     const [shapes, setShapes] = useState([obj1, obj2, obj3]);
     const [currentShape, setCurrentShape] = useState(null);
-    const [currentIndex, setCurrIndex] = useState(() => {
+    const [nextId, setNextId] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
+
+    const { sceneId } = useParams();
     const [skyboxColor, setSkyboxColor] = useColor('FFFFFF');
     const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
     const [skyboxAmbientIntensity, setAmbientIntensity] = useState(0.2);
@@ -63,11 +68,12 @@ function Editor() {
         shapes[index].center[axis] = newValue;
     };
 
+    // TODO switch to more generic property update function soon
     const updateRadius = (newValue, index) => {
         if (currentShape == null) {
             return;
         }
-        shapes[index].radius = newValue;
+        shapes[index].property1 = newValue;
     };
 
     // TODO update above with this as generic?
@@ -80,25 +86,32 @@ function Editor() {
     };
 
     const determineNewID = () => {
-        const newCurrIndex = currentIndex + 1;
-        setCurrIndex(newCurrIndex);
-        return newCurrIndex;
+        const newNextId = nextId + 1;
+        setNextId(newNextId);
+        return newNextId;
     };
 
     useEffect(() => {
         const fetchShape = async () => {
-            try {
-                const resp = await axios.get('http://127.0.0.1:3000/scene/ab');
+            fetchUserInfo: try {
+                if (!sceneId) break fetchUserInfo;
+                let resp = await axios.get(
+                    `http://127.0.0.1:3000/scene/${sceneId}`
+                );
                 if (resp.data) {
                     let data = resp.data;
-                    console.log(data.shapes);
+                    // console.log(data.shapes);
                     setShapes(data.shapes);
+                    setNextId(
+                        Math.max(...data.shapes.map((shape) => shape.id), 0)
+                    );
                 }
             } catch (error) {
                 setLoading(true);
             }
             setLoading(false);
         };
+
         fetchShape();
     }, []);
 
@@ -113,11 +126,11 @@ function Editor() {
                     <div className='grow'>
                         {editorView == 'shapes' && (
                             <ShapeManager
+                                sceneId={sceneId}
                                 shapes={shapes}
                                 currentShape={currentShape}
                                 setShapes={setShapes}
                                 setCurrentShape={setCurrentShape}
-                                setCurrIndex={setCurrIndex}
                                 determineNewID={determineNewID}
                                 setEditorView={setEditorView}
                             />
