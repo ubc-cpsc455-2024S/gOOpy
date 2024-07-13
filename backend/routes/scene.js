@@ -22,13 +22,21 @@ router.get('/', (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const id = req.params.id;
-    const currentScene = await sceneQueries.findSceneById(id);
-    res.json(currentScene);
+    try {
+        const currentScene = await sceneQueries.findSceneById(id);
+        res.json(currentScene);
+    } catch (e) {
+        res.status(400).send('error getting scene by id');
+    }
 });
 
 router.post('/', (req, res) => {
-    sceneQueries.saveScene(req.body);
-    res.send();
+    try {
+        sceneQueries.saveScene(req.body);
+        res.status(200).send('scene added');
+    } catch (e) {
+        res.status(400).send('scene not added');
+    }
 });
 
 router.patch('/:id', (req, res) => {
