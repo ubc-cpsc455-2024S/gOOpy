@@ -31,7 +31,7 @@ router.get('/username/:username', async (req, res) => {
         const user = await userQueries.findUser({ name: `${username}` });
         return res.status(200).send(user);
     } catch (e) {
-        return res.status(404).send(`No user found with name ${username}`);
+        return res.status(500).send(`No user found with name ${username}`);
     }
 });
 

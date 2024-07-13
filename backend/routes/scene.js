@@ -26,7 +26,7 @@ router.get('/:id', async (req, res) => {
         const currentScene = await sceneQueries.findSceneById(id);
         res.json(currentScene);
     } catch (e) {
-        res.status(400).send('error getting scene by id');
+        res.status(500).send('error getting scene by id');
     }
 });
 
@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
         sceneQueries.saveScene(req.body);
         res.status(200).send('scene added');
     } catch (e) {
-        res.status(400).send('scene not added');
+        res.status(500).send('failed to add scene');
     }
 });
 
