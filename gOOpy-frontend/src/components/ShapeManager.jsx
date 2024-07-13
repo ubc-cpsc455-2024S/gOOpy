@@ -93,7 +93,7 @@ function ShapeManager({
                             const newState = [...state];
                             newState.push({
                                 center: new Vector3(0, 0, 0),
-                                radius: 1.0,
+                                property1: 1.0,
                                 shape_type: SHAPE_TYPES.Sphere,
                                 id: newId,
                             });
