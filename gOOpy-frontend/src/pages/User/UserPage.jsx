@@ -24,6 +24,7 @@ export default function UserPage() {
     useEffect(() => {
         async function setUser() {
             try {
+                if (id == 'undefined') return;
                 getUserInfo(id).then((userRes) => {
                     setUserState(userRes.data);
                 });
@@ -37,6 +38,7 @@ export default function UserPage() {
     useEffect(() => {
         async function setScene() {
             try {
+                if (!user.scenes) return;
                 for (const scene of user.scenes) {
                     getSceneInfo(scene).then((sceneRes) => {
                         setScenesInfo([...scenesInfo, sceneRes.data]);
