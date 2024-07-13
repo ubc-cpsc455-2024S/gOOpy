@@ -17,6 +17,7 @@ export default {
             white: '#FFFFFF',
             'panel-primary': '#FED7AA',
             'error-red': '#D70040',
+            'disabled-gray': '#DDBB94',
         },
     },
     plugins: [],

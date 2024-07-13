@@ -1,6 +1,6 @@
-import { useFrame, useLoader, useThree } from '@react-three/fiber';
+import { useLoader } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
-import { Vector3, Vector4 } from 'three';
+import { GLSL3, Vector3 } from 'three';
 import { FileLoader } from 'three';
 
 const fragmentShaderPath = '/shaders/raymarching.fs.glsl';
@@ -25,9 +25,9 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
     });
 
     const uniforms = useRef({
-        n_spheres: { type: 'int', value: shapes.length },
-        spheres: {
-            type: [{ center: 'vec3', radius: 'float' }],
+        n_shapes: { type: 'int', value: shapes.length },
+        shapes: {
+            type: [{ center: 'vec3', radius: 'float', shape_type: 'int' }],
             value: buffer,
         },
         camera_pos: {
@@ -41,7 +41,7 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
 
     useEffect(() => {
         console.log('re-making buffer');
-        uniforms.current.n_spheres.value = shapes.length;
+        uniforms.current.n_shapes.value = shapes.length;
         const buffer = Array(50).fill({
             center: new Vector3(-1.0, -1.0, 1.0),
             radius: 0.8,
@@ -51,7 +51,7 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
         shapes.forEach((shape, i) => {
             buffer[i] = shape;
         });
-        uniforms.current.spheres.value = buffer;
+        uniforms.current.shapes.value = buffer;
     }, [shapes]);
 
     useEffect(() => {
@@ -70,6 +70,7 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
         <mesh {...props}>
             <planeGeometry />
             <rawShaderMaterial
+                glslVersion={GLSL3}
                 fragmentShader={fragmentShader}
                 vertexShader={vertexShader}
                 uniforms={uniforms.current}
