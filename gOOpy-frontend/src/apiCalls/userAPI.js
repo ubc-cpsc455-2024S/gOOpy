@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-// TODO: Replace with actual local server url later;
-export const LOCAL_SERVER_URL = 'http://127.0.0.1:3000';
+import { LOCAL_SERVER_URL } from './sceneAPI';
 
 export function getUserInfo(userId) {
     return axios.get(`${LOCAL_SERVER_URL}/users/${userId}`);
