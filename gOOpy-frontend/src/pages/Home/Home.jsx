@@ -1,7 +1,9 @@
+import { useSelector } from 'react-redux';
 import '../../index.css';
 import { Link } from 'react-router-dom';
 
 function Home() {
+    const userID = useSelector((state) => state.user._id);
     return (
         <main className='p-10 text-center'>
             <span>Welcome to</span>
@@ -13,7 +15,7 @@ function Home() {
                 </Link>
             </div>
             <div className='pt-10'>
-                <Link to='/user' className='hover:underline'>
+                <Link to={`/user/${userID}`} className='hover:underline'>
                     Click here to see the user page
                 </Link>
             </div>

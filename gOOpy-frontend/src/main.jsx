@@ -26,7 +26,11 @@ const router = createBrowserRouter([
                 element: <Editor />,
             },
             {
-                path: 'user',
+                path: 'editor/:sceneId',
+                element: <Editor />,
+            },
+            {
+                path: 'user/:id',
                 element: <UserPage />,
             },
             {

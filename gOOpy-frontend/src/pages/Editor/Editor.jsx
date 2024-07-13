@@ -6,6 +6,8 @@ import { Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
+import { useParams } from 'react-router-dom';
+import GoopyButton from '../../components/GoopyButton';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
 import Slider from '../../components/Slider';
@@ -17,21 +19,32 @@ export const SHAPE_TYPES = {
 };
 
 // hard coded list of objects (temporary)
+// TODO: make sure shape has property1 and shape type
 const obj1 = {
     center: new Vector3(0.0, 0.0, 0.0),
     radius: 1.0,
+    get property1() {
+        return this.radius;
+    },
     shape_type: SHAPE_TYPES.Sphere,
     id: 0,
 };
 const obj2 = {
     center: new Vector3(1.0, 1.0, 1.0),
     radius: 1.3,
+    get property1() {
+        return this.radius;
+    },
     shape_type: SHAPE_TYPES.Sphere,
     id: 1,
 };
 const obj3 = {
     center: new Vector3(-1.0, -1.0, 1.0),
     radius: 0.8,
+    get property1() {
+        return this.radius;
+    },
+    shap
     shape_type: SHAPE_TYPES.Box,
     id: 2,
 };
@@ -43,6 +56,8 @@ function Editor() {
     const [currentIndex, setCurrIndex] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
+  
+    const { sceneId } = useParams();
     const [skyboxColor, setSkyboxColor] = useColor('FFFFFF');
     const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
     const [skyboxAmbientIntensity, setAmbientIntensity] = useState(0.2);
@@ -88,10 +103,17 @@ function Editor() {
     useEffect(() => {
         const fetchShape = async () => {
             try {
-                const resp = await axios.get('http://127.0.0.1:3000/scene/ab');
+                var resp = null;
+                console.log('printing sceneId: ', `${sceneId}`);
+
+                if (sceneId) {
+                    resp = await axios.get(
+                        `http://127.0.0.1:3000/scene/${sceneId}`
+                    );
+                }
                 if (resp.data) {
                     let data = resp.data;
-                    console.log(data.shapes);
+                    // console.log(data.shapes);
                     setShapes(data.shapes);
                 }
             } catch (error) {

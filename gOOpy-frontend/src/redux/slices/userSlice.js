@@ -2,11 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { updateUser, getUserInfoByUsername } from '../../apiCalls/userAPI.js';
 import { useSelector } from 'react-redux';
 
-// TODO: standardize the names user properties with serverside storage.
-
 export const userLogin = createAsyncThunk('member/login', async (username) => {
     const response = await getUserInfoByUsername(username);
-    console.log(response);
+    // console.log(response);
     return response.data;
 });
 
@@ -24,18 +22,18 @@ export const changeProfilePhoto = createAsyncThunk(
     'member/changeProfilePhoto',
     async (profilepic) => {
         const user = useSelector((state) => state.user);
-        const newUser = { ...user, profilepic: profilepic };
+        const newUser = { ...user, profile_pic: profilepic };
         await updateUser(newUser);
         return userImage;
     }
 );
 
 const initialUserState = {
-    id: null,
+    oauth_id: null,
     name: 'Guest',
-    profilepic:
+    profile_pic:
         'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-    bio: '',
+    description: '',
     scenes: [],
 };
 
@@ -52,7 +50,7 @@ export const userSlice = createSlice({
             state.name = action.payload;
         },
         tempChangeProfilePhoto: (state, action) => {
-            state.profilepic = action.payload;
+            state.profile_pic = action.payload;
         },
         tempChangeAboutMe: (state, action) => {
             state.bio = action.payload;
@@ -64,10 +62,8 @@ export const userSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        // populate with asyncThunk
         builder.addCase(userLogin.fulfilled, (state, action) => {
-            // TODO: make the payload variables correspond to the API call variable names
-            console.log(action.payload);
+            // console.log(action.payload);
             return action.payload;
         });
         // TODO: optional - Make dropdown notification confirming if change has been made
@@ -86,7 +82,7 @@ export const userSlice = createSlice({
         });
 
         builder.addCase(changeProfilePhoto.fulfilled, (state, action) => {
-            state.profilepic = action.payload;
+            state.profile_pic = action.payload;
         });
         builder.addCase(changeProfilePhoto.rejected, () => {
             console.log('error changing profile photo');

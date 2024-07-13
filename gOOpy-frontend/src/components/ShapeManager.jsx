@@ -1,6 +1,7 @@
 import { Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import EditorTabCarousel from './EditorTabCarousel';
 import { SHAPE_TYPES } from '../pages/Editor/Editor';
 
@@ -19,9 +20,13 @@ function ShapeManager({
         let data = {
             shapes: shapes,
             metadata: {
-                user_id: '668e1348087d83a007064076',
+                // TODO: determine if oauth_id or _id from mongoDB
+                user_id: 'asdf',
                 title: 'new_model',
                 lastEdited: new Date(),
+                // TODO: create thumbnail from scene
+                thumbnail:
+                    'https://static.vecteezy.com/system/resources/thumbnails/022/014/063/small_2x/missing-picture-page-for-website-design-or-mobile-app-design-no-image-available-icon-vector.jpg',
             },
             next_id: newId,
         };

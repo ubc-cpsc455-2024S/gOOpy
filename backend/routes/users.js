@@ -1,23 +1,31 @@
+const userQueries = require('../queries/user-queries');
+
 var express = require('express');
 var router = express.Router();
 const dotenv = require('dotenv');
 dotenv.config();
 const userModel = require('../models/user');
 
+
 router.get('/:id', async (req, res) => {
+    // TODO: query db and return name, userinfo and a list of scenes belonging to user
+    // TODO: use ID to find names?
+
+    // await userQueries.saveUser(users[0]);
     let name = req.params.id;
-    console.log(name);
-    try {
-        const user = await userModel.find({ oauth_id: name });
-        console.log(user);
-        res.json(user);
-    } catch (err) {
-        res.status(500).send('database search failed');
+    // console.log(name);
+    const user = await userQueries.findUser({ name: `${name}` });
+    // console.log(user);
+    if (!user) {
+        // TODO: replace with search by ID once we begin using IDs
+        return res.status(404).send(`No user found with name ${name}`);
+        // return res.status(404).send(`No user found with ID ${userId}`);
     }
 });
 
 router.post('/', (req, res) => {
     // TODO: create a new user and add it to the users db
+
     // after OAuth2 setup
     res.status(201).send('userID');
 });
