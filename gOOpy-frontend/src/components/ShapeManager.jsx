@@ -2,11 +2,19 @@ import { Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import EditorTabCarousel from './EditorTabCarousel';
 
-function ShapeManager(props) {
+function ShapeManager({
+    shapes,
+    setEditorView,
+    setCurrentShape,
+    currentShape,
+    setShapes,
+    determineNewID,
+}) {
     const saveResult = async () => {
         let data = {
-            shapes: props.shapes,
+            shapes: shapes,
             metadata: {
                 // TODO: determine if oauth_id or _id from mongoDB
                 user_id: 'asdf',
@@ -23,54 +31,55 @@ function ShapeManager(props) {
         // TODO - Optional: add popup for save fail or success
     };
     return (
-        <div className='sliders border'>
-            <h1 className='text-3xl font-bold'>Editor</h1>
+        <div className='sliders border h-full flex flex-col ...'>
+            <div>
+                <EditorTabCarousel
+                    setEditorView={setEditorView}
+                ></EditorTabCarousel>
+                <h1 className='text-3xl font-bold'>Editor</h1>
+            </div>
             <div
-                className='no-scrollbar overflow-y-auto border'
+                className='no-scrollbar overflow-scroll border grow'
                 // TODO move this custom CSS to tailwind somehow
-                style={{
-                    height: '65vh', // shorten to avoid scroll-bar
-                    minWidth: '18vw',
-                }}
             >
-                {props.shapes.map((shape, index) => (
-                    <div className='flex justify-between' key={index}>
-                        <GoopyButton
-                            classes={`border-b button cursor-pointer flex w-full`}
-                            onClick={() => {
-                                props.setCurrentShape(
-                                    shape.id == props.currentShape
-                                        ? null
-                                        : shape.id
-                                );
-                            }}
-                            isSelected={props.currentShape === shape.id}
-                        >
-                            <p className='ps-1'>
-                                Shape {props.shapes[index].id}
-                            </p>
-                        </GoopyButton>
-                        {props.currentShape != shape.id && (
+                <div className='scroll-container'>
+                    {shapes.map((shape, index) => (
+                        <div className='flex justify-between' key={index}>
                             <GoopyButton
-                                classes={`border-l border-b pl-1 pr-1`}
-                                onClick={(e) => {
-                                    props.setShapes((state) => {
-                                        const newState = [...state];
-                                        let index = newState.indexOf(
-                                            newState.find(
-                                                (s) => s.id == shape.id
-                                            )
-                                        );
-                                        newState.splice(index, 1);
-                                        return newState;
-                                    });
+                                classes={`border-b button cursor-pointer flex w-full `}
+                                onClick={() => {
+                                    setCurrentShape(
+                                        shape.id == currentShape
+                                            ? null
+                                            : shape.id
+                                    );
                                 }}
+                                isSelected={currentShape === shape.id}
                             >
-                                <p>X</p>
+                                <p className='ps-1'>Shape {shapes[index].id}</p>
                             </GoopyButton>
-                        )}
-                    </div>
-                ))}
+                            {currentShape != shape.id && (
+                                <GoopyButton
+                                    classes={`border-l border-b pl-1 pr-1`}
+                                    onClick={(e) => {
+                                        setShapes((state) => {
+                                            const newState = [...state];
+                                            let index = newState.indexOf(
+                                                newState.find(
+                                                    (s) => s.id == shape.id
+                                                )
+                                            );
+                                            newState.splice(index, 1);
+                                            return newState;
+                                        });
+                                    }}
+                                >
+                                    <p>X</p>
+                                </GoopyButton>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
             <GoopyButton
                 classes='border-l border-r border-b p-1'
@@ -88,32 +97,31 @@ function ShapeManager(props) {
                             },
                             shape_type: 'Sphere',
                         });
-                        return newState;
-                    });
-                    props.setCurrentShape(newId);
-                }}
-            >
-                Add Shape
-            </GoopyButton>
-            <GoopyButton
-                classes='border-l border-r border-b p-1'
-                onClick={() => {
-                    props.setShapes((state) => {
-                        return [];
-                    });
-                    props.setCurrentShape(null);
-                }}
-            >
-                Reset Scene
-            </GoopyButton>
-            <GoopyButton
-                classes='border-l border-r border-b p-1'
-                onClick={async () => {
-                    saveResult();
-                }}
-            >
-                Save Scene
-            </GoopyButton>
+                        setCurrentShape(newId);
+                    }}
+                >
+                    Add Shape
+                </GoopyButton>
+                <GoopyButton
+                    classes='border-l border-r border-b p-1'
+                    onClick={() => {
+                        setShapes((state) => {
+                            return [];
+                        });
+                        setCurrentShape(null);
+                    }}
+                >
+                    Reset Scene
+                </GoopyButton>
+                <GoopyButton
+                    classes='border-l border-r border-b p-1'
+                    onClick={async () => {
+                        saveResult();
+                    }}
+                >
+                    Save Scene
+                </GoopyButton>
+            </div>
         </div>
     );
 }

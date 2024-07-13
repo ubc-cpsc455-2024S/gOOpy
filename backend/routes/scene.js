@@ -2,6 +2,8 @@ var express = require('express');
 const sceneQueries = require('../queries/scene-queries');
 
 var router = express.Router();
+const sceneModel = require('../models/scene');
+const userModel = require('../models/user');
 
 // set up fake data for scenes (not linked to users, just for persistence right now)
 
