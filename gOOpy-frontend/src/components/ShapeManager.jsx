@@ -15,7 +15,7 @@ function ShapeManager({
         let data = {
             shapes: shapes,
             metadata: {
-                userId: 123,
+                user_id: '668e1348087d83a007064076',
                 title: 'new_model',
                 lastEdited: new Date(),
             },
