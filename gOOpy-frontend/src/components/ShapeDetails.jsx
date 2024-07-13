@@ -98,7 +98,7 @@ function SelectType({ defaultValue, callback, index }) {
         <select
             value={val}
             onChange={(e) => {
-                const newValue = e.target.value;
+                const newValue = parseInt(e.target.value);
                 setVal(newValue);
                 callback(index, newValue, 'shape_type');
             }}

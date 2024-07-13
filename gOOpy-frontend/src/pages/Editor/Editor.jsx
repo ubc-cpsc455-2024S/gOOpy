@@ -99,6 +99,7 @@ function Editor() {
             }
             setLoading(false);
         };
+
         fetchShape();
     }, []);
 

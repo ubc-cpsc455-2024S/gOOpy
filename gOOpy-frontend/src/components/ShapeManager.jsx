@@ -15,6 +15,7 @@ function ShapeManager({
     determineNewID,
 }) {
     const saveResult = async () => {
+        const newId = determineNewID();
         let data = {
             shapes: shapes,
             metadata: {
@@ -22,7 +23,9 @@ function ShapeManager({
                 title: 'new_model',
                 lastEdited: new Date(),
             },
+            next_id: newId,
         };
+        console.log(data);
         await axios.post('http://127.0.0.1:3000/scene', data);
     };
     return (

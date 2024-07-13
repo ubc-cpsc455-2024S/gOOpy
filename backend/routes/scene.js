@@ -43,6 +43,7 @@ router.post('/', async (req, res) => {
     const scene = {
         shapes: shapes,
         metadata: currentScene.metadata,
+        next_id: currentScene.next_id,
     };
 
     try {
@@ -58,8 +59,9 @@ router.post('/', async (req, res) => {
 
         if (!updatedUser) {
             res.status(404).send('User not found');
+        } else {
+            res.status(201).send('added scene successfully');
         }
-        res.status(201).send('added scene successfully');
     } catch (e) {
         console.error(e);
         res.status(500).send('failed to add scene');

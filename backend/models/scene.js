@@ -27,7 +27,7 @@ const sceneSchema = Schema(
             last_edited: { type: Date, default: Date.now },
             thumbnail: String, // should this be a link to the thumbnail image?
         },
-        next_id: { type: Number, required: false }, // setting this to false cos not sent for now
+        next_id: { type: Number, required: true },
     },
     { collection: 'scenes' }
 );
