@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ColorPicker, useColor } from 'react-color-palette';
+import { SHAPE_TYPES } from '../pages/Editor/Editor';
 function ShapeDetails({
     index,
     shapes,
@@ -102,9 +103,9 @@ function SelectType({ defaultValue, callback, index }) {
                 callback(index, newValue, 'shape_type');
             }}
         >
-            <option value={0}>Sphere</option>
-            <option value={1}>Box</option>
-            <option value={2}>Torus</option>
+            <option value={SHAPE_TYPES.Sphere}>Sphere</option>
+            <option value={SHAPE_TYPES.Box}>Box</option>
+            <option value={SHAPE_TYPES.Torus}>Torus</option>
         </select>
     );
 }

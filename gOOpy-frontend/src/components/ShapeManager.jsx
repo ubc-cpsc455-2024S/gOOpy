@@ -2,6 +2,7 @@ import { Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
 import axios from 'axios';
 import EditorTabCarousel from './EditorTabCarousel';
+import { SHAPE_TYPES } from '../pages/Editor/Editor';
 
 const MAX_SHAPES = 50; // should match shaders
 
@@ -87,6 +88,7 @@ function ShapeManager({
                             newState.push({
                                 center: new Vector3(0, 0, 0),
                                 radius: 1.0,
+                                shape_type: SHAPE_TYPES.Sphere,
                                 id: newId,
                             });
                             return newState;

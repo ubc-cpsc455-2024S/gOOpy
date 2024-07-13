@@ -2,33 +2,37 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
-import { AmbientLight, Color, Vector3, Vector4 } from 'three';
+import { Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
-import GoopyButton from '../../components/GoopyButton';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
 import Slider from '../../components/Slider';
-import EditorTabCarousel from '../../components/EditorTabCarousel';
+
+export const SHAPE_TYPES = {
+    Sphere: 0,
+    Box: 1,
+    Torus: 2,
+};
 
 // hard coded list of objects (temporary)
 const obj1 = {
     center: new Vector3(0.0, 0.0, 0.0),
     radius: 1.0,
-    shape_type: 0,
+    shape_type: SHAPE_TYPES.Sphere,
     id: 0,
 };
 const obj2 = {
     center: new Vector3(1.0, 1.0, 1.0),
     radius: 1.3,
-    shape_type: 0,
+    shape_type: SHAPE_TYPES.Sphere,
     id: 1,
 };
 const obj3 = {
     center: new Vector3(-1.0, -1.0, 1.0),
     radius: 0.8,
-    shape_type: 1,
+    shape_type: SHAPE_TYPES.Box,
     id: 2,
 };
 

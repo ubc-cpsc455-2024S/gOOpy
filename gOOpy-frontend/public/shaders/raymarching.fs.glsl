@@ -10,6 +10,9 @@ struct Shape
     float radius;
 };
 #define MAX_SHAPES 50
+#define SPHERE 0
+#define BOX 1
+#define TORUS 2
 uniform Shape shapes[MAX_SHAPES];
 uniform int n_shapes; // should change to match max number of shapes in editor.
 uniform vec3 camera_pos;
@@ -18,7 +21,6 @@ uniform vec3 skybox_l_color;
 uniform float ambientIntensity;
 
 in vec2 texCoord;
-
 out vec4 fragColor;
 
 // Smooth Min - goopy shapes!
@@ -63,13 +65,13 @@ float sdf(vec3 p) {
 
         float sdf_val = 0.0;
         switch(shapes[i].shape_type) {
-            case 0:
+            case SPHERE:
                 sdf_val = sphere(p, center, radius);
                 break;
-            case 1:
+            case BOX:
                 sdf_val = box(p, center, vec3(radius), 0.2); // TODO controls
                 break;
-            case 2:
+            case TORUS:
                 sdf_val = torus(p, center, vec2(radius, 1.0)); // TODO controls
         }
 
@@ -120,7 +122,7 @@ void main() {
     // diffuse
     vec3 L = normalize(vec3(1.0,1.0,-1.0));
     vec3 N = calcNormal(ip);
-    float I = clamp(0.0, 1.0, dot(N, L));
+    float I = clamp(dot(N, L), 0.0, 1.0);
     vec3 diffuse = I * color;
 
     // specular
