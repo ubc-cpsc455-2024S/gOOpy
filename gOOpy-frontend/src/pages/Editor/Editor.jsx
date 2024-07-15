@@ -16,18 +16,27 @@ import { SHAPE_TYPES } from './constants';
 const obj1 = {
     center: new Vector3(0.0, 0.0, 0.0),
     property1: 1.0,
+    property2: 1.0,
+    property3: 1.0,
+    property4: 1.0,
     shape_type: SHAPE_TYPES.Sphere,
     id: 0,
 };
 const obj2 = {
     center: new Vector3(1.0, 1.0, 1.0),
     property1: 1.3,
+    property2: 1.0,
+    property3: 1.0,
+    property4: 1.0,
     shape_type: SHAPE_TYPES.Sphere,
     id: 1,
 };
 const obj3 = {
     center: new Vector3(-1.0, -1.0, 1.0),
     property1: 0.8,
+    property2: 1.0,
+    property3: 1.0,
+    property4: 1.0,
     shape_type: SHAPE_TYPES.Box,
     id: 2,
 };

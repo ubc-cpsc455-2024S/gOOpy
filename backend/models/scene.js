@@ -13,6 +13,9 @@ const vectorSchema = new Schema(
 const shapeSchema = new Schema({
     center: { type: vectorSchema, required: true },
     property1: { type: Number, required: true },
+    property2: { type: Number, required: true },
+    property3: { type: Number, required: true },
+    property4: { type: Number, required: true },
     shape_type: { type: Number, required: false }, // change it to false for now cos not sent
     id: { type: Number, required: true },
 });

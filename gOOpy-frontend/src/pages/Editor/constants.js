@@ -28,9 +28,14 @@ export const SHAPE_PROPERTIES = [
         {
             title: 'Dimensions',
             values: [
-                { descriptor: 'x', min: 0, max: 5, path: ['property1'] },
-                { descriptor: 'y', min: 0, max: 5, path: ['property2'] },
+                { descriptor: 'x', min: 0, max: 3, path: ['property1'] },
+                { descriptor: 'y', min: 0, max: 3, path: ['property2'] },
+                { descriptor: 'z', min: 0, max: 3, path: ['property3'] },
             ],
+        },
+        {
+            title: 'Roundness',
+            values: [{ descriptor: 'r', min: 0, max: 1, path: ['property4'] }],
         },
     ],
     [

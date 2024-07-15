@@ -17,6 +17,9 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
     const buffer = Array(50).fill({
         center: new Vector3(-1.0, -1.0, 1.0),
         property1: 0.8,
+        property2: 0.8,
+        property3: 0.8,
+        property4: 0.8,
         id: 2,
     });
     // initialize buffer
@@ -27,7 +30,16 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
     const uniforms = useRef({
         n_shapes: { type: 'int', value: shapes.length },
         shapes: {
-            type: [{ center: 'vec3', property1: 'float', shape_type: 'int' }],
+            type: [
+                {
+                    center: 'vec3',
+                    property1: 'float',
+                    property2: 'float',
+                    property3: 'float',
+                    property4: 'float',
+                    shape_type: 'int',
+                },
+            ],
             value: buffer,
         },
         camera_pos: {

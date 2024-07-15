@@ -7,7 +7,10 @@ struct Shape
 {
     vec3 center;
     int shape_type;
-    float property1;
+    float property1; // See config file for what these are
+    float property2;
+    float property3;
+    float property4;
 };
 #define MAX_SHAPES 50
 #define SPHERE 0
@@ -61,18 +64,21 @@ float sdf(vec3 p) {
         }
         Shape s = shapes[i];
         vec3 center = s.center;
-        float property1 = s.property1;
+        float prop1 = s.property1;
+        float prop2 = s.property2;
+        float prop3 = s.property3;
+        float prop4 = s.property4;
 
         float sdf_val = 0.0;
         switch(shapes[i].shape_type) {
             case SPHERE:
-                sdf_val = sphere(p, center, property1);
+                sdf_val = sphere(p, center, prop1);
                 break;
             case BOX:
-                sdf_val = box(p, center, vec3(property1), 0.2); // TODO controls
+                sdf_val = box(p, center, vec3(prop1, prop2, prop3), prop4); // TODO controls
                 break;
             case TORUS:
-                sdf_val = torus(p, center, vec2(property1, 1.0)); // TODO controls
+                sdf_val = torus(p, center, vec2(prop1, prop2)); // TODO controls
         }
 
         min_val = smin(sdf_val, min_val, 0.3);
