@@ -31,66 +31,15 @@ function ShapeDetails({ index, shapes }) {
                 <h4 className='text-1xl font-bold'>Type</h4>
                 <div className='flex'>
                     <SelectType
-                        defaultValue={shapes[index].shape_type}
+                        shapeType={shapeType}
                         callback={updateField}
+                        setShapeType={setShapeType}
                         index={index}
                     />
                 </div>
             </div>
-            <div className='border-s border-t border-r flex flex-col p-2'>
-                <h4 className='text-1xl font-bold'>Transform</h4>
-                <div className='flex'>
-                    <h4 className='text-1xl font-bold mr-2'>x:</h4>
-                    <Slider
-                        defaultValue={shapes[index].center.x}
-                        index={index}
-                        callback={updateField}
-                        callbackParams={[['center', 'x']]}
-                    />
-                </div>
-                <div className='flex'>
-                    <h4 className='text-1xl font-bold mr-2'>y:</h4>
-                    <Slider
-                        defaultValue={shapes[index].center.y}
-                        index={index}
-                        callback={updateField}
-                        callbackParams={[['center', 'y']]}
-                    />
-                </div>
-                <div className='flex'>
-                    <h4 className='text-1xl font-bold mr-2'>z:</h4>
-                    <Slider
-                        defaultValue={shapes[index].center.z}
-                        index={index}
-                        callback={updateField}
-                        callbackParams={[['center', 'z']]}
-                    />
-                </div>
-            </div>
-            <div className='border-r border-l border-b border-t flex flex-col p-2'>
-                <h4 className='text-1xl font-bold'>Radius</h4>
-                <div className='flex'>
-                    <h4 className='text-1xl font-bold mr-2'>x:</h4>
-                    <Slider
-                        defaultValue={shapes[index].property1}
-                        index={index}
-                        callback={updateField}
-                        callbackParams={[['property1']]}
-                        min={0}
-                    />
-                </div>
-            </div>
-            {/* <div className='border-b border-l border-r flex flex-col p-2'>
-                <h4 className='text-1xl font-bold mr-2'>Colour</h4>
-                <ColorPicker
-                    color={color}
-                    onChange={setColor}
-                    hideAlpha={true}
-                    hideInput={true}
-                />
-            </div> */}
             <CustomProperties
-                properties={SHAPE_PROPERTIES[shapeType]}
+                shapeType={shapeType}
                 shapes={shapes}
                 index={index}
                 updateField={updateField}
@@ -100,19 +49,23 @@ function ShapeDetails({ index, shapes }) {
 }
 
 // TODO clean up the intense shapes, index prop drilling
-function CustomProperties({ properties, shapes, index, updateField }) {
-    console.log(properties);
+function CustomProperties({ shapeType, shapes, index, updateField }) {
+    const properties = SHAPE_PROPERTIES[shapeType];
+
     return properties.map((property) => (
         <div className='border flex flex-col p-2' key={property.title}>
             <h4 className='text-1xl font-bold'>{property.title}</h4>
-            {property.values.map((v, i) => (
+            {property.values.map((v) => (
                 <div className='flex' key={v.descriptor}>
                     <h4 className='text-1xl font-bold mr-2'>{v.descriptor}:</h4>
                     <Slider
-                        defaultValue={shapes[index][`property${i + 1}`]}
+                        defaultValue={v.path.reduce(
+                            (acc, curr) => acc[curr],
+                            shapes[index]
+                        )}
                         index={index}
                         callback={updateField}
-                        callbackParams={[[`property${i + 1}`]]}
+                        callbackParams={[v.path]}
                         max={v.max}
                         min={v.min}
                     />
@@ -122,25 +75,21 @@ function CustomProperties({ properties, shapes, index, updateField }) {
     ));
 }
 
-function SelectType({ defaultValue, callback, index }) {
-    const [val, setVal] = useState(defaultValue);
-
-    useEffect(() => {
-        setVal(defaultValue);
-    }, [defaultValue]);
-
+function SelectType({ shapeType, setShapeType, callback, index }) {
     return (
         <select
-            value={val}
+            value={shapeType}
             onChange={(e) => {
                 const newValue = parseInt(e.target.value);
-                setVal(newValue);
+                setShapeType(newValue);
                 callback(newValue, index, ['shape_type']);
             }}
         >
-            <option value={SHAPE_TYPES.Sphere}>Sphere</option>
-            <option value={SHAPE_TYPES.Box}>Box</option>
-            <option value={SHAPE_TYPES.Torus}>Torus</option>
+            {Object.entries(SHAPE_TYPES).map(([key, value]) => (
+                <option key={key} value={value}>
+                    {key}
+                </option>
+            ))}
         </select>
     );
 }

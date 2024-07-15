@@ -30,7 +30,6 @@ router.get('/username/:username', async (req, res) => {
     // TODO: temp endpoint - replace with search by ID once we begin using IDs
     // await userQueries.saveUser(users[0]);
     let username = req.params.username;
-    // console.log(name);
     try {
         const user = await userQueries.findUser({ name: `${username}` });
         return res.status(200).send(user);
@@ -60,7 +59,6 @@ router.patch('/:id', async (req, res) => {
         const updatedUser = await userModel.findByIdAndUpdate(id, updates, {
             new: true,
         });
-        console.log(updatedUser);
 
         if (!updatedUser) {
             return res.status(404).send('User not found');

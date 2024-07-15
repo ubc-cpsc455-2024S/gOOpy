@@ -61,7 +61,6 @@ function Editor() {
                 );
                 if (resp.data) {
                     let data = resp.data;
-                    // console.log(data.shapes);
                     setShapes(data.shapes);
                     setNextId(
                         Math.max(...data.shapes.map((shape) => shape.id), 0)
@@ -102,7 +101,7 @@ function Editor() {
                                 skyboxColor={skyboxColor}
                                 skyboxLightController={setSkyboxLightColor}
                                 skyboxLightColor={skyboxLightColor}
-                                skyboxAmbientController={setAmbientIntensity}
+                                setAmbientIntensity={setAmbientIntensity}
                                 skyboxAmbient={skyboxAmbientIntensity}
                                 setEditorView={setEditorView}
                             ></SceneManager>

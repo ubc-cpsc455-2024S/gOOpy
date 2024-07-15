@@ -8,7 +8,7 @@ function SceneManager({
     skyboxColor,
     skyboxLightController,
     skyboxLightColor,
-    skyboxAmbientController,
+    setAmbientIntensity,
     skyboxAmbient,
     setEditorView,
 }) {
@@ -70,7 +70,7 @@ function SceneManager({
                             min={0.0}
                             max={1.0}
                             defaultValue={skyboxAmbient}
-                            callback={skyboxAmbientController}
+                            callback={setAmbientIntensity}
                         ></Slider>
                     </div>
                 </ToggleView>

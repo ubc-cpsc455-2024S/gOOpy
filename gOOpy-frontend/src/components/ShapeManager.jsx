@@ -26,7 +26,6 @@ function ShapeManager({
                 // TODO: create thumbnail from scene
             },
         };
-        console.log(shapes);
         await axios.post(`http://127.0.0.1:3000/scene/${sceneId}`, data);
     };
     return (
