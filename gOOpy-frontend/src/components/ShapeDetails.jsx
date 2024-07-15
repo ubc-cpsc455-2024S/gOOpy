@@ -1,21 +1,15 @@
 import { useEffect, useState } from 'react';
-import { SHAPE_TYPES, SHAPE_OPTIONS } from '../pages/Editor/constants';
+import { SHAPE_TYPES, SHAPE_PROPERTIES } from '../pages/Editor/constants';
 import Slider from './Slider';
 
-function ShapeDetails({
-    index,
-    shapes,
-    updateAxis,
-    updateRadius,
-    updateField,
-}) {
+function ShapeDetails({ index, shapes, updateAxis, updateField }) {
     const [shapeType, setShapeType] = useState(shapes[index].shape_type);
 
     useEffect(() => {
         setShapeType(shapes[index].shape_type);
     }, [shapes, index]);
 
-    console.log('shape options', SHAPE_OPTIONS[shapeType]);
+    console.log('shape options', SHAPE_PROPERTIES[shapeType]);
 
     // TODO: change 'FF0000' to currentShape's color
     // const [color, setColor] = useColor('FF0000');
@@ -41,8 +35,8 @@ function ShapeDetails({
                     <Slider
                         defaultValue={shapes[index].center.x}
                         index={index}
-                        callback={updateAxis}
-                        callbackParams={['x']}
+                        callback={updateField}
+                        callbackParams={[['center', 'x']]}
                     />
                 </div>
                 <div className='flex'>
@@ -50,8 +44,8 @@ function ShapeDetails({
                     <Slider
                         defaultValue={shapes[index].center.y}
                         index={index}
-                        callback={updateAxis}
-                        callbackParams={['y']}
+                        callback={updateField}
+                        callbackParams={[['center', 'y']]}
                     />
                 </div>
                 <div className='flex'>
@@ -59,8 +53,8 @@ function ShapeDetails({
                     <Slider
                         defaultValue={shapes[index].center.z}
                         index={index}
-                        callback={updateAxis}
-                        callbackParams={['z']}
+                        callback={updateField}
+                        callbackParams={[['center', 'z']]}
                     />
                 </div>
             </div>
@@ -71,7 +65,8 @@ function ShapeDetails({
                     <Slider
                         defaultValue={shapes[index].property1}
                         index={index}
-                        callback={updateRadius}
+                        callback={updateField}
+                        callbackParams={[['property1']]}
                         min={0}
                     />
                 </div>
@@ -85,19 +80,35 @@ function ShapeDetails({
                     hideInput={true}
                 />
             </div> */}
-            <CustomProperties properties={SHAPE_OPTIONS[shapeType]} />
+            <CustomProperties
+                properties={SHAPE_PROPERTIES[shapeType]}
+                shapes={shapes}
+                index={index}
+                updateField={updateField}
+            />
         </div>
     );
 }
 
-// TODO use this for above
-// loop over children maybe
-function CustomProperties({ properties }) {
+// TODO clean up the intense shapes, index prop drilling
+function CustomProperties({ properties, shapes, index, updateField }) {
     console.log(properties);
     return properties.map((property) => (
-        <div className='border flex flex-col p-2'>
-            <h4 className='text-1xl font-bold'>{property}</h4>
-            <div className='flex'></div>
+        <div className='border flex flex-col p-2' key={property.title}>
+            <h4 className='text-1xl font-bold'>{property.title}</h4>
+            {property.values.map((v, i) => (
+                <div className='flex' key={v.descriptor}>
+                    <h4 className='text-1xl font-bold mr-2'>{v.descriptor}:</h4>
+                    <Slider
+                        defaultValue={shapes[index][`property${i + 1}`]}
+                        index={index}
+                        callback={updateField}
+                        callbackParams={[[`property${i + 1}`]]}
+                        max={v.max}
+                        min={v.min}
+                    />
+                </div>
+            ))}
         </div>
     ));
 }
@@ -115,7 +126,7 @@ function SelectType({ defaultValue, callback, index }) {
             onChange={(e) => {
                 const newValue = parseInt(e.target.value);
                 setVal(newValue);
-                callback(index, newValue, 'shape_type');
+                callback(newValue, index, ['shape_type']);
             }}
         >
             <option value={SHAPE_TYPES.Sphere}>Sphere</option>

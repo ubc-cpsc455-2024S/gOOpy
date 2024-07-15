@@ -7,7 +7,6 @@ import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
 import { useParams } from 'react-router-dom';
-import GoopyButton from '../../components/GoopyButton';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
 import { SHAPE_TYPES } from './constants';
@@ -62,21 +61,18 @@ function Editor() {
         shapes[index].center[axis] = newValue;
     };
 
-    // TODO switch to more generic property update function soon
-    const updateRadius = (newValue, index) => {
-        if (currentShape == null) {
-            return;
-        }
-        shapes[index].property1 = newValue;
-    };
-
     // TODO update above with this as generic?
-    const updateField = (index, newValue, field) => {
+    const updateField = (newValue, index, fields) => {
         if (currentShape == null) {
             return;
         }
-        shapes[index][field] = newValue;
-        console.log(shapes[index]);
+
+        // split fields into [...rest, last]
+        const [last, ...rest] = fields.toReversed();
+        rest.reverse();
+
+        const obj = rest.reduce((acc, curr) => acc[curr], shapes[index]);
+        obj[last] = newValue;
     };
 
     const determineNewID = () => {
@@ -153,7 +149,6 @@ function Editor() {
                                 )}
                                 shapes={shapes}
                                 updateAxis={updateAxis}
-                                updateRadius={updateRadius}
                                 updateField={updateField}
                             />
                         )}
