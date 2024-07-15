@@ -7,12 +7,16 @@ struct Shape
 {
     vec3 center;
     int shape_type;
-    float property1;
+    float property1; // See config file for what these are
+    float property2;
+    float property3;
+    float property4;
 };
 #define MAX_SHAPES 50
 #define SPHERE 0
 #define BOX 1
 #define TORUS 2
+#define CYLINDER 3
 uniform Shape shapes[MAX_SHAPES];
 uniform int n_shapes; // should change to match max number of shapes in editor.
 uniform vec3 camera_pos;
@@ -51,6 +55,13 @@ float torus( vec3 pos, vec3 center, vec2 t )
     return length(q)-t.y;
 }
 
+float cylinder( vec3 pos, vec3 center, float ra, float rb, float h )
+{
+    vec3 p = (pos - center);
+    vec2 d = vec2( length(p.xz)-2.0*ra+rb, abs(p.y) - h );
+    return min(max(d.x,d.y),0.0) + length(max(d,0.0)) - rb;
+}
+
 float sdf(vec3 p) {
     // TODO this can probably be done cleaner
     float min_val = 99999.0;
@@ -61,18 +72,25 @@ float sdf(vec3 p) {
         }
         Shape s = shapes[i];
         vec3 center = s.center;
-        float property1 = s.property1;
+        float prop1 = s.property1;
+        float prop2 = s.property2;
+        float prop3 = s.property3;
+        float prop4 = s.property4;
 
         float sdf_val = 0.0;
         switch(shapes[i].shape_type) {
             case SPHERE:
-                sdf_val = sphere(p, center, property1);
+                sdf_val = sphere(p, center, prop1);
                 break;
             case BOX:
-                sdf_val = box(p, center, vec3(property1), 0.2); // TODO controls
+                sdf_val = box(p, center, vec3(prop1, prop2, prop3), prop4);
                 break;
             case TORUS:
-                sdf_val = torus(p, center, vec2(property1, 1.0)); // TODO controls
+                sdf_val = torus(p, center, vec2(prop1, prop2));
+                break;
+            case CYLINDER:
+                sdf_val = cylinder(p, center, prop1, prop2, prop3);
+                break;
         }
 
         min_val = smin(sdf_val, min_val, 0.3);

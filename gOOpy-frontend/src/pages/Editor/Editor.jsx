@@ -7,34 +7,36 @@ import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
 import { useParams } from 'react-router-dom';
-import GoopyButton from '../../components/GoopyButton';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
-import Slider from '../../components/Slider';
-
-export const SHAPE_TYPES = {
-    Sphere: 0,
-    Box: 1,
-    Torus: 2,
-};
+import { SHAPE_TYPES } from './constants';
 
 // hard coded list of objects (temporary)
 // TODO: make sure shape has property1 and shape type
 const obj1 = {
     center: new Vector3(0.0, 0.0, 0.0),
     property1: 1.0,
+    property2: 1.0,
+    property3: 1.0,
+    property4: 1.0,
     shape_type: SHAPE_TYPES.Sphere,
     id: 0,
 };
 const obj2 = {
     center: new Vector3(1.0, 1.0, 1.0),
     property1: 1.3,
+    property2: 1.0,
+    property3: 1.0,
+    property4: 1.0,
     shape_type: SHAPE_TYPES.Sphere,
     id: 1,
 };
 const obj3 = {
     center: new Vector3(-1.0, -1.0, 1.0),
     property1: 0.8,
+    property2: 1.0,
+    property3: 1.0,
+    property4: 1.0,
     shape_type: SHAPE_TYPES.Box,
     id: 2,
 };
@@ -53,38 +55,6 @@ function Editor() {
     const [skyboxAmbientIntensity, setAmbientIntensity] = useState(0.2);
     const [editorView, setEditorView] = useState('shapes');
 
-    // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
-    const updateAxis = (newValue, index, axis) => {
-        if (currentShape == null) {
-            return;
-        }
-        // This is how you can do it if you must actually update the state
-        // let newShapes = [...shapes];
-        // newShapes[index].center[axis] = newValue;
-        // setShapes(newShapes);
-
-        // It seems it will let us modify the values directly without updating state
-        // While this *might* introduce bugs, it may also help with performance?
-        shapes[index].center[axis] = newValue;
-    };
-
-    // TODO switch to more generic property update function soon
-    const updateRadius = (newValue, index) => {
-        if (currentShape == null) {
-            return;
-        }
-        shapes[index].property1 = newValue;
-    };
-
-    // TODO update above with this as generic?
-    const updateField = (index, newValue, field) => {
-        if (currentShape == null) {
-            return;
-        }
-        shapes[index][field] = newValue;
-        console.log(shapes[index]);
-    };
-
     const determineNewID = () => {
         const newNextId = nextId + 1;
         setNextId(newNextId);
@@ -100,7 +70,6 @@ function Editor() {
                 );
                 if (resp.data) {
                     let data = resp.data;
-                    // console.log(data.shapes);
                     setShapes(data.shapes);
                     setNextId(
                         Math.max(...data.shapes.map((shape) => shape.id), 0)
@@ -141,7 +110,7 @@ function Editor() {
                                 skyboxColor={skyboxColor}
                                 skyboxLightController={setSkyboxLightColor}
                                 skyboxLightColor={skyboxLightColor}
-                                skyboxAmbientController={setAmbientIntensity}
+                                setAmbientIntensity={setAmbientIntensity}
                                 skyboxAmbient={skyboxAmbientIntensity}
                                 setEditorView={setEditorView}
                             ></SceneManager>
@@ -158,10 +127,6 @@ function Editor() {
                                     (s) => s.id === currentShape
                                 )}
                                 shapes={shapes}
-                                updateAxis={updateAxis}
-                                updateRadius={updateRadius}
-                                updateField={updateField}
-                                Slider={Slider}
                             />
                         )}
                 </div>

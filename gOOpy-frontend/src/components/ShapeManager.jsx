@@ -2,7 +2,7 @@ import { Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
 import axios from 'axios';
 import EditorTabCarousel from './EditorTabCarousel';
-import { SHAPE_TYPES } from '../pages/Editor/Editor';
+import { SHAPE_TYPES } from '../pages/Editor/constants';
 
 const MAX_SHAPES = 50; // should match shaders
 
@@ -26,7 +26,6 @@ function ShapeManager({
                 // TODO: create thumbnail from scene
             },
         };
-        console.log(shapes);
         await axios.post(`http://127.0.0.1:3000/scene/${sceneId}`, data);
     };
     return (
@@ -91,7 +90,11 @@ function ShapeManager({
                             const newState = [...state];
                             newState.push({
                                 center: new Vector3(0, 0, 0),
+                                // these property values are chosen such that the default shapes look nice
                                 property1: 1.0,
+                                property2: 0.5,
+                                property3: 0.2,
+                                property4: 0.2,
                                 shape_type: SHAPE_TYPES.Sphere,
                                 id: newId,
                             });

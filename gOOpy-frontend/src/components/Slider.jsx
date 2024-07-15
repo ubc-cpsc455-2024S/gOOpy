@@ -8,6 +8,8 @@ function Slider({
     min = -5,
 }) {
     const [val, setVal] = useState(defaultValue);
+    useEffect(() => setVal(defaultValue), [defaultValue]);
+
     return (
         <input
             value={val}

@@ -62,7 +62,6 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(userLogin.fulfilled, (state, action) => {
-            // console.log(action.payload);
             return action.payload;
         });
         // TODO: optional - Make dropdown notification confirming if change has been made
