@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { SHAPE_TYPES, SHAPE_PROPERTIES } from '../pages/Editor/constants';
 import Slider from './Slider';
+import { Matrix4, Quaternion, Vector3 } from 'three';
 
 function ShapeDetails({ index, shapes }) {
     const [shapeType, setShapeType] = useState(shapes[index].shape_type);
@@ -11,14 +12,35 @@ function ShapeDetails({ index, shapes }) {
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
     // I can't remember if we are still using help from the above link...
-    const updateField = (newValue, index, fields) => {
+    const updateField = (newValue, index, fields, updateMatrix = false) => {
         // split fields into [...rest, last]
         const [last, ...rest] = fields.toReversed();
         rest.reverse();
 
         const obj = rest.reduce((acc, curr) => acc[curr], shapes[index]);
         obj[last] = newValue;
+
+        if (updateMatrix) {
+            console.log('rebuilding matrix');
+            rebuildMatrix();
+        }
     };
+
+    function rebuildMatrix() {
+        const s = shapes[index];
+
+        const quaternion = new Quaternion();
+
+        // TODO rotation are strange and need work
+        quaternion.setFromAxisAngle(new Vector3(1, 0, 0), s.rotation.x);
+        // quaternion.setFromAxisAngle(new Vector3(0, 1, 0), s.rotation.y);
+        // quaternion.setFromAxisAngle(new Vector3(0, 0, 1), s.rotation.z);
+        const scale = new Vector3(1.0, 1.0, 1.0);
+        const translation = new Vector3();
+        translation.copy(s.center).negate();
+        const transform = new Matrix4();
+        s.transform = transform.compose(translation, quaternion, scale);
+    }
 
     // TODO: change 'FF0000' to currentShape's color
     // const [color, setColor] = useColor('FF0000');
@@ -65,7 +87,7 @@ function CustomProperties({ shapeType, shapes, index, updateField }) {
                         )}
                         index={index}
                         callback={updateField}
-                        callbackParams={[v.path]}
+                        callbackParams={[v.path, true]}
                         max={v.max}
                         min={v.min}
                     />

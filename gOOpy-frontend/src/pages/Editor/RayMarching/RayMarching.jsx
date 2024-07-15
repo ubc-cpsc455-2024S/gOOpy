@@ -1,6 +1,6 @@
 import { useLoader } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
-import { GLSL3, Vector3 } from 'three';
+import { GLSL3, Matrix4, Vector3 } from 'three';
 import { FileLoader } from 'three';
 
 const fragmentShaderPath = '/shaders/raymarching.fs.glsl';
@@ -33,11 +33,13 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
             type: [
                 {
                     center: 'vec3',
+                    rotation: 'vec3',
                     property1: 'float',
                     property2: 'float',
                     property3: 'float',
                     property4: 'float',
                     shape_type: 'int',
+                    transform: 'mat4',
                 },
             ],
             value: buffer,
@@ -58,6 +60,8 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
             center: new Vector3(-1.0, -1.0, 1.0),
             property1: 0.8,
             id: 2,
+            transform: new Matrix4(),
+            rotation: new Vector3(),
         });
         // initialize buffer
         shapes.forEach((shape, i) => {

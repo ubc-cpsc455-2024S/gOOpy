@@ -11,6 +11,8 @@ struct Shape
     float property2;
     float property3;
     float property4;
+    mat4 transform;
+    vec3 rotation;
 };
 #define MAX_SHAPES 50
 #define SPHERE 0
@@ -18,7 +20,7 @@ struct Shape
 #define TORUS 2
 #define CYLINDER 3
 uniform Shape shapes[MAX_SHAPES];
-uniform int n_shapes; // should change to match max number of shapes in editor.
+uniform int n_shapes;
 uniform vec3 camera_pos;
 uniform vec4 skybox_col;
 uniform vec3 skybox_l_color;
@@ -71,25 +73,28 @@ float sdf(vec3 p) {
             break;
         }
         Shape s = shapes[i];
-        vec3 center = s.center;
+        vec3 center = vec3(0.0);//s.center; //TODO remove this
         float prop1 = s.property1;
         float prop2 = s.property2;
         float prop3 = s.property3;
         float prop4 = s.property4;
 
+        vec3 p_t = vec3(s.transform*vec4(p, 1.0));
+
+
         float sdf_val = 0.0;
         switch(shapes[i].shape_type) {
             case SPHERE:
-                sdf_val = sphere(p, center, prop1);
+                sdf_val = sphere(p_t, center, prop1);
                 break;
             case BOX:
-                sdf_val = box(p, center, vec3(prop1, prop2, prop3), prop4);
+                sdf_val = box(p_t, center, vec3(prop1, prop2, prop3), prop4);
                 break;
             case TORUS:
-                sdf_val = torus(p, center, vec2(prop1, prop2));
+                sdf_val = torus(p_t, center, vec2(prop1, prop2));
                 break;
             case CYLINDER:
-                sdf_val = cylinder(p, center, prop1, prop2, prop3);
+                sdf_val = cylinder(p_t, center, prop1, prop2, prop3);
                 break;
         }
 

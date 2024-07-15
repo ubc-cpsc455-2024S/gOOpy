@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { Matrix4, Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
 import axios from 'axios';
 import EditorTabCarousel from './EditorTabCarousel';
@@ -95,6 +95,8 @@ function ShapeManager({
                                 property2: 0.5,
                                 property3: 0.2,
                                 property4: 0.2,
+                                transform: new Matrix4(),
+                                rotation: new Vector3(),
                                 shape_type: SHAPE_TYPES.Sphere,
                                 id: newId,
                             });

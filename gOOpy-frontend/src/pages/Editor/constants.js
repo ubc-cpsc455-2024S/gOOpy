@@ -14,11 +14,21 @@ const translation = {
     ],
 };
 
+const rotation = {
+    title: 'Rotation',
+    values: [
+        { descriptor: 'x', min: -5, max: 5, path: ['rotation', 'x'] },
+        { descriptor: 'y', min: -5, max: 5, path: ['rotation', 'y'] },
+        { descriptor: 'z', min: -5, max: 5, path: ['rotation', 'z'] },
+    ],
+};
+
 // index of SHAPE_PROPERTIES refers to value of SHAPE_TYPE above.
 // IE SHAPE_PROPERTIES[1] is the Box properties.
 export const SHAPE_PROPERTIES = [
     [
         translation,
+        rotation,
         {
             title: 'Radius',
             values: [{ descriptor: 'r', min: 0, max: 5, path: ['property1'] }],
@@ -26,6 +36,7 @@ export const SHAPE_PROPERTIES = [
     ],
     [
         translation,
+        rotation,
         {
             title: 'Dimensions',
             values: [
@@ -41,6 +52,7 @@ export const SHAPE_PROPERTIES = [
     ],
     [
         translation,
+        rotation,
         {
             title: 'Dimensions',
             values: [
@@ -51,6 +63,7 @@ export const SHAPE_PROPERTIES = [
     ],
     [
         translation,
+        rotation,
         {
             title: 'Dimensions',
             values: [
