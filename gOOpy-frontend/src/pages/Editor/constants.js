@@ -2,6 +2,7 @@ export const SHAPE_TYPES = {
     Sphere: 0,
     Box: 1,
     Torus: 2,
+    Cylinder: 3,
 };
 
 const translation = {
@@ -46,6 +47,20 @@ export const SHAPE_PROPERTIES = [
                 { descriptor: 'r', min: 0, max: 5, path: ['property1'] },
                 { descriptor: 'w', min: 0, max: 5, path: ['property2'] },
             ],
+        },
+    ],
+    [
+        translation,
+        {
+            title: 'Dimensions',
+            values: [
+                { descriptor: 'w', min: 0, max: 5, path: ['property1'] },
+                { descriptor: 'h', min: 0, max: 5, path: ['property3'] },
+            ],
+        },
+        {
+            title: 'Roundness',
+            values: [{ descriptor: 'r', min: 0, max: 1, path: ['property2'] }],
         },
     ],
 ];
