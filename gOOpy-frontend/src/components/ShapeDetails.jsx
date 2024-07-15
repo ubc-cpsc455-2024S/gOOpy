@@ -2,14 +2,23 @@ import { useEffect, useState } from 'react';
 import { SHAPE_TYPES, SHAPE_PROPERTIES } from '../pages/Editor/constants';
 import Slider from './Slider';
 
-function ShapeDetails({ index, shapes, updateAxis, updateField }) {
+function ShapeDetails({ index, shapes }) {
     const [shapeType, setShapeType] = useState(shapes[index].shape_type);
 
     useEffect(() => {
         setShapeType(shapes[index].shape_type);
     }, [shapes, index]);
 
-    console.log('shape options', SHAPE_PROPERTIES[shapeType]);
+    // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
+    // I can't remember if we are still using help from the above link...
+    const updateField = (newValue, index, fields) => {
+        // split fields into [...rest, last]
+        const [last, ...rest] = fields.toReversed();
+        rest.reverse();
+
+        const obj = rest.reduce((acc, curr) => acc[curr], shapes[index]);
+        obj[last] = newValue;
+    };
 
     // TODO: change 'FF0000' to currentShape's color
     // const [color, setColor] = useColor('FF0000');

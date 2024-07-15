@@ -46,35 +46,6 @@ function Editor() {
     const [skyboxAmbientIntensity, setAmbientIntensity] = useState(0.2);
     const [editorView, setEditorView] = useState('shapes');
 
-    // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
-    const updateAxis = (newValue, index, axis) => {
-        if (currentShape == null) {
-            return;
-        }
-        // This is how you can do it if you must actually update the state
-        // let newShapes = [...shapes];
-        // newShapes[index].center[axis] = newValue;
-        // setShapes(newShapes);
-
-        // It seems it will let us modify the values directly without updating state
-        // While this *might* introduce bugs, it may also help with performance?
-        shapes[index].center[axis] = newValue;
-    };
-
-    // TODO update above with this as generic?
-    const updateField = (newValue, index, fields) => {
-        if (currentShape == null) {
-            return;
-        }
-
-        // split fields into [...rest, last]
-        const [last, ...rest] = fields.toReversed();
-        rest.reverse();
-
-        const obj = rest.reduce((acc, curr) => acc[curr], shapes[index]);
-        obj[last] = newValue;
-    };
-
     const determineNewID = () => {
         const newNextId = nextId + 1;
         setNextId(newNextId);
@@ -148,8 +119,6 @@ function Editor() {
                                     (s) => s.id === currentShape
                                 )}
                                 shapes={shapes}
-                                updateAxis={updateAxis}
-                                updateField={updateField}
                             />
                         )}
                 </div>
