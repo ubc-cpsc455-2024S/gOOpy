@@ -1,17 +1,26 @@
-import { useState } from 'react';
-import { SHAPE_TYPES } from '../pages/Editor/Editor';
+import { useEffect, useState } from 'react';
+import { SHAPE_TYPES, SHAPE_OPTIONS } from '../pages/Editor/constants';
+import Slider from './Slider';
+
 function ShapeDetails({
     index,
     shapes,
     updateAxis,
     updateRadius,
     updateField,
-    Slider,
 }) {
+    const [shapeType, setShapeType] = useState(shapes[index].shape_type);
+
+    useEffect(() => {
+        setShapeType(shapes[index].shape_type);
+    }, [shapes, index]);
+
+    console.log('shape options', SHAPE_OPTIONS[shapeType]);
+
     // TODO: change 'FF0000' to currentShape's color
     // const [color, setColor] = useColor('FF0000');
     return (
-        <div className='sliders border ms-2 editor-panel' key={index}>
+        <div className='sliders border ms-2 editor-panel'>
             <h4 className='text-2xl font-bold'>
                 Shape {shapes[index].id} &gt; Properties
             </h4>
@@ -67,32 +76,39 @@ function ShapeDetails({
                     />
                 </div>
             </div>
-            <div className='border-b border-l border-r flex flex-col p-2'>
+            {/* <div className='border-b border-l border-r flex flex-col p-2'>
                 <h4 className='text-1xl font-bold mr-2'>Colour</h4>
-                {/* <ColorPicker
+                <ColorPicker
                     color={color}
                     onChange={setColor}
                     hideAlpha={true}
                     hideInput={true}
-                /> */}
-            </div>
+                />
+            </div> */}
+            <CustomProperties properties={SHAPE_OPTIONS[shapeType]} />
         </div>
     );
 }
 
 // TODO use this for above
 // loop over children maybe
-function PropertyPanel({ title, children }) {
-    return (
+function CustomProperties({ properties }) {
+    console.log(properties);
+    return properties.map((property) => (
         <div className='border flex flex-col p-2'>
-            <h4 className='text-1xl font-bold'>{title}</h4>
-            <div className='flex'>{children}</div>
+            <h4 className='text-1xl font-bold'>{property}</h4>
+            <div className='flex'></div>
         </div>
-    );
+    ));
 }
 
 function SelectType({ defaultValue, callback, index }) {
     const [val, setVal] = useState(defaultValue);
+
+    useEffect(() => {
+        setVal(defaultValue);
+    }, [defaultValue]);
+
     return (
         <select
             value={val}

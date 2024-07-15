@@ -10,13 +10,7 @@ import { useParams } from 'react-router-dom';
 import GoopyButton from '../../components/GoopyButton';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
-import Slider from '../../components/Slider';
-
-export const SHAPE_TYPES = {
-    Sphere: 0,
-    Box: 1,
-    Torus: 2,
-};
+import { SHAPE_TYPES } from './constants';
 
 // hard coded list of objects (temporary)
 // TODO: make sure shape has property1 and shape type
@@ -161,7 +155,6 @@ function Editor() {
                                 updateAxis={updateAxis}
                                 updateRadius={updateRadius}
                                 updateField={updateField}
-                                Slider={Slider}
                             />
                         )}
                 </div>
