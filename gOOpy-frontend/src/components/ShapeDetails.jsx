@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { SHAPE_TYPES, SHAPE_PROPERTIES } from '../pages/Editor/constants';
 import Slider from './Slider';
-import { Matrix4, Quaternion, Vector3 } from 'three';
+import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
 
 function ShapeDetails({ index, shapes }) {
     const [shapeType, setShapeType] = useState(shapes[index].shape_type);
@@ -21,25 +21,24 @@ function ShapeDetails({ index, shapes }) {
         obj[last] = newValue;
 
         if (updateMatrix) {
-            console.log('rebuilding matrix');
             rebuildMatrix();
         }
     };
 
     function rebuildMatrix() {
         const s = shapes[index];
-
-        const quaternion = new Quaternion();
-
-        // TODO rotation are strange and need work
-        quaternion.setFromAxisAngle(new Vector3(1, 0, 0), s.rotation.x);
-        // quaternion.setFromAxisAngle(new Vector3(0, 1, 0), s.rotation.y);
-        // quaternion.setFromAxisAngle(new Vector3(0, 0, 1), s.rotation.z);
-        const scale = new Vector3(1.0, 1.0, 1.0);
-        const translation = new Vector3();
-        translation.copy(s.center).negate();
-        const transform = new Matrix4();
-        s.transform = transform.compose(translation, quaternion, scale);
+        // scale is inverted.. I think this is because we are technically transforming the world and not the shapes.
+        // TODO is there a better way to fix this?
+        const scale = new Matrix4().scale(
+            new Vector3(1 / s.scale.x, 1 / s.scale.z, 1 / s.scale.y)
+        );
+        const rotate = new Matrix4().makeRotationFromEuler(
+            new Euler(s.rotation.x, s.rotation.z, s.rotation.y)
+        );
+        const translate = new Matrix4().makeTranslation(
+            new Vector3().copy(s.center).negate()
+        );
+        s.transform = scale.multiply(rotate).multiply(translate);
     }
 
     // TODO: change 'FF0000' to currentShape's color

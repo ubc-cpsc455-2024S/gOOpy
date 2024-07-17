@@ -97,6 +97,7 @@ function ShapeManager({
                                 property4: 0.2,
                                 transform: new Matrix4(),
                                 rotation: new Vector3(),
+                                scale: new Vector3(1.0, 1.0, 1.0),
                                 shape_type: SHAPE_TYPES.Sphere,
                                 id: newId,
                             });

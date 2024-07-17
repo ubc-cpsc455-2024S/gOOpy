@@ -33,7 +33,6 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
             type: [
                 {
                     center: 'vec3',
-                    rotation: 'vec3',
                     property1: 'float',
                     property2: 'float',
                     property3: 'float',
@@ -61,7 +60,6 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
             property1: 0.8,
             id: 2,
             transform: new Matrix4(),
-            rotation: new Vector3(),
         });
         // initialize buffer
         shapes.forEach((shape, i) => {
