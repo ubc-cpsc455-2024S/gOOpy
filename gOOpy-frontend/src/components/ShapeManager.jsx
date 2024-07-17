@@ -107,7 +107,7 @@ function ShapeManager({
                 <GoopyButton
                     classes='border-l border-r border-b p-1'
                     onClick={async () => {
-                        saveResult();
+                        saveResult(sceneId);
                     }}
                 >
                     Save Scene
