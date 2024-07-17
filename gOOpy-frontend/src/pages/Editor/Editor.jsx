@@ -41,6 +41,35 @@ const obj3 = {
     id: 2,
 };
 
+export const fetchShape = async () => {
+    fetchUserInfo: try {
+        if (!sceneId) break fetchUserInfo;
+        let resp = await axios.get(`http://127.0.0.1:3000/scene/${sceneId}`);
+        if (resp.data) {
+            let data = resp.data;
+            setShapes(data.shapes);
+            setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
+        }
+    } catch (error) {
+        setLoading(true);
+    }
+    setLoading(false);
+};
+
+export const saveResult = async () => {
+    let data = {
+        shapes: shapes,
+        metadata: {
+            // TODO: determine if oauth_id or _id from mongoDB
+            user_id: '668f76634cfd55de99230ca9',
+            title: 'new_model',
+            lastEdited: new Date(),
+            // TODO: create thumbnail from scene
+        },
+    };
+    await axios.post(`http://127.0.0.1:3000/scene/${sceneId}`, data);
+};
+
 function Editor() {
     const [loading, setLoading] = useState(true);
     const [shapes, setShapes] = useState([obj1, obj2, obj3]);
@@ -62,25 +91,6 @@ function Editor() {
     };
 
     useEffect(() => {
-        const fetchShape = async () => {
-            fetchUserInfo: try {
-                if (!sceneId) break fetchUserInfo;
-                let resp = await axios.get(
-                    `http://127.0.0.1:3000/scene/${sceneId}`
-                );
-                if (resp.data) {
-                    let data = resp.data;
-                    setShapes(data.shapes);
-                    setNextId(
-                        Math.max(...data.shapes.map((shape) => shape.id), 0)
-                    );
-                }
-            } catch (error) {
-                setLoading(true);
-            }
-            setLoading(false);
-        };
-
         fetchShape();
     }, []);
 
@@ -102,6 +112,7 @@ function Editor() {
                                 setCurrentShape={setCurrentShape}
                                 determineNewID={determineNewID}
                                 setEditorView={setEditorView}
+                                saveResult={saveResult}
                             />
                         )}
                         {editorView == 'scene' && (
