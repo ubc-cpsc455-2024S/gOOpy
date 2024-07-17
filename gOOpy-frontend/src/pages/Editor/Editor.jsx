@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
 import { SHAPE_TYPES } from './constants';
-import { saveSceneInfo } from '../../apiCalls/sceneAPI';
+import { getSceneInfo, saveSceneInfo } from '../../apiCalls/sceneAPI';
 
 // hard coded list of objects (temporary)
 // TODO: make sure shape has property1 and shape type
@@ -42,10 +42,15 @@ const obj3 = {
     id: 2,
 };
 
-export const fetchShapes = async (sceneId) => {
+export const fetchShapes = async (
+    setLoading,
+    setShapes,
+    setNextId,
+    sceneId
+) => {
     fetchUserInfo: try {
         if (!sceneId) break fetchUserInfo;
-        let resp = await axios.get(`http://127.0.0.1:3000/scene/${sceneId}`);
+        let resp = await getSceneInfo(sceneId);
         if (resp.data) {
             let data = resp.data;
             setShapes(data.shapes);
@@ -57,7 +62,7 @@ export const fetchShapes = async (sceneId) => {
     setLoading(false);
 };
 
-export const saveResult = async (sceneId) => {
+export const saveResult = async (sceneId, shapes) => {
     let data = {
         shapes: shapes,
         metadata: {
@@ -92,7 +97,7 @@ function Editor() {
     };
 
     useEffect(() => {
-        fetchShapes(sceneId);
+        fetchShapes(setLoading, setShapes, setNextId, sceneId);
     }, []);
 
     if (loading) {
