@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
 import { Link, useParams } from 'react-router-dom';
-
+import axios from 'axios';
 import {
     tempChangeUsername,
     tempChangeAboutMe,
     tempChangeProfilePhoto,
 } from '../../redux/slices/userSlice.js';
 import Button from '../../components/Button.jsx';
-import { getSceneInfo } from '../../apiCalls/sceneAPI.js';
+import { getManySceneMetadata } from '../../apiCalls/sceneAPI.js';
 import { getUserInfo } from '../../apiCalls/userAPI.js';
 
 export default function UserPage() {
@@ -38,11 +38,10 @@ export default function UserPage() {
         async function setScene() {
             try {
                 if (!user.scenes) return;
-                for (const scene of user.scenes) {
-                    getSceneInfo(scene).then((sceneRes) => {
-                        setScenesInfo([...scenesInfo, sceneRes.data]);
-                    });
-                }
+                const scenesMetadataRes = await getManySceneMetadata(
+                    user.scenes
+                );
+                setScenesInfo(scenesMetadataRes.data);
             } catch (e) {
                 console.log('Error getting scene info');
             }
