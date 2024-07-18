@@ -117,11 +117,12 @@ function ShapeManager({
                     onClick={() => {
                         // TODO We can later specify this to be low-quality jpeg for thumbnails
                         // we might also want to make thumbnails render low-res.. We can assess this later...
+                        // TODO: re-enable this later
                         const data = document
                             .getElementsByTagName('canvas')[0]
                             .toDataURL();
                         const t = document.createElement('a');
-                        t.download = 'scene.jpg';
+                        t.download = 'scene.jpg'; // TODO: replace with name of scene (if scene has name)
                         t.href = data;
                         t.click();
                     }}

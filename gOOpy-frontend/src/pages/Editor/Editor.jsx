@@ -12,6 +12,9 @@ import { useColor } from 'react-color-palette';
 import { SHAPE_TYPES } from './constants';
 import { getSceneInfo, saveSceneInfo } from '../../apiCalls/sceneAPI';
 
+const THUMBNAIL_HEIGHT = 250;
+const THUMBNAIL_WIDTH = 250;
+
 // hard coded list of objects (temporary)
 // TODO: make sure shape has property1 and shape type
 const obj1 = {
@@ -70,7 +73,7 @@ export const saveResult = async (sceneId, shapes) => {
             user_id: '668f76634cfd55de99230ca9',
             title: 'new_model',
             lastEdited: new Date(),
-            // TODO: create thumbnail from scene
+            thumbnail: resizeImage(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT),
         },
     };
     await saveSceneInfo(sceneId, data);
@@ -189,3 +192,15 @@ function Editor() {
 }
 
 export default Editor;
+
+// returns resized image encoded as base64 string
+function resizeImage(width, height) {
+    const resizedCanvas = document.createElement('canvas');
+    const resizedContext = resizedCanvas.getContext('2d');
+    resizedCanvas.width = width.toString();
+    resizedCanvas.height = height.toString();
+
+    const originalCanvas = document.getElementsByTagName('canvas')[0];
+    resizedContext.drawImage(originalCanvas, 0, 0, width, height);
+    return resizedCanvas.toDataURL();
+}
