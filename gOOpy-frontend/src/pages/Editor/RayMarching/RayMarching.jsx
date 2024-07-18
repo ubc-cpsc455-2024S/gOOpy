@@ -22,8 +22,6 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
         fragmentShaderPath,
     ]);
 
-    let buffer = Array(50).fill(defaultShape);
-
     const uniforms = useRef({
         n_shapes: { type: 'int', value: shapes.length },
         shapes: {
@@ -38,7 +36,7 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
                     transform: 'mat4',
                 },
             ],
-            value: buffer,
+            value: Array(50).fill(defaultShape),
         },
         camera_pos: {
             type: 'vec3',
@@ -54,7 +52,7 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
         uniforms.current.n_shapes.value = shapes.length;
         // fill buffer with the SAME buffer object
         // NOTE this is just padding - don't use these objects ever
-        buffer = Array(50).fill(defaultShape);
+        const buffer = Array(50).fill(defaultShape);
         // initialize buffer
         shapes.forEach((shape, i) => {
             buffer[i] = shape;
