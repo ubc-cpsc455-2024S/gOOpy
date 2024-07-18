@@ -14,20 +14,8 @@ function ShapeManager({
     setShapes,
     determineNewID,
     sceneId,
+    saveResult,
 }) {
-    const saveResult = async () => {
-        let data = {
-            shapes: shapes,
-            metadata: {
-                // TODO: determine if oauth_id or _id from mongoDB
-                user_id: '668f76634cfd55de99230ca9',
-                title: 'new_model',
-                lastEdited: new Date(),
-                // TODO: create thumbnail from scene
-            },
-        };
-        await axios.post(`http://127.0.0.1:3000/scene/${sceneId}`, data);
-    };
     return (
         <div className='sliders border h-full flex flex-col ...'>
             <div>
@@ -119,7 +107,7 @@ function ShapeManager({
                 <GoopyButton
                     classes='border-l border-r border-b p-1'
                     onClick={async () => {
-                        saveResult();
+                        saveResult(sceneId, shapes);
                     }}
                 >
                     Save Scene
