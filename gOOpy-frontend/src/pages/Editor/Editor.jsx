@@ -16,7 +16,6 @@ const THUMBNAIL_HEIGHT = 250;
 const THUMBNAIL_WIDTH = 250;
 
 // hard coded list of objects (temporary)
-// TODO: make sure shape has property1 and shape type
 const obj1 = {
     center: new Vector3(0.0, 0.0, 0.0),
     property1: 1.0,

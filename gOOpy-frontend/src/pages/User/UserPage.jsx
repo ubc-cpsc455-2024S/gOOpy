@@ -11,7 +11,6 @@ import Button from '../../components/Button.jsx';
 import { getSceneInfo } from '../../apiCalls/sceneAPI.js';
 import { getUserInfo } from '../../apiCalls/userAPI.js';
 
-// TODO: make the userPage take in an _id and work for any arbitrary user
 export default function UserPage() {
     const { id } = useParams();
     const [user, setUserState] = useState({});
