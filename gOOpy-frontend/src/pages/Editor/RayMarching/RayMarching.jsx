@@ -6,26 +6,23 @@ import { FileLoader } from 'three';
 const fragmentShaderPath = '/shaders/raymarching.fs.glsl';
 const vertexShaderPath = '/shaders/raymarching.vs.glsl';
 
+const defaultShape = {
+    center: new Vector3(-1.0, -1.0, 1.0),
+    transform: new Matrix4(),
+    property1: 0.8,
+    property2: 0.8,
+    property3: 0.8,
+    property4: 0.8,
+    id: -1,
+};
+
 export default function RayMarching({ testPos, shapes, skybox, ...props }) {
     const [vertexShader, fragmentShader] = useLoader(FileLoader, [
         vertexShaderPath,
         fragmentShaderPath,
     ]);
 
-    // fill buffer with the SAME buffer object
-    // NOTE this is just padding - don't use these objects ever
-    const buffer = Array(50).fill({
-        center: new Vector3(-1.0, -1.0, 1.0),
-        property1: 0.8,
-        property2: 0.8,
-        property3: 0.8,
-        property4: 0.8,
-        id: 2,
-    });
-    // initialize buffer
-    shapes.forEach((shape, i) => {
-        buffer[i] = shape;
-    });
+    let buffer = Array(50).fill(defaultShape);
 
     const uniforms = useRef({
         n_shapes: { type: 'int', value: shapes.length },
@@ -52,20 +49,21 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
         ambientIntensity: { type: 'float', value: skybox.ambientIntensity },
     });
 
-    useEffect(() => {
+    function setBuffer() {
         console.log('re-making buffer');
         uniforms.current.n_shapes.value = shapes.length;
-        const buffer = Array(50).fill({
-            center: new Vector3(-1.0, -1.0, 1.0),
-            property1: 0.8,
-            id: 2,
-            transform: new Matrix4(),
-        });
+        // fill buffer with the SAME buffer object
+        // NOTE this is just padding - don't use these objects ever
+        buffer = Array(50).fill(defaultShape);
         // initialize buffer
         shapes.forEach((shape, i) => {
             buffer[i] = shape;
         });
         uniforms.current.shapes.value = buffer;
+    }
+
+    useEffect(() => {
+        setBuffer();
     }, [shapes]);
 
     useEffect(() => {

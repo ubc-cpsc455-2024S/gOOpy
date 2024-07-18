@@ -47,7 +47,7 @@ function ShapeManager({
                             {currentShape != shape.id && (
                                 <GoopyButton
                                     classes={`border-l border-b pl-1 pr-1`}
-                                    onClick={(e) => {
+                                    onClick={() => {
                                         setShapes((state) => {
                                             const newState = [...state];
                                             let index = newState.indexOf(
