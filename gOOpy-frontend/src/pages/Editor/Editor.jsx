@@ -104,6 +104,8 @@ function Editor() {
         return <p>loading</p>;
     }
 
+    console.log(shapes);
+
     return (
         <div className='flex justify-between p-5'>
             <div className='flex absolute top-0 start-0 h-screen w-screen z-10'>

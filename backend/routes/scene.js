@@ -2,11 +2,8 @@ var express = require('express');
 const sceneQueries = require('../queries/scene-queries');
 
 var router = express.Router();
-const sceneModel = require('../models/scene');
-const userModel = require('../models/user');
 
-// set up fake data for scenes (not linked to users, just for persistence right now)
-
+// GET list of scene data with length reqAmt
 router.get('/', (req, res) => {
     const { reqAmt } = req.query;
     const reqAmtInt = parseInt(reqAmt, 10);
@@ -18,6 +15,7 @@ router.get('/', (req, res) => {
     res.send(`Sending ${reqAmt} scenes`);
 });
 
+// GET scene by ID
 router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
@@ -32,6 +30,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// POST scene data
 router.post('/:id', async (req, res) => {
     try {
         const id = req.params.id;
@@ -40,6 +39,7 @@ router.post('/:id', async (req, res) => {
             res.status(404).send('No such scene');
             return;
         }
+        console.log(scene);
         res.status(200).send('scene added');
     } catch (e) {
         res.status(500).send('failed to add scene');

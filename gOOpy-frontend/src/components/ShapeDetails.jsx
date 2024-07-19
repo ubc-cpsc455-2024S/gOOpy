@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { SHAPE_TYPES, SHAPE_PROPERTIES } from '../pages/Editor/constants';
 import Slider from './Slider';
-import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
+import { Euler, Matrix4, Vector3 } from 'three';
 
 function ShapeDetails({ index, shapes }) {
     const [shapeType, setShapeType] = useState(shapes[index].shape_type);
