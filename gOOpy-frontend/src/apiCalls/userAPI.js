@@ -16,3 +16,9 @@ export function updateUser(user) {
 export function createUser(user) {
     return axios.post(`${LOCAL_SERVER_URL}/users/`, user);
 }
+
+export async function loginUserGoogle() {
+    const response = await axios.get('http://localhost:3000/auth/google');
+    const { url } = response.data;
+    window.location.href = url;
+}

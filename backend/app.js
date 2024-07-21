@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
@@ -11,9 +12,14 @@ const cors = require('cors');
 
 var sceneRouter = require('./routes/scene');
 var usersRouter = require('./routes/users');
+var authRouter = require('./routes/auth');
 
 var app = express();
-app.use(cors());
+app.use(
+    cors({
+        origin: 'http://localhost:5173',
+    })
+);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -21,8 +27,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(
+    session({
+        secret: 'jams_smaj',
+        resave: false,
+        saveUninitialized: true,
+    })
+);
+
 app.use('/scene', sceneRouter);
 app.use('/users', usersRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

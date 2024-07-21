@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogout } from '../redux/slices/userSlice';
+import { loginUserGoogle } from '../apiCalls/userAPI';
 
 export default function PageHeader() {
     const userID = useSelector((state) => state.user._id);
@@ -14,11 +15,12 @@ export default function PageHeader() {
                 <Link to='/login'>Login</Link>
             ) : (
                 <button
-                    onClick={() => {
+                    onClick={async () => {
                         dispatch(userLogout());
+                        await loginUserGoogle();
                     }}
                 >
-                    Logout
+                    Login with Google
                 </button>
             )}
         </header>
