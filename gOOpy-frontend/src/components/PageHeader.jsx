@@ -15,9 +15,9 @@ export default function PageHeader() {
                 <Link to='/login'>Login</Link>
             ) : (
                 <button
-                    onClick={async () => {
+                    onClick={() => {
                         dispatch(userLogout());
-                        await loginUserGoogle();
+                        loginUserGoogle();
                     }}
                 >
                     Login with Google
