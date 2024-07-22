@@ -15,7 +15,7 @@ import { buildMatrices } from './matrixHelpers';
 // hard coded list of objects (temporary)
 // TODO: make sure shape has property1 and shape type
 const obj1 = {
-    center: new Vector3(0.0, 0.0, 0.0),
+    translation: new Vector3(0.0, 0.0, 0.0),
     scale: new Vector3(1.0, 1.0, 1.0),
     rotation: new Vector3(0.0, 0.0, 0.0),
     property1: 1.0,
@@ -26,7 +26,7 @@ const obj1 = {
     id: 0,
 };
 const obj2 = {
-    center: new Vector3(1.0, 1.0, 1.0),
+    translation: new Vector3(1.0, 1.0, 1.0),
     scale: new Vector3(1.0, 1.0, 1.0),
     rotation: new Vector3(0.0, 0.0, 0.0),
     property1: 1.3,
@@ -37,7 +37,7 @@ const obj2 = {
     id: 1,
 };
 const obj3 = {
-    center: new Vector3(-1.0, -1.0, 1.0),
+    translation: new Vector3(-1.0, -1.0, 1.0),
     scale: new Vector3(1.0, 1.0, 1.0),
     rotation: new Vector3(0.0, 0.0, 0.0),
     property1: 0.8,

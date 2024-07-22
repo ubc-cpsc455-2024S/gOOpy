@@ -7,7 +7,7 @@ const fragmentShaderPath = '/shaders/raymarching.fs.glsl';
 const vertexShaderPath = '/shaders/raymarching.vs.glsl';
 
 const defaultShape = {
-    center: new Vector3(-1.0, -1.0, 1.0),
+    translation: new Vector3(-1.0, -1.0, 1.0),
     transform: new Matrix4(),
     property1: 0.8,
     property2: 0.8,
@@ -27,7 +27,7 @@ export default function RayMarching({ testPos, shapes, skybox, ...props }) {
         shapes: {
             type: [
                 {
-                    center: 'vec3',
+                    translation: 'vec3',
                     property1: 'float',
                     property2: 'float',
                     property3: 'float',

@@ -76,7 +76,7 @@ function ShapeManager({
                         setShapes((state) => [
                             ...state,
                             {
-                                center: new Vector3(0, 0, 0),
+                                translation: new Vector3(0, 0, 0),
                                 // these property values are chosen such that the default shapes look nice
                                 property1: 1.0,
                                 property2: 0.5,

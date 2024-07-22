@@ -10,7 +10,7 @@ export function rebuildMatrix(shape) {
         new Euler(shape.rotation.x, shape.rotation.z, shape.rotation.y)
     );
     const translate = new Matrix4().makeTranslation(
-        new Vector3().copy(shape.center).negate()
+        new Vector3().copy(shape.translation).negate()
     );
     shape.transform = scale.multiply(rotate).multiply(translate);
 }

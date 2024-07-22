@@ -8,9 +8,9 @@ export const SHAPE_TYPES = {
 const translation = {
     title: 'Translation',
     values: [
-        { descriptor: 'x', min: -5, max: 5, path: ['center', 'x'] },
-        { descriptor: 'y', min: -5, max: 5, path: ['center', 'y'] },
-        { descriptor: 'z', min: -5, max: 5, path: ['center', 'z'] },
+        { descriptor: 'x', min: -5, max: 5, path: ['translation', 'x'] },
+        { descriptor: 'y', min: -5, max: 5, path: ['translation', 'y'] },
+        { descriptor: 'z', min: -5, max: 5, path: ['translation', 'z'] },
     ],
 };
 
