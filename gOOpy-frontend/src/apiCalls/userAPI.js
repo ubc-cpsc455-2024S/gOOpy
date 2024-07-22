@@ -23,5 +23,5 @@ export async function loginUserGoogle() {
 }
 
 export async function logoutUserGoogle() {
-    await axios.get('http://localhost:3000/auth/logout');
+    await axios.get(`${LOCAL_SERVER_URL}/auth/logout`);
 }
