@@ -1,6 +1,9 @@
 var express = require('express');
+const { google } = require('googleapis');
 const { OAuth2Client } = require('google-auth-library');
 var router = express.Router();
+
+const userModel = require('../models/user');
 
 const client = new OAuth2Client(
     process.env.CLIENT_ID,
@@ -12,6 +15,7 @@ router.get('/google', (req, res) => {
     const authorizeUrl = client.generateAuthUrl({
         access_type: 'offline',
         scope: 'https://www.googleapis.com/auth/userinfo.profile',
+        prompt: 'consent',
     });
 
     console.log(authorizeUrl);
@@ -26,7 +30,14 @@ router.get('/google/callback', async (req, res) => {
         console.info('Token acquired.');
 
         req.session.tokens = tokens;
-        console.log(req.session.tokens);
+
+        const oauth2 = google.oauth2({
+            auth: client,
+            version: 'v2',
+        });
+
+        const userInfo = await oauth2.userinfo.get();
+        saveUserInfo(tokens, userInfo.data);
 
         res.redirect('http://localhost:5173/');
     } catch (e) {
@@ -35,17 +46,34 @@ router.get('/google/callback', async (req, res) => {
     }
 });
 
-router.get('google/user', async (req, res) => {
-    console.log(req.session.tokens);
-    if (!req.session.tokens) return res.status(401).send('Unauthorized');
+const saveUserInfo = async (token, profile) => {
+    console.log(token);
+    console.log(profile);
+    try {
+        const user = await userModel.findOne({ oauth_id: profile.id });
 
-    client.setCredentials(req.session.tokens);
-    const oauth2 = GoogleClient.oauth2({
-        auth: client,
-        version: 'v2',
-    });
-    const profile = await oauth2.userinfo.get();
-    res.send(profile.data);
-});
+        // TODO: consider encrypting tokens later
+        if (user) {
+            user.access_token = token.access_token;
+            user.refresh_token = token.refresh_token;
+            user.name = profile.name;
+            user.profile_pic = profile.picture;
+            await user.save();
+        } else {
+            const newUser = new userModel({
+                oauth_id: profile.id,
+                name: profile.name,
+                description: '',
+                profile_pic: profile.picture,
+                access_token: token.access_token,
+                refresh_token: token.refresh_token,
+            });
+            await newUser.save();
+        }
+    } catch (e) {
+        console.error('error saving user: ', e);
+        throw e;
+    }
+};
 
 module.exports = router;
