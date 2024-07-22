@@ -3,25 +3,25 @@ import { SHAPE_TYPES, SHAPE_PROPERTIES } from '../pages/Editor/constants';
 import Slider from './Slider';
 import { rebuildMatrix } from '../pages/Editor/matrixHelpers';
 
-function ShapeDetails({ index, shapes }) {
-    const [shapeType, setShapeType] = useState(shapes[index].shape_type);
+function ShapeDetails({ shape }) {
+    const [shapeType, setShapeType] = useState(shape.shape_type);
 
     useEffect(() => {
-        setShapeType(shapes[index].shape_type);
-    }, [shapes, index]);
+        setShapeType(shape.shape_type);
+    }, [shape]);
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
     // I can't remember if we are still using help from the above link...
-    const updateField = (newValue, index, fields, updateMatrix = false) => {
+    const updateField = (newValue, fields, updateMatrix = false) => {
         // split fields into [...rest, last]
         const [last, ...rest] = fields.toReversed();
         rest.reverse();
 
-        const obj = rest.reduce((acc, curr) => acc[curr], shapes[index]);
+        const obj = rest.reduce((acc, curr) => acc[curr], shape);
         obj[last] = newValue;
 
         if (updateMatrix) {
-            rebuildMatrix(shapes, index);
+            rebuildMatrix(shape);
         }
     };
 
@@ -30,7 +30,7 @@ function ShapeDetails({ index, shapes }) {
     return (
         <div className='sliders border ms-2 editor-panel'>
             <h4 className='text-2xl font-bold'>
-                Shape {shapes[index].id} &gt; Properties
+                Shape {shape.id} &gt; Properties
             </h4>
             <div className='border flex flex-col p-2'>
                 <h4 className='text-1xl font-bold'>Type</h4>
@@ -39,36 +39,35 @@ function ShapeDetails({ index, shapes }) {
                         shapeType={shapeType}
                         callback={updateField}
                         setShapeType={setShapeType}
-                        index={index}
                     />
                 </div>
             </div>
             <CustomProperties
                 shapeType={shapeType}
-                shapes={shapes}
-                index={index}
+                shape={shape}
                 updateField={updateField}
             />
         </div>
     );
 }
 
-// TODO clean up the intense shapes, index prop drilling
-function CustomProperties({ shapeType, shapes, index, updateField }) {
+function CustomProperties({ shapeType, shape, updateField }) {
     const properties = SHAPE_PROPERTIES[shapeType];
 
     return properties.map((property) => (
-        <div className='border flex flex-col p-2' key={index + property.title}>
+        <div
+            className='border flex flex-col p-2'
+            key={shape.id + property.title}
+        >
             <h4 className='text-1xl font-bold'>{property.title}</h4>
             {property.values.map((v) => (
-                <div className='flex' key={index + v.descriptor}>
+                <div className='flex' key={shape.id + v.descriptor}>
                     <h4 className='text-1xl font-bold mr-2'>{v.descriptor}:</h4>
                     <Slider
                         defaultValue={v.path.reduce(
                             (acc, curr) => acc[curr],
-                            shapes[index]
+                            shape
                         )}
-                        index={index}
                         callback={updateField}
                         callbackParams={[v.path, true]}
                         max={v.max}
@@ -80,14 +79,14 @@ function CustomProperties({ shapeType, shapes, index, updateField }) {
     ));
 }
 
-function SelectType({ shapeType, setShapeType, callback, index }) {
+function SelectType({ shapeType, setShapeType, callback }) {
     return (
         <select
             value={shapeType}
             onChange={(e) => {
                 const newValue = parseInt(e.target.value);
                 setShapeType(newValue);
-                callback(newValue, index, ['shape_type']);
+                callback(newValue, ['shape_type']);
             }}
         >
             {Object.entries(SHAPE_TYPES).map(([key, value]) => (

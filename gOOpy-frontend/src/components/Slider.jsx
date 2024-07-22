@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 function Slider({
     defaultValue,
-    index,
     callback,
     callbackParams = [],
     max = 5,
@@ -16,7 +15,7 @@ function Slider({
             onChange={(e) => {
                 const newValue = parseFloat(e.target.value);
                 setVal(newValue);
-                callback(newValue, index, ...callbackParams);
+                callback(newValue, ...callbackParams);
             }}
             type='range'
             min={min}

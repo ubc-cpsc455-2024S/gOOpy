@@ -108,6 +108,9 @@ function Editor() {
         return <p>loading</p>;
     }
 
+    // TODO better way to find the shapes's index?
+    const index = shapes.findIndex((s) => s.id === currentShape);
+
     console.log(shapes);
 
     return (
@@ -144,13 +147,7 @@ function Editor() {
                     {currentShape != null &&
                         editorView == 'shapes' &&
                         shapes.length > 0 && (
-                            <ShapeDetails
-                                // TODO better way to find the shapes's index?
-                                index={shapes.findIndex(
-                                    (s) => s.id === currentShape
-                                )}
-                                shapes={shapes}
-                            />
+                            <ShapeDetails shape={shapes[index]} />
                         )}
                 </div>
             </div>
