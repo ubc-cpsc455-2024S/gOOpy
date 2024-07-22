@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { SHAPE_TYPES, SHAPE_PROPERTIES } from '../pages/Editor/constants';
 import Slider from './Slider';
-import { Euler, Matrix4, Vector3 } from 'three';
+import { rebuildMatrix } from '../pages/Editor/matrixHelpers';
 
 function ShapeDetails({ index, shapes }) {
     const [shapeType, setShapeType] = useState(shapes[index].shape_type);
@@ -21,25 +21,9 @@ function ShapeDetails({ index, shapes }) {
         obj[last] = newValue;
 
         if (updateMatrix) {
-            rebuildMatrix();
+            rebuildMatrix(shapes, index);
         }
     };
-
-    function rebuildMatrix() {
-        const s = shapes[index];
-        // scale is inverted.. I think this is because we are technically transforming the world and not the shapes.
-        // TODO is there a better way to fix this?
-        const scale = new Matrix4().scale(
-            new Vector3(1 / s.scale.x, 1 / s.scale.z, 1 / s.scale.y)
-        );
-        const rotate = new Matrix4().makeRotationFromEuler(
-            new Euler(s.rotation.x, s.rotation.z, s.rotation.y)
-        );
-        const translate = new Matrix4().makeTranslation(
-            new Vector3().copy(s.center).negate()
-        );
-        s.transform = scale.multiply(rotate).multiply(translate);
-    }
 
     // TODO: change 'FF0000' to currentShape's color
     // const [color, setColor] = useColor('FF0000');

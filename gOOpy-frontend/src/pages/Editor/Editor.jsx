@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
 import { Vector3, Vector4 } from 'three';
@@ -11,6 +10,7 @@ import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
 import { SHAPE_TYPES } from './constants';
 import { getSceneInfo, saveSceneInfo } from '../../apiCalls/sceneAPI';
+import { buildMatrices } from './matrixHelpers';
 
 // hard coded list of objects (temporary)
 // TODO: make sure shape has property1 and shape type
@@ -48,13 +48,16 @@ export const fetchShapes = async (
     setNextId,
     sceneId
 ) => {
+    function initializeScene(data) {
+        setShapes(buildMatrices(data.shapes));
+        setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
+    }
+
     fetchUserInfo: try {
         if (!sceneId) break fetchUserInfo;
         let resp = await getSceneInfo(sceneId);
         if (resp.data) {
-            let data = resp.data;
-            setShapes(data.shapes);
-            setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
+            initializeScene(resp.data);
         }
     } catch (error) {
         setLoading(true);
