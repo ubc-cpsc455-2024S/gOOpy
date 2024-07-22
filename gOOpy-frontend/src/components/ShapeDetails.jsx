@@ -58,10 +58,10 @@ function CustomProperties({ shapeType, shapes, index, updateField }) {
     const properties = SHAPE_PROPERTIES[shapeType];
 
     return properties.map((property) => (
-        <div className='border flex flex-col p-2' key={property.title}>
+        <div className='border flex flex-col p-2' key={index + property.title}>
             <h4 className='text-1xl font-bold'>{property.title}</h4>
             {property.values.map((v) => (
-                <div className='flex' key={v.descriptor}>
+                <div className='flex' key={index + v.descriptor}>
                     <h4 className='text-1xl font-bold mr-2'>{v.descriptor}:</h4>
                     <Slider
                         defaultValue={v.path.reduce(

@@ -73,9 +73,9 @@ function ShapeManager({
                     onClick={() => {
                         if (shapes.length >= MAX_SHAPES) return;
                         const newId = determineNewID();
-                        setShapes((state) => {
-                            const newState = [...state];
-                            newState.push({
+                        setShapes((state) => [
+                            ...state,
+                            {
                                 center: new Vector3(0, 0, 0),
                                 // these property values are chosen such that the default shapes look nice
                                 property1: 1.0,
@@ -87,9 +87,8 @@ function ShapeManager({
                                 scale: new Vector3(1.0, 1.0, 1.0),
                                 shape_type: SHAPE_TYPES.Sphere,
                                 id: newId,
-                            });
-                            return newState;
-                        });
+                            },
+                        ]);
                         setCurrentShape(newId);
                     }}
                 >

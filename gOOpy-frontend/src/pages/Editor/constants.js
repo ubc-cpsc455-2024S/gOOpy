@@ -24,7 +24,7 @@ const rotation = {
 };
 
 // TODO scale is not used right now due to buggy behaviour with scales in [0, 1] w/ rotation (disappearing)
-// This good be related to incorrect implementation (see comment in ShapeDetails > rebuildMatrix)
+// This good be related to incorrect implementation (see comment in matrixHelpers > rebuildMatrix)
 // Also, I am not fully convinced that lighting is correct with scaling
 // Usually you need to do inverse transpose on the normals to fix this, but w/ our new method I am not sure.
 const scale = {

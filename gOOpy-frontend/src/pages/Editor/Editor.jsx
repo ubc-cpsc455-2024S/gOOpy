@@ -16,6 +16,8 @@ import { buildMatrices } from './matrixHelpers';
 // TODO: make sure shape has property1 and shape type
 const obj1 = {
     center: new Vector3(0.0, 0.0, 0.0),
+    scale: new Vector3(1.0, 1.0, 1.0),
+    rotation: new Vector3(0.0, 0.0, 0.0),
     property1: 1.0,
     property2: 1.0,
     property3: 1.0,
@@ -25,6 +27,8 @@ const obj1 = {
 };
 const obj2 = {
     center: new Vector3(1.0, 1.0, 1.0),
+    scale: new Vector3(1.0, 1.0, 1.0),
+    rotation: new Vector3(0.0, 0.0, 0.0),
     property1: 1.3,
     property2: 1.0,
     property3: 1.0,
@@ -34,6 +38,8 @@ const obj2 = {
 };
 const obj3 = {
     center: new Vector3(-1.0, -1.0, 1.0),
+    scale: new Vector3(1.0, 1.0, 1.0),
+    rotation: new Vector3(0.0, 0.0, 0.0),
     property1: 0.8,
     property2: 1.0,
     property3: 1.0,
@@ -42,12 +48,7 @@ const obj3 = {
     id: 2,
 };
 
-export const fetchShapes = async (
-    setLoading,
-    setShapes,
-    setNextId,
-    sceneId
-) => {
+const fetchShapes = async (setLoading, setShapes, setNextId, sceneId) => {
     function initializeScene(data) {
         setShapes(buildMatrices(data.shapes));
         setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
@@ -81,7 +82,7 @@ export const saveResult = async (sceneId, shapes) => {
 
 function Editor() {
     const [loading, setLoading] = useState(true);
-    const [shapes, setShapes] = useState([obj1, obj2, obj3]);
+    const [shapes, setShapes] = useState(buildMatrices([obj1, obj2, obj3]));
     const [currentShape, setCurrentShape] = useState(null);
     const [nextId, setNextId] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
