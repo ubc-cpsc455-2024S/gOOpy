@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { LOCAL_SERVER_URL } from './sceneAPI';
+import { useDispatch } from 'react-redux';
 
 export function getUserInfo(userId) {
     return axios.get(`${LOCAL_SERVER_URL}/users/${userId}`);
@@ -18,7 +19,9 @@ export function createUser(user) {
 }
 
 export async function loginUserGoogle() {
-    const response = await axios.get('http://localhost:3000/auth/google');
-    const { url } = response.data;
-    window.location.href = url;
+    window.location.href = `${LOCAL_SERVER_URL}/auth/google`;
+}
+
+export async function logoutUserGoogle() {
+    await axios.get('http://localhost:3000/auth/logout');
 }

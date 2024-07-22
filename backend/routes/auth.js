@@ -18,8 +18,7 @@ router.get('/google', (req, res) => {
         prompt: 'consent',
     });
 
-    console.log(authorizeUrl);
-    res.json({ url: authorizeUrl });
+    res.redirect(authorizeUrl);
 });
 
 router.get('/google/callback', async (req, res) => {
@@ -37,18 +36,30 @@ router.get('/google/callback', async (req, res) => {
         });
 
         const userInfo = await oauth2.userinfo.get();
-        saveUserInfo(tokens, userInfo.data);
-
-        res.redirect('http://localhost:5173/');
+        const user = await saveUserInfo(tokens, userInfo.data);
+        console.log(user);
+        req.session.user = user;
+        if (req.session.user) {
+            res.json(req.session.user);
+        } else {
+            res.status(500).send('no user logged in');
+        }
     } catch (e) {
         console.error(error);
         res.status(500).send('authentication failed');
     }
 });
 
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).send('failed to logout');
+        }
+    });
+    res.status(200).send('logout successful');
+});
+
 const saveUserInfo = async (token, profile) => {
-    console.log(token);
-    console.log(profile);
     try {
         const user = await userModel.findOne({ oauth_id: profile.id });
 
@@ -59,6 +70,7 @@ const saveUserInfo = async (token, profile) => {
             user.name = profile.name;
             user.profile_pic = profile.picture;
             await user.save();
+            return JSON.stringify(user);
         } else {
             const newUser = new userModel({
                 oauth_id: profile.id,
@@ -67,8 +79,10 @@ const saveUserInfo = async (token, profile) => {
                 profile_pic: profile.picture,
                 access_token: token.access_token,
                 refresh_token: token.refresh_token,
+                scenes: [],
             });
             await newUser.save();
+            return JSON.stringify(newUser);
         }
     } catch (e) {
         console.error('error saving user: ', e);
