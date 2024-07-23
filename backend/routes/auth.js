@@ -45,8 +45,8 @@ router.get('/google/callback', async (req, res) => {
                 console.error('Session save failed:', err);
                 res.status(500).send('Session save failed');
             } else {
-                console.log(req.session);
-                console.log(req.session.user);
+                // console.log(req.session);
+                // console.log(req.session.user);
                 res.redirect('http://localhost:5173/editor');
             }
         });
@@ -66,7 +66,7 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/session-user', (req, res) => {
-    console.log(req.session);
+    // console.log(req.session);
     req.session.reload(function (err) {
         if (req.session.user) {
             res.json(req.session.user);
@@ -75,6 +75,8 @@ router.get('/session-user', (req, res) => {
         }
     });
 });
+
+// TODO: unused middleware, will consider moving elsewhere, to be used when trying to save scene
 
 const requireAuth = (req, res, next) => {
     if (req.session.user) {
