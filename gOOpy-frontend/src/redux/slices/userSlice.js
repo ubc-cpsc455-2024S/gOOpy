@@ -56,7 +56,7 @@ export const userSlice = createSlice({
             return initialState;
         },
 
-        setUser: (state, action) => {
+        loginUser: (state, action) => {
             state.user = action.payload;
             console.log(state.user);
             state.isAuthenticated = true;
@@ -100,7 +100,7 @@ export const {
     tempChangeAboutMe,
     tempChangeProfilePhoto,
     userLogout,
-    setUser,
+    loginUser,
     clearUser,
 } = userSlice.actions;
 

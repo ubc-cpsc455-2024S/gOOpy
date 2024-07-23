@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { setUser, clearUser } from '../redux/slices/userSlice';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '../redux/slices/userSlice';
 import { useAuth } from './AuthProvider';
 import { logoutUserGoogle } from '../apiCalls/userAPI';
 
 export default function PageHeader() {
     const { user, setUser } = useAuth();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     return (
         <header className='sticky top-0 z-50 flex justify-between items-center bg-hd-color p-2'>
             <Link to='/' className='text-3xl font-bold'>
@@ -15,7 +15,7 @@ export default function PageHeader() {
             {user ? (
                 <button
                     onClick={async () => {
-                        // dispatch(clearUser());
+                        dispatch(clearUser());
                         await logoutUserGoogle();
                         setUser(null);
                     }}

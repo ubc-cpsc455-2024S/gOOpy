@@ -61,8 +61,8 @@ router.get('/logout', (req, res) => {
         if (err) {
             return res.status(500).send('failed to logout');
         }
+        res.redirect('http://localhost:5173/');
     });
-    res.status(200).send('logout successful');
 });
 
 router.get('/session-user', (req, res) => {

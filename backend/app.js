@@ -3,7 +3,6 @@ var express = require('express');
 var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-const MongoStore = require('connect-mongo');
 const dotenv = require('dotenv');
 dotenv.config();
 require('./db');
