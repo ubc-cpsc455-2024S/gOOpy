@@ -7,7 +7,7 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -16,7 +16,8 @@ export const AuthProvider = ({ children }) => {
                     'http://localhost:3000/auth/session-user',
                     { withCredentials: true }
                 );
-                setUser(sessionUser).data;
+                setUser(sessionUser.data);
+                dispatch(loginUser(sessionUser.data));
             } catch (err) {
                 console.log('not logged in');
             }
