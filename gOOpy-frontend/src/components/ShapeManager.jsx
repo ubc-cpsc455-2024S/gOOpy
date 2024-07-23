@@ -119,7 +119,7 @@ function ShapeManager({
                             .getElementsByTagName('canvas')[0]
                             .toDataURL();
                         const t = document.createElement('a');
-                        t.download = 'scene.jpg'; // TODO: replace with name of scene (if scene has name)
+                        t.download = 'scene.png'; // TODO: replace with name of scene (if scene has name)
                         t.href = data;
                         t.click();
                     }}
