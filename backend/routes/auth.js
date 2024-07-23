@@ -37,9 +37,19 @@ router.get('/google/callback', async (req, res) => {
 
         const userInfo = await oauth2.userinfo.get();
         const user = await saveUserInfo(tokens, userInfo.data);
-        console.log(user);
+
         req.session.user = user;
-        res.redirect('http://localhost:5173/');
+
+        req.session.save((err) => {
+            if (err) {
+                console.error('Session save failed:', err);
+                res.status(500).send('Session save failed');
+            } else {
+                console.log(req.session);
+                console.log(req.session.user);
+                res.redirect('http://localhost:5173/editor');
+            }
+        });
     } catch (e) {
         console.error(error);
         res.status(500).send('authentication failed');
@@ -56,15 +66,25 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/session-user', (req, res) => {
+    console.log(req.session);
+    req.session.reload(function (err) {
+        if (req.session.user) {
+            res.json(req.session.user);
+        } else {
+            res.status(500).send('no user logged in');
+        }
+    });
+});
+
+const requireAuth = (req, res, next) => {
     if (req.session.user) {
-        res.json(req.session.user);
+        next();
     } else {
-        res.status(500).send("no user logged in");
+        res.redirect('http://localhost:5173/login');
     }
-})
+};
 
 const saveUserInfo = async (token, profile) => {
-    console.log(profile);
     try {
         const user = await userModel.findOne({ oauth_id: profile.id });
 

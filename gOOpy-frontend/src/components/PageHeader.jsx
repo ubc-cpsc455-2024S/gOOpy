@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser, clearUser } from '../redux/slices/userSlice';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { setUser, clearUser } from '../redux/slices/userSlice';
 import { useAuth } from './AuthProvider';
-import { loginUserGoogle, logoutUserGoogle } from '../apiCalls/userAPI';
+import { logoutUserGoogle } from '../apiCalls/userAPI';
 
 export default function PageHeader() {
     const { user, setUser } = useAuth();
@@ -23,13 +23,7 @@ export default function PageHeader() {
                     Logout
                 </button>
             ) : (
-                <button
-                    onClick={async () => {
-                        await loginUserGoogle();
-                    }}
-                >
-                    Login with Google
-                </button>
+                <Link to={`/login`}>Login</Link>
             )}
         </header>
     );

@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-
 
 const AuthContext = createContext(null);
 
@@ -10,20 +9,23 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const sessionUser = await axios.get(`${LOCAL_SERVER_URL}/auth/session-user`);
+                const sessionUser = await axios.get(
+                    'http://localhost:3000/auth/session-user',
+                    { withCredentials: true }
+                );
                 setUser(sessionUser);
             } catch (err) {
                 console.log('not logged in');
             }
         };
-        fetchUser
-    }, [])
+        fetchUser();
+    }, [setUser]);
 
     return (
-        <AuthContext.Provider value={{user, setUser}}>
+        <AuthContext.Provider value={{ user, setUser }}>
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};
 
-export const useAuth = () => useContext(AuthContext)
+export const useAuth = () => useContext(AuthContext);

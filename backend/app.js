@@ -3,6 +3,7 @@ var express = require('express');
 var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+const MongoStore = require('connect-mongo');
 const dotenv = require('dotenv');
 dotenv.config();
 require('./db');
@@ -15,9 +16,19 @@ var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 
 var app = express();
+
+app.use(
+    session({
+        secret: 'jams_smaj',
+        resave: true,
+        saveUninitialized: true,
+    })
+);
+
 app.use(
     cors({
         origin: 'http://localhost:5173',
+        credentials: true,
     })
 );
 
@@ -26,14 +37,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(
-    session({
-        secret: 'jams_smaj',
-        resave: false,
-        saveUninitialized: true,
-    })
-);
 
 app.use('/scene', sceneRouter);
 app.use('/users', usersRouter);
