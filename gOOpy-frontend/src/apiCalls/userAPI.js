@@ -22,5 +22,13 @@ export async function loginUserGoogle() {
 }
 
 export async function logoutUserGoogle() {
-    return axios.get(`${LOCAL_SERVER_URL}/auth/logout`);
+    try {
+        const res = await axios.get(`${LOCAL_SERVER_URL}/auth/logout`, {
+            withCredentials: true,
+        });
+        return res;
+    } catch (error) {
+        console.error('Logout failed:', error);
+        return null;
+    }
 }
