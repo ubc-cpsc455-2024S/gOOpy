@@ -1,6 +1,5 @@
 import { Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
-import axios from 'axios';
 import EditorTabCarousel from './EditorTabCarousel';
 import { SHAPE_TYPES } from '../pages/Editor/constants';
 

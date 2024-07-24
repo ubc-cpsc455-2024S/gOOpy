@@ -24,7 +24,7 @@ export default function UserPage() {
     useEffect(() => {
         async function setUser() {
             try {
-                if (id == 'undefined') return;
+                if (id === 'undefined') return;
                 getUserInfo(id).then((userRes) => {
                     setUserState(userRes.data);
                 });

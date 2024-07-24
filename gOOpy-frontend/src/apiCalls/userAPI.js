@@ -16,3 +16,19 @@ export function updateUser(user) {
 export function createUser(user) {
     return axios.post(`${LOCAL_SERVER_URL}/users/`, user);
 }
+
+export async function loginUserGoogle() {
+    window.location.href = `${LOCAL_SERVER_URL}/auth/google`;
+}
+
+export async function logoutUserGoogle() {
+    try {
+        const res = await axios.get(`${LOCAL_SERVER_URL}/auth/logout`, {
+            withCredentials: true,
+        });
+        return res;
+    } catch (error) {
+        console.error('Logout failed:', error);
+        return null;
+    }
+}
