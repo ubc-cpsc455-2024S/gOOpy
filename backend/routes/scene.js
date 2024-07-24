@@ -15,16 +15,21 @@ router.get('/', (req, res) => {
     res.send(`Sending ${reqAmt} scenes`);
 });
 
-// GET scene by ID
-router.get('/:id', async (req, res) => {
+router.get('/manymetadata', async (req, res) => {
     try {
-        const id = req.params.id;
-        const scene = await sceneQueries.findSceneById(id);
-        if (!scene) {
+        const sceneIds = req.query.sceneIds;
+        if (!sceneIds) {
+            res.status(400).send('sceneIds parameter is required');
+            return;
+        }
+
+        const metadata = await sceneQueries.getManySceneMetadata(sceneIds);
+        if (!metadata) {
             res.status(404).send('No such scene');
             return;
         }
-        res.json(scene);
+
+        res.json(metadata);
     } catch (e) {
         res.status(500).send('error getting scene by id');
     }
@@ -42,6 +47,20 @@ router.post('/:id', async (req, res) => {
         res.status(200).send('scene added');
     } catch (e) {
         res.status(500).send('failed to add scene');
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const scene = await sceneQueries.findSceneById(id);
+        if (!scene) {
+            res.status(404).send('No such scene');
+            return;
+        }
+        res.json(scene);
+    } catch (e) {
+        res.status(500).send('error getting scene by id');
     }
 });
 

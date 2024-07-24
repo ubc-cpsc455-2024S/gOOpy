@@ -18,5 +18,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// TODO: once user logs in take them to user page.

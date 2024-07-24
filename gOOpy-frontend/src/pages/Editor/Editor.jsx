@@ -12,8 +12,9 @@ import { SHAPE_TYPES } from './constants';
 import { getSceneInfo, saveSceneInfo } from '../../apiCalls/sceneAPI';
 import { buildMatrices } from './matrixHelpers';
 
+const THUMBNAIL_DIMENSION = 250;
+
 // hard coded list of objects (temporary)
-// TODO: make sure shape has property1 and shape type
 const obj1 = {
     translation: new Vector3(0.0, 0.0, 0.0),
     scale: new Vector3(1.0, 1.0, 1.0),
@@ -74,7 +75,7 @@ export const saveResult = async (sceneId, shapes) => {
             user_id: '668f76634cfd55de99230ca9',
             title: 'new_model',
             lastEdited: new Date(),
-            // TODO: create thumbnail from scene
+            thumbnail: createThumbnail(THUMBNAIL_DIMENSION),
         },
     };
     await saveSceneInfo(sceneId, data);
@@ -190,3 +191,15 @@ function Editor() {
 }
 
 export default Editor;
+
+// returns resized image encoded as base64 string
+function createThumbnail(dimension) {
+    const resizedCanvas = document.createElement('canvas');
+    const resizedContext = resizedCanvas.getContext('2d');
+    resizedCanvas.width = dimension.toString();
+    resizedCanvas.height = dimension.toString();
+
+    const originalCanvas = document.getElementsByTagName('canvas')[0];
+    resizedContext.drawImage(originalCanvas, 0, 0, dimension, dimension);
+    return resizedCanvas.toDataURL();
+}

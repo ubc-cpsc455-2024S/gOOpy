@@ -1,10 +1,9 @@
 import Scene from './Scene';
 
-// TODO: Should replace key with unique identifier instead of index
 export default function SceneGrid({ sceneList }) {
-    const scenes = sceneList.map((s, index) => (
+    const scenes = sceneList.map((s) => (
         <Scene
-            key={index}
+            key={s._id}
             image={s.metadata.thumbnail}
             name={s.metadata.title}
             lastEditDate={s.metadata.last_edited}

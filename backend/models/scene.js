@@ -30,7 +30,7 @@ const sceneSchema = Schema(
             user_id: String,
             title: String,
             last_edited: { type: Date, default: Date.now },
-            thumbnail: String, // should this be a link to the thumbnail image?
+            thumbnail: String,
         },
     },
     { collection: 'scenes' }
