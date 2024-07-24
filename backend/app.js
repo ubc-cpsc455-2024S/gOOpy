@@ -18,7 +18,7 @@ var app = express();
 
 app.use(
     session({
-        secret: 'jams_smaj',
+        secret: process.env.SECRET,
         resave: false,
         saveUninitialized: true,
     })
@@ -26,7 +26,7 @@ app.use(
 
 app.use(
     cors({
-        origin: 'http://localhost:5173',
+        origin: process.env.WEBSITE_URL,
         credentials: true,
     })
 );

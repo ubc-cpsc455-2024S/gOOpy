@@ -8,10 +8,9 @@ const userSchema = new Schema(
         name: { type: String, required: true },
         description: String,
         profile_pic: String,
-        access_token: String,
-        refresh_token: String,
+        // access_token: String,
+        // refresh_token: String,
         scenes: [{ type: Schema.Types.ObjectId, ref: 'Scenes' }],
-        // TODO: might have to store oauth access tokens, refresh tokens etc
     },
     { collection: 'users' }
 );

@@ -45,12 +45,14 @@ router.get('/google/callback', async (req, res) => {
                 console.error('Session save failed:', err);
                 res.status(500).send('Session save failed');
             } else {
-                res.redirect('http://localhost:5173/editor');
+                res.redirect(`${process.env.WEBSITE_URL}/editor`);
             }
         });
     } catch (e) {
         console.error(error);
-        res.status(500).send('authentication failed');
+
+        // TODO: handle login failure
+        res.redirect(`${process.env.WEBSITE_URL}/login`);
     }
 });
 
@@ -79,21 +81,21 @@ const requireAuth = (req, res, next) => {
     if (req.session.user) {
         next();
     } else {
-        res.redirect('http://localhost:5173/login');
+        res.redirect(`${process.env.WEBSITE_URL}/login`);
     }
 };
 
+// since this is used for login only, i removed the save name and save profile pic
 const saveUserInfo = async (token, profile) => {
     try {
         const user = await userModel.findOne({ oauth_id: profile.id });
 
         // TODO: consider encrypting tokens later
         if (user) {
-            user.access_token = token.access_token;
-            user.refresh_token = token.refresh_token;
-            user.name = profile.name;
-            user.profile_pic = profile.picture;
-            await user.save();
+            // user.access_token = token.access_token;
+            // user.refresh_token = token.refresh_token;
+            // user.name = profile.name;
+            // user.profile_pic = profile.picture;
             return JSON.stringify(user);
         } else {
             const newUser = new userModel({
@@ -101,8 +103,8 @@ const saveUserInfo = async (token, profile) => {
                 name: profile.name,
                 description: '',
                 profile_pic: profile.picture,
-                access_token: token.access_token,
-                refresh_token: token.refresh_token,
+                // access_token: token.access_token,
+                // refresh_token: token.refresh_token,
                 scenes: [],
             });
             await newUser.save();
