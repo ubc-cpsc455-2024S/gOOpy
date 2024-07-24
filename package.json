@@ -1,0 +1,16 @@
+{
+    "name": "goopy",
+    "version": "1.0.0",
+    "description": "gOOpy is a 3D modeling software using ray marching rendering method, and signed distance functions (SDFs) to define geometry.",
+    "main": "index.js",
+    "scripts": {
+        "install-server": "cd backend && npm install",
+        "start-server": "cd backend && npm start",
+        "install-client": "cd gOOpy-frontend && npm install",
+        "build-client": "cd gOOpy-frontend && npm run build",
+        "start-client": "cd gOOpy-frontend && npm run start"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}

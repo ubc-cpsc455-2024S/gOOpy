@@ -5,12 +5,12 @@ precision highp float;
 // our object representation. This should be expanded to be more versatile later on
 struct Shape
 {
-    vec3 center;
     int shape_type;
     float property1; // See config file for what these are
     float property2;
     float property3;
     float property4;
+    mat4 transform;
 };
 #define MAX_SHAPES 50
 #define SPHERE 0
@@ -18,7 +18,7 @@ struct Shape
 #define TORUS 2
 #define CYLINDER 3
 uniform Shape shapes[MAX_SHAPES];
-uniform int n_shapes; // should change to match max number of shapes in editor.
+uniform int n_shapes;
 uniform vec3 camera_pos;
 uniform vec4 skybox_col;
 uniform vec3 skybox_l_color;
@@ -30,7 +30,7 @@ out vec4 fragColor;
 // Smooth Min - goopy shapes!
 // adapted from https://iquilezles.org/articles/smin/
 // more variations available... We should add more
-float smin( float a, float b, float k )
+float smin(float a, float b, float k)
 {
     if (k <= 0.0001) return min(a,b);
     k *= 4.0;
@@ -38,28 +38,26 @@ float smin( float a, float b, float k )
     return min(a,b) - h*h*k*(1.0/4.0);
 }
 
-float sphere( vec3 pos, vec3 center, float radius )
+float sphere(vec3 pos, float radius)
 {
-    return length( pos - center ) - radius;
+    return length(pos) - radius;
 }
 
-float box( vec3 pos, vec3 center, vec3 size, float corner )
+float box( vec3 pos, vec3 size, float corner )
 {
-    return length( max( abs( pos-center )-size, 0.0 ) ) - corner;
+    return length(max( abs( pos )-size, 0.0)) - corner;
 }
 
-float torus( vec3 pos, vec3 center, vec2 t )
+float torus( vec3 p, vec2 t )
 {
-    vec3 p = (pos - center);
     vec2 q = vec2(length(p.xz)-t.x,p.y);
     return length(q)-t.y;
 }
 
-float cylinder( vec3 pos, vec3 center, float ra, float rb, float h )
+float cylinder( vec3 p, float ra, float rb, float h )
 {
-    vec3 p = (pos - center);
-    vec2 d = vec2( length(p.xz)-2.0*ra+rb, abs(p.y) - h );
-    return min(max(d.x,d.y),0.0) + length(max(d,0.0)) - rb;
+    vec2 d = vec2(length(p.xz) - 2.0 * ra + rb, abs(p.y) - h);
+    return min(max(d.x,d.y), 0.0) + length(max(d, 0.0)) - rb;
 }
 
 float sdf(vec3 p) {
@@ -71,25 +69,27 @@ float sdf(vec3 p) {
             break;
         }
         Shape s = shapes[i];
-        vec3 center = s.center;
         float prop1 = s.property1;
         float prop2 = s.property2;
         float prop3 = s.property3;
         float prop4 = s.property4;
 
+        vec3 p_t = vec3(s.transform*vec4(p, 1.0));
+
+
         float sdf_val = 0.0;
         switch(shapes[i].shape_type) {
             case SPHERE:
-                sdf_val = sphere(p, center, prop1);
+                sdf_val = sphere(p_t, prop1);
                 break;
             case BOX:
-                sdf_val = box(p, center, vec3(prop1, prop2, prop3), prop4);
+                sdf_val = box(p_t, vec3(prop1, prop2, prop3), prop4);
                 break;
             case TORUS:
-                sdf_val = torus(p, center, vec2(prop1, prop2));
+                sdf_val = torus(p_t, vec2(prop1, prop2));
                 break;
             case CYLINDER:
-                sdf_val = cylinder(p, center, prop1, prop2, prop3);
+                sdf_val = cylinder(p_t, prop1, prop2, prop3);
                 break;
         }
 

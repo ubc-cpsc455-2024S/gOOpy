@@ -14,6 +14,12 @@ const sceneQueries = {
         await s.save();
         return s;
     },
+    getManySceneMetadata: async function (sceneIds) {
+        return await Scene.find(
+            { _id: { $in: sceneIds } },
+            { metadata: 1, _id: 1 }
+        );
+    },
 };
 
 module.exports = sceneQueries;

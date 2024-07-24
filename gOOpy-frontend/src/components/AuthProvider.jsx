@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../redux/slices/userSlice';
+import { LOCAL_SERVER_URL } from '../apiCalls/sceneAPI';
 
 const AuthContext = createContext(null);
 
@@ -13,7 +14,8 @@ export const AuthProvider = ({ children }) => {
         const fetchUser = async () => {
             try {
                 const sessionUser = await axios.get(
-                    'http://localhost:3000/auth/session-user',
+
+                    `${LOCAL_SERVER_URL}/auth/session-user`,
                     { withCredentials: true }
                 );
                 setUser(sessionUser.data);

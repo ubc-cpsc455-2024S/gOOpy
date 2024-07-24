@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
 import { Vector3, Vector4 } from 'three';
@@ -11,11 +10,15 @@ import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
 import { SHAPE_TYPES } from './constants';
 import { getSceneInfo, saveSceneInfo } from '../../apiCalls/sceneAPI';
+import { buildMatrices } from './matrixHelpers';
+
+const THUMBNAIL_DIMENSION = 250;
 
 // hard coded list of objects (temporary)
-// TODO: make sure shape has property1 and shape type
 const obj1 = {
-    center: new Vector3(0.0, 0.0, 0.0),
+    translation: new Vector3(0.0, 0.0, 0.0),
+    scale: new Vector3(1.0, 1.0, 1.0),
+    rotation: new Vector3(0.0, 0.0, 0.0),
     property1: 1.0,
     property2: 1.0,
     property3: 1.0,
@@ -24,7 +27,9 @@ const obj1 = {
     id: 0,
 };
 const obj2 = {
-    center: new Vector3(1.0, 1.0, 1.0),
+    translation: new Vector3(1.0, 1.0, 1.0),
+    scale: new Vector3(1.0, 1.0, 1.0),
+    rotation: new Vector3(0.0, 0.0, 0.0),
     property1: 1.3,
     property2: 1.0,
     property3: 1.0,
@@ -33,7 +38,9 @@ const obj2 = {
     id: 1,
 };
 const obj3 = {
-    center: new Vector3(-1.0, -1.0, 1.0),
+    translation: new Vector3(-1.0, -1.0, 1.0),
+    scale: new Vector3(1.0, 1.0, 1.0),
+    rotation: new Vector3(0.0, 0.0, 0.0),
     property1: 0.8,
     property2: 1.0,
     property3: 1.0,
@@ -42,19 +49,17 @@ const obj3 = {
     id: 2,
 };
 
-export const fetchShapes = async (
-    setLoading,
-    setShapes,
-    setNextId,
-    sceneId
-) => {
+const fetchShapes = async (setLoading, setShapes, setNextId, sceneId) => {
+    function initializeScene(data) {
+        setShapes(buildMatrices(data.shapes));
+        setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
+    }
+
     fetchUserInfo: try {
         if (!sceneId) break fetchUserInfo;
         let resp = await getSceneInfo(sceneId);
         if (resp.data) {
-            let data = resp.data;
-            setShapes(data.shapes);
-            setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
+            initializeScene(resp.data);
         }
     } catch (error) {
         setLoading(true);
@@ -70,7 +75,7 @@ export const saveResult = async (sceneId, shapes) => {
             user_id: '668f76634cfd55de99230ca9',
             title: 'new_model',
             lastEdited: new Date(),
-            // TODO: create thumbnail from scene
+            thumbnail: createThumbnail(THUMBNAIL_DIMENSION),
         },
     };
     await saveSceneInfo(sceneId, data);
@@ -78,7 +83,7 @@ export const saveResult = async (sceneId, shapes) => {
 
 function Editor() {
     const [loading, setLoading] = useState(true);
-    const [shapes, setShapes] = useState([obj1, obj2, obj3]);
+    const [shapes, setShapes] = useState(buildMatrices([obj1, obj2, obj3]));
     const [currentShape, setCurrentShape] = useState(null);
     const [nextId, setNextId] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
@@ -103,6 +108,9 @@ function Editor() {
     if (loading) {
         return <p>loading</p>;
     }
+
+    // TODO better way to find the shapes's index?
+    const index = shapes.findIndex((s) => s.id === currentShape);
 
     return (
         <div className='flex justify-between p-5'>
@@ -138,13 +146,7 @@ function Editor() {
                     {currentShape != null &&
                         editorView == 'shapes' &&
                         shapes.length > 0 && (
-                            <ShapeDetails
-                                // TODO better way to find the shapes's index?
-                                index={shapes.findIndex(
-                                    (s) => s.id === currentShape
-                                )}
-                                shapes={shapes}
-                            />
+                            <ShapeDetails shape={shapes[index]} />
                         )}
                 </div>
             </div>
@@ -189,3 +191,15 @@ function Editor() {
 }
 
 export default Editor;
+
+// returns resized image encoded as base64 string
+function createThumbnail(dimension) {
+    const resizedCanvas = document.createElement('canvas');
+    const resizedContext = resizedCanvas.getContext('2d');
+    resizedCanvas.width = dimension.toString();
+    resizedCanvas.height = dimension.toString();
+
+    const originalCanvas = document.getElementsByTagName('canvas')[0];
+    resizedContext.drawImage(originalCanvas, 0, 0, dimension, dimension);
+    return resizedCanvas.toDataURL();
+}
