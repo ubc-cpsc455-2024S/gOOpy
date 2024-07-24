@@ -5,7 +5,7 @@ import { Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
-import { useParams } from 'react-router-dom';
+import { useAsyncError, useParams } from 'react-router-dom';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
 import { SHAPE_TYPES } from './constants';
@@ -101,8 +101,15 @@ function Editor() {
         return newNextId;
     };
 
+    const [sceneProperties, setSceneProperties] = useState({
+        sceneName: 'default',
+        sceneDescription: 'default description',
+        allowCopy: true,
+    });
+
     useEffect(() => {
         fetchShapes(setLoading, setShapes, setNextId, sceneId);
+        /* <--load scene properties here with setSceneProperties-->*/
     }, []);
 
     if (loading) {
@@ -138,6 +145,8 @@ function Editor() {
                                 setAmbientIntensity={setAmbientIntensity}
                                 skyboxAmbient={skyboxAmbientIntensity}
                                 setEditorView={setEditorView}
+                                sceneProperties={sceneProperties}
+                                setSceneProperties={setSceneProperties}
                             ></SceneManager>
                         )}
                     </div>
