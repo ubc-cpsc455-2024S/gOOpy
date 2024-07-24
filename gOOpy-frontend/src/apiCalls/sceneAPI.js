@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+// TODO maybe an env file or something to make this nicer?
 const devmode = false;
 
 export const LOCAL_SERVER_URL = devmode
