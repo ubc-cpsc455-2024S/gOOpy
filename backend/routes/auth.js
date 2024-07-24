@@ -50,7 +50,7 @@ router.get('/google/callback', async (req, res) => {
         });
     } catch (e) {
         console.error(e);
-        res.status(500).send('authentication failed');
+        res.redirect('http://localhost:5173/');
     }
 });
 
