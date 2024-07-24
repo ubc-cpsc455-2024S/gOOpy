@@ -39,7 +39,6 @@ router.post('/:id', async (req, res) => {
             res.status(404).send('No such scene');
             return;
         }
-        console.log(scene);
         res.status(200).send('scene added');
     } catch (e) {
         res.status(500).send('failed to add scene');

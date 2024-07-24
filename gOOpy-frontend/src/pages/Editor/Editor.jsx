@@ -111,8 +111,6 @@ function Editor() {
     // TODO better way to find the shapes's index?
     const index = shapes.findIndex((s) => s.id === currentShape);
 
-    console.log(shapes);
-
     return (
         <div className='flex justify-between p-5'>
             <div className='flex absolute top-0 start-0 h-screen w-screen z-10'>
