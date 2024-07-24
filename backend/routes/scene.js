@@ -2,11 +2,8 @@ var express = require('express');
 const sceneQueries = require('../queries/scene-queries');
 
 var router = express.Router();
-const sceneModel = require('../models/scene');
-const userModel = require('../models/user');
 
-// set up fake data for scenes (not linked to users, just for persistence right now)
-
+// GET list of scene data with length reqAmt
 router.get('/', (req, res) => {
     const { reqAmt } = req.query;
     const reqAmtInt = parseInt(reqAmt, 10);
@@ -38,6 +35,7 @@ router.get('/manymetadata', async (req, res) => {
     }
 });
 
+// POST scene data
 router.post('/:id', async (req, res) => {
     try {
         const id = req.params.id;

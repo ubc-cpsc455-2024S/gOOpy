@@ -11,7 +11,9 @@ const vectorSchema = new Schema(
 );
 
 const shapeSchema = new Schema({
-    center: { type: vectorSchema, required: true },
+    translation: { type: vectorSchema, required: true },
+    rotation: { type: vectorSchema, required: true },
+    scale: { type: vectorSchema, required: true },
     property1: { type: Number, required: true },
     property2: { type: Number, required: true },
     property3: { type: Number, required: true },
