@@ -8,7 +8,10 @@ import {
     tempChangeProfilePhoto,
 } from '../../redux/slices/userSlice.js';
 import Button from '../../components/Button.jsx';
-import { getManySceneMetadata } from '../../apiCalls/sceneAPI.js';
+import {
+    getManySceneMetadata,
+    LOCAL_SERVER_URL,
+} from '../../apiCalls/sceneAPI.js';
 import { getUserInfo } from '../../apiCalls/userAPI.js';
 
 export default function UserPage() {
@@ -103,7 +106,7 @@ export default function UserPage() {
                                                         )
                                                     );
                                                     await axios.patch(
-                                                        `http://127.0.0.1:3000/users/${id}`,
+                                                        `${LOCAL_SERVER_URL}/users/${id}`,
                                                         {
                                                             name: nameRef
                                                                 .current.value,
@@ -129,7 +132,7 @@ export default function UserPage() {
                                                         )
                                                     );
                                                     await axios.patch(
-                                                        `http://127.0.0.1:3000/users/${id}`,
+                                                        `${LOCAL_SERVER_URL}/users/${id}`,
                                                         {
                                                             description:
                                                                 aboutRef.current
@@ -159,7 +162,7 @@ export default function UserPage() {
                                                         )
                                                     );
                                                     await axios.patch(
-                                                        `http://127.0.0.1:3000/users/${id}`,
+                                                        `${LOCAL_SERVER_URL}/users/${id}`,
                                                         {
                                                             profile_pic:
                                                                 profilepicRef
