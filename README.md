@@ -1,6 +1,6 @@
 # Group 08 - gOOpy
 
-![Tests](https://github.com/github/docs/actions/workflows/node.js.yml/badge.svg)
+![Tests](https://github.com/github/docs/workflows/Node.js%20CI/badge.svg)
 
 ## Describe your topic/interest in about 150-200 words
 
