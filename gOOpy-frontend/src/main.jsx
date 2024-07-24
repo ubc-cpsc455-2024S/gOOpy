@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 import { Provider } from 'react-redux';
+import { AuthProvider } from './components/AuthProvider.jsx';
 import store from './redux/store/store.js';
 import App from './App.jsx';
 
@@ -49,7 +50,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <Provider store={store}>
-            <RouterProvider router={router} />
+            <AuthProvider>
+                <RouterProvider router={router} />
+            </AuthProvider>
         </Provider>
     </React.StrictMode>
 );

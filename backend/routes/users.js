@@ -38,16 +38,6 @@ router.get('/username/:username', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
-    // TODO: revisit after OAuth2 setup
-    try {
-        await userQueries.saveUser(req.body);
-        res.status(201).send('user created successfully');
-    } catch (e) {
-        res.status(400).send('error creating user');
-    }
-});
-
 router.patch('/:id', async (req, res) => {
     // TODO: search up user in MongoDB database, if found, update fields with non-null fields in the request body
     // if not found send 404

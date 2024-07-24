@@ -2,6 +2,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { updateUser, getUserInfoByUsername } from '../../apiCalls/userAPI.js';
 import { useSelector } from 'react-redux';
 
+const initialState = {
+    user: null,
+    isAuthenticated: false,
+};
+
 export const userLogin = createAsyncThunk('member/login', async (username) => {
     const response = await getUserInfoByUsername(username);
     return response.data;
@@ -27,19 +32,10 @@ export const changeProfilePhoto = createAsyncThunk(
     }
 );
 
-const initialUserState = {
-    oauth_id: null,
-    name: 'Guest',
-    profile_pic:
-        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-    description: '',
-    scenes: [],
-};
-
 // TODO: have default values for userImage and login.
 export const userSlice = createSlice({
     name: 'user',
-    initialState: initialUserState,
+    initialState,
     reducers: {
         // TODO: delete when API calls are done
         // temporary redux functions because we don't have a backend setup yet
@@ -57,7 +53,17 @@ export const userSlice = createSlice({
 
         // This one we can keep!
         userLogout: () => {
-            return initialUserState;
+            return initialState;
+        },
+
+        loginUser: (state, action) => {
+            state.user = action.payload;
+            // console.log(state.user);
+            state.isAuthenticated = true;
+        },
+        clearUser: (state) => {
+            state.user = null;
+            state.isAuthenticated = false;
         },
     },
     extraReducers: (builder) => {
@@ -94,6 +100,8 @@ export const {
     tempChangeAboutMe,
     tempChangeProfilePhoto,
     userLogout,
+    loginUser,
+    clearUser,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,25 +1,31 @@
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { userLogout } from '../redux/slices/userSlice';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '../redux/slices/userSlice';
+import { useAuth } from './AuthProvider';
+import { logoutUserGoogle } from '../apiCalls/userAPI';
 
 export default function PageHeader() {
-    const userID = useSelector((state) => state.user._id);
+    const { user, setUser } = useAuth();
     const dispatch = useDispatch();
+    console.log(user);
+
+    const handleLogout = async () => {
+        const result = await logoutUserGoogle();
+        if (result) {
+            dispatch(clearUser());
+            setUser(null);
+        }
+    };
+
     return (
         <header className='sticky top-0 z-50 flex justify-between items-center bg-hd-color p-2'>
             <Link to='/' className='text-3xl font-bold'>
                 gOOpy
             </Link>
-            {userID === null ? (
-                <Link to='/login'>Login</Link>
+            {user ? (
+                <button onClick={handleLogout}>Logout</button>
             ) : (
-                <button
-                    onClick={() => {
-                        dispatch(userLogout());
-                    }}
-                >
-                    Logout
-                </button>
+                <Link to={`/login`}>Login</Link>
             )}
         </header>
     );
