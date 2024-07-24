@@ -8,9 +8,31 @@ export const SHAPE_TYPES = {
 const translation = {
     title: 'Translation',
     values: [
-        { descriptor: 'x', min: -5, max: 5, path: ['center', 'x'] },
-        { descriptor: 'y', min: -5, max: 5, path: ['center', 'y'] },
-        { descriptor: 'z', min: -5, max: 5, path: ['center', 'z'] },
+        { descriptor: 'x', min: -5, max: 5, path: ['translation', 'x'] },
+        { descriptor: 'y', min: -5, max: 5, path: ['translation', 'y'] },
+        { descriptor: 'z', min: -5, max: 5, path: ['translation', 'z'] },
+    ],
+};
+
+const rotation = {
+    title: 'Rotation',
+    values: [
+        { descriptor: 'x', min: -5, max: 5, path: ['rotation', 'x'] },
+        { descriptor: 'y', min: -5, max: 5, path: ['rotation', 'y'] },
+        { descriptor: 'z', min: -5, max: 5, path: ['rotation', 'z'] },
+    ],
+};
+
+// TODO scale is not used right now due to buggy behaviour with scales in [0, 1] w/ rotation (disappearing)
+// This good be related to incorrect implementation (see comment in matrixHelpers > rebuildMatrix)
+// Also, I am not fully convinced that lighting is correct with scaling
+// Usually you need to do inverse transpose on the normals to fix this, but w/ our new method I am not sure.
+const scale = {
+    title: 'Scale',
+    values: [
+        { descriptor: 'x', min: 0.2, max: 5, path: ['scale', 'x'] },
+        { descriptor: 'y', min: 0.2, max: 5, path: ['scale', 'y'] },
+        { descriptor: 'z', min: 0.2, max: 5, path: ['scale', 'z'] },
     ],
 };
 
@@ -19,6 +41,7 @@ const translation = {
 export const SHAPE_PROPERTIES = [
     [
         translation,
+        rotation,
         {
             title: 'Radius',
             values: [{ descriptor: 'r', min: 0, max: 5, path: ['property1'] }],
@@ -26,6 +49,7 @@ export const SHAPE_PROPERTIES = [
     ],
     [
         translation,
+        rotation,
         {
             title: 'Dimensions',
             values: [
@@ -41,6 +65,7 @@ export const SHAPE_PROPERTIES = [
     ],
     [
         translation,
+        rotation,
         {
             title: 'Dimensions',
             values: [
@@ -51,6 +76,7 @@ export const SHAPE_PROPERTIES = [
     ],
     [
         translation,
+        rotation,
         {
             title: 'Dimensions',
             values: [

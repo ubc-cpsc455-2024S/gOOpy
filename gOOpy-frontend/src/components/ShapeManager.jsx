@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { Matrix4, Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
 import EditorTabCarousel from './EditorTabCarousel';
 import { SHAPE_TYPES } from '../pages/Editor/constants';
@@ -46,7 +46,7 @@ function ShapeManager({
                             {currentShape != shape.id && (
                                 <GoopyButton
                                     classes={`border-l border-b pl-1 pr-1`}
-                                    onClick={(e) => {
+                                    onClick={() => {
                                         setShapes((state) => {
                                             const newState = [...state];
                                             let index = newState.indexOf(
@@ -73,20 +73,22 @@ function ShapeManager({
                     onClick={() => {
                         if (shapes.length >= MAX_SHAPES) return;
                         const newId = determineNewID();
-                        setShapes((state) => {
-                            const newState = [...state];
-                            newState.push({
-                                center: new Vector3(0, 0, 0),
+                        setShapes((state) => [
+                            ...state,
+                            {
+                                translation: new Vector3(0, 0, 0),
                                 // these property values are chosen such that the default shapes look nice
                                 property1: 1.0,
                                 property2: 0.5,
                                 property3: 0.2,
                                 property4: 0.2,
+                                transform: new Matrix4(),
+                                rotation: new Vector3(),
+                                scale: new Vector3(1.0, 1.0, 1.0),
                                 shape_type: SHAPE_TYPES.Sphere,
                                 id: newId,
-                            });
-                            return newState;
-                        });
+                            },
+                        ]);
                         setCurrentShape(newId);
                     }}
                 >
@@ -114,13 +116,11 @@ function ShapeManager({
                 <GoopyButton
                     classes='border-l border-r border-b p-1'
                     onClick={() => {
-                        // TODO We can later specify this to be low-quality jpeg for thumbnails
-                        // we might also want to make thumbnails render low-res.. We can assess this later...
                         const data = document
                             .getElementsByTagName('canvas')[0]
                             .toDataURL();
                         const t = document.createElement('a');
-                        t.download = 'scene.jpg';
+                        t.download = 'scene.png'; // TODO: replace with name of scene (if scene has name)
                         t.href = data;
                         t.click();
                     }}

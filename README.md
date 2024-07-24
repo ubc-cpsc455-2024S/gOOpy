@@ -1,5 +1,7 @@
 # Group 08 - gOOpy
 
+![Tests](https://github.com/github/docs/actions/workflows/node.js.yml/badge.svg)
+
 ## Describe your topic/interest in about 150-200 words
 
 gOOpy is a 3D modeling software using ray marching rendering method, and signed distance functions (SDFs) to define geometry. Our goal is to enable artists to create 3D scenes in a unique way compared to traditional mesh-based methods. What users should expect is a platform where you can make an account to create, modify, download, and share scenes with other users. Our project will store the values needed to render the objects (such as position, colour, etc), basic account information, and any likes, comments, and dates for scenes. If time permits, we would like to create an “explore page” to feature scenes made on our platform, and also create a detailed materials system that includes texturing.
