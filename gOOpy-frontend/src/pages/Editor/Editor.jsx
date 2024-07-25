@@ -105,6 +105,7 @@ function Editor() {
         sceneName: 'default',
         sceneDescription: 'default description',
         allowCopy: true,
+        lastEdited: Date(),
     });
 
     useEffect(() => {

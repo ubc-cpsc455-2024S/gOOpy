@@ -67,6 +67,15 @@ function SceneManager({
                                 }}
                             />
                         </div>
+                        <div className=' justify-between'>
+                            <h4 className='text-xs mr-2 mt-2'>Last Edited:</h4>
+                            <input
+                                type='text'
+                                style={{ maxWidth: '100%' }}
+                                value={sceneProperties.lastEdited}
+                                disabled={true}
+                            />
+                        </div>
                     </div>
                 </ToggleView>
                 <ToggleView label={'Scene Lighting'} classes={''}>
