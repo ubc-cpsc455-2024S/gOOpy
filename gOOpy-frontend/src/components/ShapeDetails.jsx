@@ -28,7 +28,7 @@ function ShapeDetails({ shape }) {
     // TODO: change 'FF0000' to currentShape's color
     // const [color, setColor] = useColor('FF0000');
     return (
-        <div className='sliders border ms-2 editor-panel'>
+        <div className='sliders border ms-2 editor-panel min-w-64'>
             <h4 className='text-2xl font-bold'>
                 Shape {shape.id} &gt; Properties
             </h4>
