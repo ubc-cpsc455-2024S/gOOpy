@@ -49,7 +49,7 @@ router.get('/google/callback', async (req, res) => {
             }
         });
     } catch (e) {
-        console.error(error);
+        console.error(e);
 
         // TODO: handle login failure
         res.redirect(`${process.env.WEBSITE_URL}/login`);
