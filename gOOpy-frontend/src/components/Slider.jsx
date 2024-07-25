@@ -11,7 +11,7 @@ function Slider({
 
     return (
         <input
-            className='grow'
+            className='grow min-w-full'
             value={val}
             onChange={(e) => {
                 const newValue = parseFloat(e.target.value);
