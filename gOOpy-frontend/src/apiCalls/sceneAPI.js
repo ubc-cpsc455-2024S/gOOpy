@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // TODO maybe an env file or something to make this nicer?
 
-const devmode = false;
+const devmode = true;
 
 export const LOCAL_SERVER_URL = devmode
     ? 'http://localhost:3000'
