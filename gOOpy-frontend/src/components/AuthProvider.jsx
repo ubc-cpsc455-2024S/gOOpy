@@ -18,7 +18,6 @@ export const AuthProvider = ({ children }) => {
                     { withCredentials: true }
                 );
                 const u = JSON.parse(sessionUser.data);
-                console.log(u);
                 setUser(u);
                 dispatch(loginUser(u));
             } catch (err) {
