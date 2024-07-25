@@ -62,7 +62,9 @@ function CustomProperties({ shapeType, shape, updateField }) {
             <h4 className='text-1xl font-bold'>{property.title}</h4>
             {property.values.map((v) => (
                 <div className='flex' key={shape.id + v.descriptor}>
-                    <h4 className='text-1xl font-bold mr-2'>{v.descriptor}:</h4>
+                    <h4 className='text-1xl font-bold mr-2 grow-0'>
+                        {v.descriptor}:
+                    </h4>
                     <Slider
                         defaultValue={v.path.reduce(
                             (acc, curr) => acc[curr],
