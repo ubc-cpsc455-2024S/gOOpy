@@ -66,6 +66,7 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/session-user', (req, res) => {
+    console.log(req.session.id);
     req.session.reload(function (err) {
         if (req.session.user) {
             res.json(req.session.user);
