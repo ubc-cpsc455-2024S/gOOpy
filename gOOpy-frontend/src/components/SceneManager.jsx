@@ -21,7 +21,7 @@ function SceneManager({
             </div>
             <div className='overflow-scroll border-r border-l grow border-b scroll-container'>
                 <ToggleView label={'Properties'} classes={'border-t mt-1'}>
-                    <div className='border-b sliders'>
+                    <div className='border-b sliders p-2'>
                         <h4 className='text-sm mr-2'>Information</h4>
                         <div className=' justify-between'>
                             <h4 className='text-xs mr-2'>Scene Name:</h4>
@@ -42,7 +42,7 @@ function SceneManager({
                     </div>
                 </ToggleView>
                 <ToggleView label={'Scene Lighting'} classes={''}>
-                    <div style={{ maxHeight: '65vh' }}>
+                    <div style={{ maxHeight: '65vh' }} className='p-2'>
                         <h4 className='text-sm mr-2'>Skybox Colour</h4>
                         <ColorPicker
                             color={skyboxColor}
@@ -66,12 +66,14 @@ function SceneManager({
                         <h4 className='text-sm mr-2  pt-1'>
                             Ambient Intensity
                         </h4>
-                        <Slider
-                            min={0.0}
-                            max={1.0}
-                            defaultValue={skyboxAmbient}
-                            callback={setAmbientIntensity}
-                        ></Slider>
+                        <div className='flex'>
+                            <Slider
+                                min={0.0}
+                                max={1.0}
+                                defaultValue={skyboxAmbient}
+                                callback={setAmbientIntensity}
+                            ></Slider>
+                        </div>
                     </div>
                 </ToggleView>
             </div>
