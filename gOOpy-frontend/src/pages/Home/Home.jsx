@@ -1,11 +1,11 @@
-import { useSelector } from 'react-redux';
+import { useAuth } from '../../components/AuthProvider';
 import '../../index.css';
 import { Link } from 'react-router-dom';
 
+// TODO: insert context here
 function Home() {
-    const user = useSelector((state) => state.user.user);
-    console.log(user);
 
+    const { user, setUser } = useAuth();
     return (
         <main className='p-10 text-center'>
             <span>Welcome to</span>
@@ -17,7 +17,9 @@ function Home() {
                 </Link>
             </div>
             <div className='pt-10'>
-                <Link to={`/user/21}`} className='hover:underline'>
+
+                <Link to={`/user/`} className='hover:underline'>
+
                     Click here to see the user page
                 </Link>
             </div>
