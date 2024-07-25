@@ -17,8 +17,10 @@ export const AuthProvider = ({ children }) => {
                     `${LOCAL_SERVER_URL}/auth/session-user`,
                     { withCredentials: true }
                 );
-                setUser(sessionUser.data);
-                dispatch(loginUser(sessionUser.data));
+                const u = JSON.parse(sessionUser.data);
+                console.log(u);
+                setUser(u);
+                dispatch(loginUser(u));
             } catch (err) {
                 console.log('not logged in');
             }
