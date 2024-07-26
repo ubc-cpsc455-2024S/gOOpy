@@ -103,12 +103,15 @@ function SceneManager({
                         <h4 className='text-sm mr-2  pt-1'>
                             Ambient Intensity
                         </h4>
-                        <Slider
-                            min={0.0}
-                            max={1.0}
-                            defaultValue={skyboxAmbient}
-                            callback={setAmbientIntensity}
-                        ></Slider>
+                        <div className='flex'>
+                            <Slider
+                                classes='grow'
+                                min={0.0}
+                                max={1.0}
+                                defaultValue={skyboxAmbient}
+                                callback={setAmbientIntensity}
+                            ></Slider>
+                        </div>
                     </div>
                 </ToggleView>
             </div>

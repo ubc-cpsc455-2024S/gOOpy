@@ -5,12 +5,14 @@ function Slider({
     callbackParams = [],
     max = 5,
     min = -5,
+    classes = '',
 }) {
     const [val, setVal] = useState(defaultValue);
     useEffect(() => setVal(defaultValue), [defaultValue]);
 
     return (
         <input
+            className={`${classes}`}
             value={val}
             onChange={(e) => {
                 const newValue = parseFloat(e.target.value);
