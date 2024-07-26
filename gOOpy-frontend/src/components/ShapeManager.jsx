@@ -21,7 +21,7 @@ function ShapeManager({
     saveResult,
 }) {
     return (
-        <div className='sliders border h-full flex flex-col ...'>
+        <div className='sliders border h-full flex flex-col min-w-64 ...'>
             <div>
                 <EditorTabCarousel
                     setEditorView={setEditorView}
