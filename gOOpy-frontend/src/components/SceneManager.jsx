@@ -80,7 +80,7 @@ function SceneManager({
                 </ToggleView>
                 <ToggleView label={'Scene Lighting'} classes={''}>
                     <div style={{ maxHeight: '65vh' }}>
-                        <h4 className='text-sm mr-2'>Skybox Colour</h4>
+                        <h4 className='text-sm mr-2'>Background Colour</h4>
                         <ColorPicker
                             color={skyboxColor}
                             onChange={(e) => {
@@ -89,9 +89,7 @@ function SceneManager({
                             hideAlpha={true}
                             hideInput={true}
                         />
-                        <h4 className='text-sm mr-2 pt-2'>
-                            Skybox Light Colour
-                        </h4>
+                        <h4 className='text-sm mr-2 pt-2'>Lighting Colour</h4>
                         <ColorPicker
                             color={skyboxLightColor}
                             onChange={(e) => {
@@ -101,7 +99,7 @@ function SceneManager({
                             hideInput={true}
                         />
                         <h4 className='text-sm mr-2  pt-1'>
-                            Ambient Intensity
+                            Lighting Intensity
                         </h4>
                         <Slider
                             min={0.0}
