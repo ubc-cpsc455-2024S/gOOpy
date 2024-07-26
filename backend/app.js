@@ -4,6 +4,8 @@ var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
+const MongoStore = require('connect-mongo');
+
 dotenv.config();
 require('./db');
 
@@ -16,17 +18,28 @@ var authRouter = require('./routes/auth');
 
 var app = express();
 
+app.set('trust proxy', 1);
+
 app.use(
     session({
         secret: process.env.SECRET,
         resave: false,
         saveUninitialized: true,
+        store: MongoStore.create({
+            mongoUrl: process.env.MONGODB_CONNECTION_STRING,
+        }),
+        cookie: {
+            httpOnly: true,
+            secure: true,
+            maxAge: 1000 * 60 * 60 * 48,
+            sameSite: 'none',
+        },
     })
 );
 
 app.use(
     cors({
-        origin: process.env.WEBSITE_URL,
+        origin: 'https://goopy-frontend.onrender.com',
         credentials: true,
     })
 );

@@ -5,14 +5,14 @@ import { Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
-import { useParams } from 'react-router-dom';
+import { useAsyncError, useParams } from 'react-router-dom';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
 import { SHAPE_TYPES } from './constants';
 import { getSceneInfo, saveSceneInfo } from '../../apiCalls/sceneAPI';
 import { buildMatrices } from './matrixHelpers';
 
-const THUMBNAIL_DIMENSION = 250;
+const THUMBNAIL_DIMENSION = 100;
 
 // hard coded list of objects (temporary)
 const obj1 = {
@@ -101,8 +101,16 @@ function Editor() {
         return newNextId;
     };
 
+    const [sceneProperties, setSceneProperties] = useState({
+        sceneName: 'default',
+        sceneDescription: 'default description',
+        allowCopy: true,
+        lastEdited: Date(),
+    });
+
     useEffect(() => {
         fetchShapes(setLoading, setShapes, setNextId, sceneId);
+        /* <--load scene properties here with setSceneProperties-->*/
     }, []);
 
     if (loading) {
@@ -138,6 +146,8 @@ function Editor() {
                                 setAmbientIntensity={setAmbientIntensity}
                                 skyboxAmbient={skyboxAmbientIntensity}
                                 setEditorView={setEditorView}
+                                sceneProperties={sceneProperties}
+                                setSceneProperties={setSceneProperties}
                             ></SceneManager>
                         )}
                     </div>
@@ -194,12 +204,24 @@ export default Editor;
 
 // returns resized image encoded as base64 string
 function createThumbnail(dimension) {
+    const originalCanvas = document.getElementsByTagName('canvas')[0];
+    const fullWidth = originalCanvas.width;
+    const fullHeight = originalCanvas.height;
+
     const resizedCanvas = document.createElement('canvas');
     const resizedContext = resizedCanvas.getContext('2d');
     resizedCanvas.width = dimension.toString();
     resizedCanvas.height = dimension.toString();
 
-    const originalCanvas = document.getElementsByTagName('canvas')[0];
-    resizedContext.drawImage(originalCanvas, 0, 0, dimension, dimension);
-    return resizedCanvas.toDataURL();
+    const fullSizeCanvas = document.createElement('canvas');
+    const fullSizeContext = fullSizeCanvas.getContext('2d');
+    fullSizeCanvas.width = fullWidth.toString();
+    fullSizeCanvas.height = fullHeight.toString();
+
+    const sigma = 1 / (2 * (dimension / fullHeight));
+    fullSizeContext.filter = `blur(${sigma}px)`;
+
+    fullSizeContext.drawImage(originalCanvas, 0, 0);
+    resizedContext.drawImage(fullSizeCanvas, 0, 0, dimension, dimension);
+    return resizedCanvas.toDataURL('image/webp');
 }

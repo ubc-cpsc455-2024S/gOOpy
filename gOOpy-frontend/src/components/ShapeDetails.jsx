@@ -66,6 +66,7 @@ function CustomProperties({ shapeType, shape, updateField }) {
                         {v.descriptor}:
                     </h4>
                     <Slider
+                        classes='grow'
                         defaultValue={v.path.reduce(
                             (acc, curr) => acc[curr],
                             shape
