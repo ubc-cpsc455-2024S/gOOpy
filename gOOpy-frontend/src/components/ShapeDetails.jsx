@@ -28,7 +28,7 @@ function ShapeDetails({ shape }) {
     // TODO: change 'FF0000' to currentShape's color
     // const [color, setColor] = useColor('FF0000');
     return (
-        <div className='sliders border ms-2 editor-panel'>
+        <div className='sliders border ms-2 editor-panel min-w-64 no-scrollbar overflow-scroll'>
             <h4 className='text-2xl font-bold'>
                 Shape {shape.id} &gt; Properties
             </h4>
@@ -62,8 +62,11 @@ function CustomProperties({ shapeType, shape, updateField }) {
             <h4 className='text-1xl font-bold'>{property.title}</h4>
             {property.values.map((v) => (
                 <div className='flex' key={shape.id + v.descriptor}>
-                    <h4 className='text-1xl font-bold mr-2'>{v.descriptor}:</h4>
+                    <h4 className='text-1xl font-bold mr-2 grow-0'>
+                        {v.descriptor}:
+                    </h4>
                     <Slider
+                        classes='grow'
                         defaultValue={v.path.reduce(
                             (acc, curr) => acc[curr],
                             shape

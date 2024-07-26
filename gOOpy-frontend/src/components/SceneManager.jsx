@@ -11,75 +11,35 @@ function SceneManager({
     setAmbientIntensity,
     skyboxAmbient,
     setEditorView,
-    sceneProperties,
-    setSceneProperties,
 }) {
     return (
-        <div className='bg-panel-primary border h-full pt-1 sliders flex flex-col'>
+        <div className='bg-panel-primary border h-full pt-1 sliders flex flex-col min-w-64'>
             <div className=''>
                 <EditorTabCarousel
                     setEditorView={setEditorView}
                 ></EditorTabCarousel>
             </div>
-            <div className='overflow-scroll border-r border-l grow border-b scroll-container'>
+            <div className='overflow-scroll border-r border-l grow border-b scroll-container no-scrollbar'>
                 <ToggleView label={'Properties'} classes={'border-t mt-1'}>
-                    <div className='border-b sliders'>
+                    <div className='border-b sliders p-2'>
                         <h4 className='text-sm mr-2'>Information</h4>
                         <div className=' justify-between'>
                             <h4 className='text-xs mr-2'>Scene Name:</h4>
-                            <input
-                                type='text'
-                                style={{ maxWidth: '100%' }}
-                                value={sceneProperties.sceneName}
-                                onChange={(e) => {
-                                    setSceneProperties({
-                                        ...sceneProperties,
-                                        sceneName: e.target.value,
-                                    });
-                                }}
-                            />
+                            <input type='text' className='w-full' />
                         </div>
                         <div className=' justify-between'>
                             <h4 className='text-xs mr-2'>Scene Description:</h4>
-                            <textarea
-                                type='textarea'
-                                style={{ maxWidth: '100%' }}
-                                value={sceneProperties.sceneDescription}
-                                onChange={(e) => {
-                                    setSceneProperties({
-                                        ...sceneProperties,
-                                        sceneDescription: e.target.value,
-                                    });
-                                }}
-                            />
+                            <textarea type='textarea' className='w-full' />
                         </div>
                         <h4 className='text-sm mr-2'>Access Control</h4>
                         <div className='flex justify-between'>
                             <h4 className='text-xs mr-2'>Allow Copying</h4>
-                            <input
-                                type='checkbox'
-                                checked={sceneProperties.allowCopy}
-                                onChange={(e) => {
-                                    setSceneProperties({
-                                        ...sceneProperties,
-                                        allowCopy: e.target.checked,
-                                    });
-                                }}
-                            />
-                        </div>
-                        <div className=' justify-between'>
-                            <h4 className='text-xs mr-2 mt-2'>Last Edited:</h4>
-                            <input
-                                type='text'
-                                style={{ maxWidth: '100%' }}
-                                value={sceneProperties.lastEdited}
-                                disabled={true}
-                            />
+                            <input type='checkbox' />
                         </div>
                     </div>
                 </ToggleView>
                 <ToggleView label={'Scene Lighting'} classes={''}>
-                    <div style={{ maxHeight: '65vh' }}>
+                    <div className='p-2 scroll-viewport'>
                         <h4 className='text-sm mr-2'>Skybox Colour</h4>
                         <ColorPicker
                             color={skyboxColor}
@@ -103,12 +63,14 @@ function SceneManager({
                         <h4 className='text-sm mr-2  pt-1'>
                             Ambient Intensity
                         </h4>
-                        <Slider
-                            min={0.0}
-                            max={1.0}
-                            defaultValue={skyboxAmbient}
-                            callback={setAmbientIntensity}
-                        ></Slider>
+                        <div className=' pr-1'>
+                            <Slider
+                                min={0.0}
+                                max={1.0}
+                                defaultValue={skyboxAmbient}
+                                callback={setAmbientIntensity}
+                            ></Slider>
+                        </div>
                     </div>
                 </ToggleView>
             </div>

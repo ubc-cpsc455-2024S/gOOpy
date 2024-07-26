@@ -2,7 +2,7 @@ import GoopyButton from './GoopyButton';
 
 function EditorTabCarousel({ setEditorView }) {
     return (
-        <div className='flex flex-row overflow-scroll bg-panel-primary border'>
+        <div className='flex flex-row overflow-scroll bg-panel-primary border no-scrollbar'>
             <GoopyButton
                 classes='border-r p-2'
                 onClick={() => {
