@@ -78,9 +78,9 @@ router.delete('/:id', (req, res) => {
 router.post('', async (req, res) => {
     // res.status(200).send('working');
     try {
-        const scene = await sceneQueries.newScene();
-
-        res.status(200).json(scene);
+        const scene = await sceneQueries.newScene(req.body);
+        const id = scene._id;
+        res.status(200).json(id);
     } catch (e) {
         res.status(500).send('Failed to create scene');
     }
