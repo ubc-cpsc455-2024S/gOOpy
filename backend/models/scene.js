@@ -27,10 +27,10 @@ const sceneSchema = Schema(
     {
         shapes: [shapeSchema],
         metadata: {
-            user_id: String,
-            title: String,
+            user_id: { type: String, default: '' },
+            title: { type: String, default: '' },
             last_edited: { type: Date, default: Date.now },
-            thumbnail: String,
+            thumbnail: { type: String, default: '' },
         },
     },
     { collection: 'scenes' }
