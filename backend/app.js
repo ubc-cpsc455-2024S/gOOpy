@@ -39,7 +39,7 @@ app.use(
 
 app.use(
     cors({
-        origin: 'https://goopy-frontend.onrender.com',
+        origin: 'process.env.WEBSITE_URL',
         credentials: true,
     })
 );
