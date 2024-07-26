@@ -4,7 +4,7 @@ import EditorTabCarousel from './EditorTabCarousel';
 import { SHAPE_TYPES } from '../pages/Editor/constants';
 
 const MAX_SHAPES = 50; // should match shaders
-const DOWNLOAD_FILE_TYPE = '.png';
+const DOWNLOAD_FILE_TYPE = 'png';
 
 function ShapeManager({
     shapes,
@@ -130,9 +130,11 @@ function ShapeManager({
                     onClick={() => {
                         const data = document
                             .getElementsByTagName('canvas')[0]
-                            .toDataURL();
+                            .toDataURL(DOWNLOAD_FILE_TYPE);
                         const t = document.createElement('a');
-                        t.download = metadata.title.concat(DOWNLOAD_FILE_TYPE);
+                        t.download = metadata.title.concat(
+                            '.' + DOWNLOAD_FILE_TYPE
+                        );
                         t.href = data;
                         t.click();
                     }}

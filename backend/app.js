@@ -39,7 +39,7 @@ app.use(
 
 app.use(
     cors({
-        origin: 'process.env.WEBSITE_URL',
+        origin: process.env.WEBSITE_URL,
         credentials: true,
     })
 );
