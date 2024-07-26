@@ -7,6 +7,7 @@ import { logoutUserGoogle } from '../apiCalls/userAPI';
 export default function PageHeader() {
     const { user, setUser } = useAuth();
     const dispatch = useDispatch();
+    console.log(user);
 
     const handleLogout = async () => {
         const result = await logoutUserGoogle();

@@ -1,0 +1,15 @@
+name: Deploy
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+    deployment:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy Stage
+              uses: fjogeleit/http-request-action@v1
+              with:
+                  url: ${{ secrets.DEPLOY_URL }}
+                  method: 'POST'

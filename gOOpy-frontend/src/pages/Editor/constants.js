@@ -1,3 +1,5 @@
+import { Vector3, Vector4 } from 'three';
+
 export const SHAPE_TYPES = {
     Sphere: 0,
     Box: 1,
@@ -90,3 +92,38 @@ export const SHAPE_PROPERTIES = [
         },
     ],
 ];
+
+// hard coded list of objects (temporary)
+export const obj1 = {
+    translation: new Vector3(0.0, 0.0, 0.0),
+    scale: new Vector3(1.0, 1.0, 1.0),
+    rotation: new Vector3(0.0, 0.0, 0.0),
+    property1: 1.0,
+    property2: 1.0,
+    property3: 1.0,
+    property4: 1.0,
+    shape_type: SHAPE_TYPES.Sphere,
+    id: 0,
+};
+export const obj2 = {
+    translation: new Vector3(1.0, 1.0, 1.0),
+    scale: new Vector3(1.0, 1.0, 1.0),
+    rotation: new Vector3(0.0, 0.0, 0.0),
+    property1: 1.3,
+    property2: 1.0,
+    property3: 1.0,
+    property4: 1.0,
+    shape_type: SHAPE_TYPES.Sphere,
+    id: 1,
+};
+export const obj3 = {
+    translation: new Vector3(-1.0, -1.0, 1.0),
+    scale: new Vector3(1.0, 1.0, 1.0),
+    rotation: new Vector3(0.0, 0.0, 0.0),
+    property1: 0.8,
+    property2: 1.0,
+    property3: 1.0,
+    property4: 1.0,
+    shape_type: SHAPE_TYPES.Box,
+    id: 2,
+};

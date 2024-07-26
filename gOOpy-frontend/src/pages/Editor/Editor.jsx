@@ -5,54 +5,37 @@ import { Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
-import { useParams } from 'react-router-dom';
+import { useAsyncError, useParams } from 'react-router-dom';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
-import { SHAPE_TYPES } from './constants';
+import { obj1, obj2, obj3 } from './constants';
 import { getSceneInfo, saveSceneInfo } from '../../apiCalls/sceneAPI';
 import { buildMatrices } from './matrixHelpers';
 
-const THUMBNAIL_DIMENSION = 250;
+const THUMBNAIL_DIMENSION = 100;
 
-// hard coded list of objects (temporary)
-const obj1 = {
-    translation: new Vector3(0.0, 0.0, 0.0),
-    scale: new Vector3(1.0, 1.0, 1.0),
-    rotation: new Vector3(0.0, 0.0, 0.0),
-    property1: 1.0,
-    property2: 1.0,
-    property3: 1.0,
-    property4: 1.0,
-    shape_type: SHAPE_TYPES.Sphere,
-    id: 0,
-};
-const obj2 = {
-    translation: new Vector3(1.0, 1.0, 1.0),
-    scale: new Vector3(1.0, 1.0, 1.0),
-    rotation: new Vector3(0.0, 0.0, 0.0),
-    property1: 1.3,
-    property2: 1.0,
-    property3: 1.0,
-    property4: 1.0,
-    shape_type: SHAPE_TYPES.Sphere,
-    id: 1,
-};
-const obj3 = {
-    translation: new Vector3(-1.0, -1.0, 1.0),
-    scale: new Vector3(1.0, 1.0, 1.0),
-    rotation: new Vector3(0.0, 0.0, 0.0),
-    property1: 0.8,
-    property2: 1.0,
-    property3: 1.0,
-    property4: 1.0,
-    shape_type: SHAPE_TYPES.Box,
-    id: 2,
-};
-
-const fetchShapes = async (setLoading, setShapes, setNextId, sceneId) => {
+const fetchScene = async (
+    setLoading,
+    setShapes,
+    setNextId,
+    sceneId,
+    setSkyboxColor,
+    setSkyboxLightColor,
+    setSkyboxAmbientIntensity,
+    setMetadata
+) => {
     function initializeScene(data) {
         setShapes(buildMatrices(data.shapes));
         setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
+        setSkyboxColor(data.skybox_color);
+        setSkyboxLightColor(data.skybox_light_color);
+        setSkyboxAmbientIntensity(data.ambient_intensity);
+        setMetadata({
+            title: data.metadata.title,
+            description: data.metadata.description,
+            copyPermission: data.metadata.copy_permission,
+            lastEdited: data.metadata.last_edited,
+        });
     }
 
     fetchUserInfo: try {
@@ -67,14 +50,26 @@ const fetchShapes = async (setLoading, setShapes, setNextId, sceneId) => {
     setLoading(false);
 };
 
-export const saveResult = async (sceneId, shapes) => {
+const saveResult = async (
+    sceneId,
+    shapes,
+    skyboxColor,
+    skyboxLightColor,
+    skyboxAmbientIntensity,
+    metadata
+) => {
     let data = {
         shapes: shapes,
+        skybox_color: skyboxColor,
+        skybox_light_color: skyboxLightColor,
+        ambient_intensity: skyboxAmbientIntensity,
         metadata: {
             // TODO: determine if oauth_id or _id from mongoDB
             user_id: '668f76634cfd55de99230ca9',
-            title: 'new_model',
-            lastEdited: new Date(),
+            title: metadata.title,
+            description: metadata.description,
+            copy_permission: metadata.copyPermission,
+            last_edited: new Date(),
             thumbnail: createThumbnail(THUMBNAIL_DIMENSION),
         },
     };
@@ -92,7 +87,7 @@ function Editor() {
     const { sceneId } = useParams();
     const [skyboxColor, setSkyboxColor] = useColor('FFFFFF');
     const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
-    const [skyboxAmbientIntensity, setAmbientIntensity] = useState(0.2);
+    const [ambientIntensity, setAmbientIntensity] = useState(0.2);
     const [editorView, setEditorView] = useState('shapes');
 
     const determineNewID = () => {
@@ -101,8 +96,24 @@ function Editor() {
         return newNextId;
     };
 
+    const [metadata, setMetadata] = useState({
+        title: 'my_scene',
+        description: 'this is my scene',
+        copyPermission: true,
+        lastEdited: Date(),
+    });
+
     useEffect(() => {
-        fetchShapes(setLoading, setShapes, setNextId, sceneId);
+        fetchScene(
+            setLoading,
+            setShapes,
+            setNextId,
+            sceneId,
+            setSkyboxColor,
+            setSkyboxLightColor,
+            setAmbientIntensity,
+            setMetadata
+        );
     }, []);
 
     if (loading) {
@@ -121,6 +132,10 @@ function Editor() {
                             <ShapeManager
                                 sceneId={sceneId}
                                 shapes={shapes}
+                                skyboxColor={skyboxColor}
+                                skyboxLightColor={skyboxLightColor}
+                                skyboxAmbientIntensity={ambientIntensity}
+                                metadata={metadata}
                                 currentShape={currentShape}
                                 setShapes={setShapes}
                                 setCurrentShape={setCurrentShape}
@@ -136,8 +151,10 @@ function Editor() {
                                 skyboxLightController={setSkyboxLightColor}
                                 skyboxLightColor={skyboxLightColor}
                                 setAmbientIntensity={setAmbientIntensity}
-                                skyboxAmbient={skyboxAmbientIntensity}
+                                skyboxAmbient={ambientIntensity}
                                 setEditorView={setEditorView}
+                                metadata={metadata}
+                                setMetadata={setMetadata}
                             ></SceneManager>
                         )}
                     </div>
@@ -181,7 +198,7 @@ function Editor() {
                                 skyboxLightColor.rgb.g / 255,
                                 skyboxLightColor.rgb.b / 255
                             ),
-                            ambientIntensity: skyboxAmbientIntensity,
+                            ambientIntensity: ambientIntensity,
                         }}
                     />
                 </Canvas>
@@ -194,12 +211,24 @@ export default Editor;
 
 // returns resized image encoded as base64 string
 function createThumbnail(dimension) {
+    const originalCanvas = document.getElementsByTagName('canvas')[0];
+    const fullWidth = originalCanvas.width;
+    const fullHeight = originalCanvas.height;
+
     const resizedCanvas = document.createElement('canvas');
     const resizedContext = resizedCanvas.getContext('2d');
     resizedCanvas.width = dimension.toString();
     resizedCanvas.height = dimension.toString();
 
-    const originalCanvas = document.getElementsByTagName('canvas')[0];
-    resizedContext.drawImage(originalCanvas, 0, 0, dimension, dimension);
-    return resizedCanvas.toDataURL();
+    const fullSizeCanvas = document.createElement('canvas');
+    const fullSizeContext = fullSizeCanvas.getContext('2d');
+    fullSizeCanvas.width = fullWidth.toString();
+    fullSizeCanvas.height = fullHeight.toString();
+
+    const sigma = 1 / (2 * (dimension / fullHeight));
+    fullSizeContext.filter = `blur(${sigma}px)`;
+
+    fullSizeContext.drawImage(originalCanvas, 0, 0);
+    resizedContext.drawImage(fullSizeCanvas, 0, 0, dimension, dimension);
+    return resizedCanvas.toDataURL('image/webp');
 }
