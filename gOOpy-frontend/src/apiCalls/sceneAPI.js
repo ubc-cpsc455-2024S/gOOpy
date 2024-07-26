@@ -17,7 +17,6 @@ export function saveSceneInfo(sceneId, data) {
 }
 
 export function getManySceneMetadata(sceneIds) {
-    console.log('sceneIds in sceneAPI: ', sceneIds);
     return axios.get(`${LOCAL_SERVER_URL}/scene/manymetadata`, {
         params: { sceneIds: sceneIds },
     });

@@ -11,6 +11,8 @@ function SceneManager({
     setAmbientIntensity,
     skyboxAmbient,
     setEditorView,
+    metadata,
+    setMetadata,
 }) {
     return (
         <div className='bg-panel-primary border h-full pt-1 sliders flex flex-col min-w-64'>
@@ -25,22 +27,61 @@ function SceneManager({
                         <h4 className='text-sm mr-2'>Information</h4>
                         <div className=' justify-between'>
                             <h4 className='text-xs mr-2'>Scene Name:</h4>
-                            <input type='text' className='w-full' />
+                            <input
+                                type='text'
+                                className='w-full'
+                                value={metadata.title}
+                                onChange={(e) => {
+                                    setMetadata({
+                                        ...metadata,
+                                        title: e.target.value,
+                                    });
+                                }}
+                            />
                         </div>
                         <div className=' justify-between'>
                             <h4 className='text-xs mr-2'>Scene Description:</h4>
-                            <textarea type='textarea' className='w-full' />
+                            <textarea
+                                type='textarea'
+                                className='w-full'
+                                style={{ maxWidth: '100%' }}
+                                value={metadata.description}
+                                onChange={(e) => {
+                                    setMetadata({
+                                        ...metadata,
+                                        description: e.target.value,
+                                    });
+                                }}
+                            />
                         </div>
                         <h4 className='text-sm mr-2'>Access Control</h4>
                         <div className='flex justify-between'>
                             <h4 className='text-xs mr-2'>Allow Copying</h4>
-                            <input type='checkbox' />
+                            <input
+                                type='checkbox'
+                                defaultChecked={metadata.copyPermission}
+                                onChange={(e) => {
+                                    setMetadata({
+                                        ...metadata,
+                                        copyPermission: e.target.checked,
+                                    });
+                                }}
+                            />
+                        </div>
+                        <div className=' justify-between'>
+                            <h4 className='text-xs mr-2 mt-2'>Last Edited:</h4>
+                            <input
+                                type='text'
+                                style={{ maxWidth: '100%' }}
+                                value={metadata.lastEdited}
+                                disabled={true}
+                            />
                         </div>
                     </div>
                 </ToggleView>
                 <ToggleView label={'Scene Lighting'} classes={''}>
                     <div className='p-2 scroll-viewport'>
-                        <h4 className='text-sm mr-2'>Skybox Colour</h4>
+                        <h4 className='text-sm mr-2'>Background Colour</h4>
                         <ColorPicker
                             color={skyboxColor}
                             onChange={(e) => {
@@ -49,9 +90,7 @@ function SceneManager({
                             hideAlpha={true}
                             hideInput={true}
                         />
-                        <h4 className='text-sm mr-2 pt-2'>
-                            Skybox Light Colour
-                        </h4>
+                        <h4 className='text-sm mr-2 pt-2'>Lighting Colour</h4>
                         <ColorPicker
                             color={skyboxLightColor}
                             onChange={(e) => {
@@ -61,7 +100,7 @@ function SceneManager({
                             hideInput={true}
                         />
                         <h4 className='text-sm mr-2  pt-1'>
-                            Ambient Intensity
+                            Lighting Intensity
                         </h4>
                         <div className=' pr-1'>
                             <Slider

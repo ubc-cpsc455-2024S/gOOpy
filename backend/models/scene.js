@@ -22,13 +22,31 @@ const shapeSchema = new Schema({
     id: { type: Number, required: true },
 });
 
-// TODO: will need to update with things like camera, colour etc
+const colorSchema = new Schema(
+    {
+        hex: String,
+        rgb: {
+            r: Number,
+            g: Number,
+            b: Number,
+            a: Number,
+        },
+        hsv: { h: Number, s: Number, v: Number, a: Number },
+    },
+    { _id: false }
+);
+
 const sceneSchema = Schema(
     {
         shapes: [shapeSchema],
+        skybox_color: colorSchema,
+        skybox_light_color: colorSchema,
+        ambient_intensity: Number,
         metadata: {
             user_id: String,
             title: String,
+            description: String,
+            copy_permission: Boolean,
             last_edited: { type: Date, default: Date.now },
             thumbnail: String,
         },
