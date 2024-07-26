@@ -1,12 +1,9 @@
 import axios from 'axios';
 
-// TODO maybe an env file or something to make this nicer?
+// const dotenv = require('dotenv');
+// dotenv.config();
 
-const devmode = false;
-
-export const LOCAL_SERVER_URL = devmode
-    ? 'http://localhost:3000'
-    : 'https://goopy-backend.onrender.com';
+export const LOCAL_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export function getSceneInfo(sceneID) {
     return axios.get(`${LOCAL_SERVER_URL}/scene/${sceneID}`);
