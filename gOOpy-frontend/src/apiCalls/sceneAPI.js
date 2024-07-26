@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // TODO maybe an env file or something to make this nicer?
 
-const devmode = false;
+const devmode = true;
 
 export const LOCAL_SERVER_URL = devmode
     ? 'http://localhost:3000'
@@ -17,7 +17,6 @@ export function saveSceneInfo(sceneId, data) {
 }
 
 export function getManySceneMetadata(sceneIds) {
-    console.log('sceneIds in sceneAPI: ', sceneIds);
     return axios.get(`${LOCAL_SERVER_URL}/scene/manymetadata`, {
         params: { sceneIds: sceneIds },
     });

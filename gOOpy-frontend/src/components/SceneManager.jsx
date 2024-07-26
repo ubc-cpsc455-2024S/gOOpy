@@ -11,8 +11,8 @@ function SceneManager({
     setAmbientIntensity,
     skyboxAmbient,
     setEditorView,
-    sceneProperties,
-    setSceneProperties,
+    metadata,
+    setMetadata,
 }) {
     return (
         <div className='bg-panel-primary border h-full pt-1 sliders flex flex-col'>
@@ -30,11 +30,11 @@ function SceneManager({
                             <input
                                 type='text'
                                 style={{ maxWidth: '100%' }}
-                                value={sceneProperties.sceneName}
+                                value={metadata.title}
                                 onChange={(e) => {
-                                    setSceneProperties({
-                                        ...sceneProperties,
-                                        sceneName: e.target.value,
+                                    setMetadata({
+                                        ...metadata,
+                                        title: e.target.value,
                                     });
                                 }}
                             />
@@ -44,11 +44,11 @@ function SceneManager({
                             <textarea
                                 type='textarea'
                                 style={{ maxWidth: '100%' }}
-                                value={sceneProperties.sceneDescription}
+                                value={metadata.description}
                                 onChange={(e) => {
-                                    setSceneProperties({
-                                        ...sceneProperties,
-                                        sceneDescription: e.target.value,
+                                    setMetadata({
+                                        ...metadata,
+                                        description: e.target.value,
                                     });
                                 }}
                             />
@@ -58,11 +58,11 @@ function SceneManager({
                             <h4 className='text-xs mr-2'>Allow Copying</h4>
                             <input
                                 type='checkbox'
-                                checked={sceneProperties.allowCopy}
+                                defaultChecked={metadata.copyPermission}
                                 onChange={(e) => {
-                                    setSceneProperties({
-                                        ...sceneProperties,
-                                        allowCopy: e.target.checked,
+                                    setMetadata({
+                                        ...metadata,
+                                        copyPermission: e.target.checked,
                                     });
                                 }}
                             />
@@ -72,7 +72,7 @@ function SceneManager({
                             <input
                                 type='text'
                                 style={{ maxWidth: '100%' }}
-                                value={sceneProperties.lastEdited}
+                                value={metadata.lastEdited}
                                 disabled={true}
                             />
                         </div>

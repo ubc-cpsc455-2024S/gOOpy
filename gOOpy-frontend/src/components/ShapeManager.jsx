@@ -4,9 +4,14 @@ import EditorTabCarousel from './EditorTabCarousel';
 import { SHAPE_TYPES } from '../pages/Editor/constants';
 
 const MAX_SHAPES = 50; // should match shaders
+const DOWNLOAD_FILE_TYPE = '.png';
 
 function ShapeManager({
     shapes,
+    skyboxColor,
+    skyboxLightColor,
+    skyboxAmbientIntensity,
+    metadata,
     setEditorView,
     setCurrentShape,
     currentShape,
@@ -108,7 +113,14 @@ function ShapeManager({
                 <GoopyButton
                     classes='border-l border-r border-b p-1'
                     onClick={async () => {
-                        saveResult(sceneId, shapes);
+                        saveResult(
+                            sceneId,
+                            shapes,
+                            skyboxColor,
+                            skyboxLightColor,
+                            skyboxAmbientIntensity,
+                            metadata
+                        );
                     }}
                 >
                     Save Scene
@@ -120,7 +132,7 @@ function ShapeManager({
                             .getElementsByTagName('canvas')[0]
                             .toDataURL();
                         const t = document.createElement('a');
-                        t.download = 'scene.png'; // TODO: replace with name of scene (if scene has name)
+                        t.download = metadata.title.concat(DOWNLOAD_FILE_TYPE);
                         t.href = data;
                         t.click();
                     }}
