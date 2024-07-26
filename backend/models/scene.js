@@ -39,16 +39,40 @@ const colorSchema = new Schema(
 const sceneSchema = Schema(
     {
         shapes: [shapeSchema],
-        skybox_color: colorSchema,
-        skybox_light_color: colorSchema,
-        ambient_intensity: Number,
+        skybox_color: {
+            type: colorSchema,
+            default: {
+                hex: '#70e0f9',
+                rgb: { r: 111.88125, g: 224.01112499999996, b: 248.625, a: 1 },
+                hsv: { h: 190.8, s: 55.00000000000001, v: 97.5, a: 1 },
+            },
+        },
+        skybox_light_color: {
+            type: colorSchema,
+            default: {
+                hex: '#9beca4',
+                rgb: {
+                    r: 155.4630681818182,
+                    g: 235.875,
+                    b: 163.50426136363635,
+                    a: 1,
+                },
+                hsv: {
+                    h: 125.99999999999999,
+                    s: 34.090909090909086,
+                    v: 92.5,
+                    a: 1,
+                },
+            },
+        },
+        ambient_intensity: { type: Number, default: 0.023 },
         metadata: {
-            user_id: String,
-            title: String,
-            description: String,
-            copy_permission: Boolean,
+            user_id: { type: String, default: '' },
+            title: { type: String, default: '' },
+            description: { type: String, default: '' },
+            copy_permission: { type: Boolean, default: false },
             last_edited: { type: Date, default: Date.now },
-            thumbnail: String,
+            thumbnail: { type: String, default: '' },
         },
     },
     { collection: 'scenes' }
