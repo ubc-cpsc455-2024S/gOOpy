@@ -130,11 +130,9 @@ function ShapeManager({
                     onClick={() => {
                         const data = document
                             .getElementsByTagName('canvas')[0]
-                            .toDataURL(DOWNLOAD_FILE_TYPE);
+                            .toDataURL(`image/${DOWNLOAD_FILE_TYPE}`);
                         const t = document.createElement('a');
-                        t.download = metadata.title.concat(
-                            '.' + DOWNLOAD_FILE_TYPE
-                        );
+                        t.download = `${metadata.title}.${DOWNLOAD_FILE_TYPE}`;
                         t.href = data;
                         t.click();
                     }}
