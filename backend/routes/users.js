@@ -7,6 +7,19 @@ const { isValidObjectId } = require('mongoose');
 dotenv.config();
 const userModel = require('../models/user');
 
+router.get('/', async (req, res) => {
+    try {
+        console.log('here');
+        const users = await userQueries.findAllUsers();
+        if (!users) {
+            return res.status(404).send('No users found');
+        }
+        res.send(users);
+    } catch (e) {
+        return res.status(500).send(`Error finding users: ${e}`);
+    }
+});
+
 router.get('/:id', async (req, res) => {
     // TODO: query db and return name, userinfo and a list of scenes belonging to user
 

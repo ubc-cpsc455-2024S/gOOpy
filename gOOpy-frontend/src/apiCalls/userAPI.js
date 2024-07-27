@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { LOCAL_SERVER_URL } from './sceneAPI';
 
+export function getUsers() {
+    return axios.get(`${LOCAL_SERVER_URL}/users`);
+}
+
 export function getUserInfo(userId) {
     return axios.get(`${LOCAL_SERVER_URL}/users/${userId}`);
 }

@@ -1,6 +1,9 @@
 const Users = require('../models/user.js');
 
 const usersQueries = {
+    findAllUsers: async function () {
+        return await Users.find().select('name'); // selects name and _id
+    },
     findUserById: async function (id) {
         return await Users.findById(id);
     },
