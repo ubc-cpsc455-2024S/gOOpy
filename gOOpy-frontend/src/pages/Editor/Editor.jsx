@@ -83,7 +83,7 @@ const saveResult = async (
             const resp = await createNewScene(data);
             navigate(`/editor/${resp.data}`);
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
     } else {
         await saveSceneInfo(sceneId, data);
