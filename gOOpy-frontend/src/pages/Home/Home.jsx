@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 // TODO: insert context here
 function Home() {
-
     const { user, setUser } = useAuth();
     return (
         <main className='p-10 text-center'>
@@ -17,15 +16,13 @@ function Home() {
                 </Link>
             </div>
             <div className='pt-10'>
-
                 <Link to={`/user/`} className='hover:underline'>
-
                     Click here to see the user page
                 </Link>
             </div>
             <div className='pt-10'>
-                <Link to={`/createuser`} className='hover:underline'>
-                    Create a new user
+                <Link to={`/tutorial`} className='hover:underline'>
+                    Read the tutorial
                 </Link>
             </div>
         </main>
