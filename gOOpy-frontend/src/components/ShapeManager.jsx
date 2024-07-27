@@ -19,6 +19,7 @@ function ShapeManager({
     determineNewID,
     sceneId,
     saveResult,
+    navigate,
 }) {
     return (
         <div className='sliders border h-full flex flex-col min-w-64 ...'>
@@ -119,7 +120,8 @@ function ShapeManager({
                             skyboxColor,
                             skyboxLightColor,
                             skyboxAmbientIntensity,
-                            metadata
+                            metadata,
+                            navigate
                         );
                     }}
                 >
