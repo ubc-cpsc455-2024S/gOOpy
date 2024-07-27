@@ -43,7 +43,6 @@ const scale = {
 export const SHAPE_PROPERTIES = [
     [
         translation,
-        rotation,
         {
             title: 'Radius',
             values: [{ descriptor: 'r', min: 0, max: 5, path: ['property1'] }],
