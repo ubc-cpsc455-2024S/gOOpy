@@ -2,6 +2,7 @@ import { Matrix4, Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
 import EditorTabCarousel from './EditorTabCarousel';
 import { SHAPE_TYPES } from '../pages/Editor/constants';
+import { createImageDataURL } from '../pages/Editor/Editor';
 
 const MAX_SHAPES = 50; // should match shaders
 const DOWNLOAD_FILE_TYPE = 'png';
@@ -130,9 +131,9 @@ function ShapeManager({
                 <GoopyButton
                     classes='border-l border-r border-b p-1'
                     onClick={() => {
-                        const data = document
-                            .getElementsByTagName('canvas')[0]
-                            .toDataURL(`image/${DOWNLOAD_FILE_TYPE}`);
+                        const canvasHeight =
+                            document.getElementsByTagName('canvas')[0].height;
+                        const data = createImageDataURL(canvasHeight, 'png');
                         const t = document.createElement('a');
                         t.download = `${metadata.title}.${DOWNLOAD_FILE_TYPE}`;
                         t.href = data;
