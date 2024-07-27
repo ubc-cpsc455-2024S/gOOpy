@@ -13,6 +13,7 @@ import UserPage from './pages/User/UserPage.jsx';
 import Login from './pages/User/Login.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import CreateUser from './pages/CreateUser/CreateUser.jsx';
+import { Tutorial } from './pages/Tutorial/Tutorial.jsx';
 
 const router = createBrowserRouter([
     {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
             {
                 path: 'createuser',
                 element: <CreateUser />,
+            },
+            {
+                path: 'tutorial',
+                element: <Tutorial />,
             },
         ],
     },
