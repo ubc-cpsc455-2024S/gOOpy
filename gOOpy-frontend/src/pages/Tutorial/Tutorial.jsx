@@ -19,6 +19,10 @@ export function Tutorial() {
                 Don't forget to save! Don't forget the URL - this is your unique
                 scene ID!
             </p>
+            <img
+                src='./tutorial/underscored_editor_url.png'
+                className='h-10'
+            ></img>
             <img src='./tutorial/save.png' className='h-40'></img>
             <p>
                 And when you're done, you can download an image to keep! Hang it
