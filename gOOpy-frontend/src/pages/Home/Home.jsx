@@ -17,12 +17,17 @@ function Home() {
                 </Link>
             </div>
             <div className='pt-10'>
-                {user && (
+                <Link to='/user' className='hover:underline'>
+                    Click here to see all users
+                </Link>
+            </div>
+            {user && (
+                <div className='pt-10'>
                     <Link to={`/user/${user._id}`} className='hover:underline'>
                         Click here to see your user page
                     </Link>
-                )}
-            </div>
+                </div>
+            )}
             <div className='pt-10'>
                 <Link to={`/tutorial`} className='hover:underline'>
                     Read the tutorial
