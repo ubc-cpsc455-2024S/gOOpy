@@ -75,7 +75,7 @@ const saveResult = async (
             description: metadata.description,
             copy_permission: metadata.copyPermission,
             last_edited: new Date(),
-            thumbnail: createThumbnail(THUMBNAIL_DIMENSION),
+            thumbnail: createImageDataURL(THUMBNAIL_DIMENSION, 'webp'),
         },
     };
     if (!sceneId) {
@@ -225,26 +225,40 @@ function Editor() {
 
 export default Editor;
 
-// returns resized image encoded as base64 string
-function createThumbnail(dimension) {
+// ASSUMES CANVAS IS A SQUARE
+export function createImageDataURL(resizedDimension, fileType) {
     const originalCanvas = document.getElementsByTagName('canvas')[0];
-    const fullWidth = originalCanvas.width;
-    const fullHeight = originalCanvas.height;
 
-    const resizedCanvas = document.createElement('canvas');
-    const resizedContext = resizedCanvas.getContext('2d');
-    resizedCanvas.width = dimension.toString();
-    resizedCanvas.height = dimension.toString();
+    const filledCanvas = document.createElement('canvas');
+    const filledContext = filledCanvas.getContext('2d');
+    filledCanvas.width = originalCanvas.width;
+    filledCanvas.height = originalCanvas.height;
 
-    const fullSizeCanvas = document.createElement('canvas');
-    const fullSizeContext = fullSizeCanvas.getContext('2d');
-    fullSizeCanvas.width = fullWidth.toString();
-    fullSizeCanvas.height = fullHeight.toString();
+    filledContext.fillStyle = '#FFFFFF';
+    filledContext.fillRect(0, 0, filledCanvas.width, filledCanvas.height);
 
-    const sigma = 1 / (2 * (dimension / fullHeight));
-    fullSizeContext.filter = `blur(${sigma}px)`;
+    if (resizedDimension == originalCanvas.height) {
+        console.log('thing works');
+        filledContext.drawImage(originalCanvas, 0, 0);
+        return filledCanvas.toDataURL(`image/${fileType}`);
+    } else {
+        const sigma = 1 / (2 * (resizedDimension / originalCanvas.height));
+        filledContext.filter = `blur(${sigma}px)`;
+        filledContext.drawImage(originalCanvas, 0, 0);
 
-    fullSizeContext.drawImage(originalCanvas, 0, 0);
-    resizedContext.drawImage(fullSizeCanvas, 0, 0, dimension, dimension);
-    return resizedCanvas.toDataURL('image/webp');
+        const resizedCanvas = document.createElement('canvas');
+        const resizedContext = resizedCanvas.getContext('2d');
+        resizedCanvas.width = resizedDimension.toString();
+        resizedCanvas.height = resizedDimension.toString();
+
+        resizedContext.drawImage(
+            filledCanvas,
+            0,
+            0,
+            resizedDimension,
+            resizedDimension
+        );
+
+        return resizedCanvas.toDataURL(`image/${fileType}`);
+    }
 }
