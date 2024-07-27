@@ -1,13 +1,14 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../redux/slices/userSlice';
 import { LOCAL_SERVER_URL } from '../apiCalls/sceneAPI';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const initialUser = useSelector((state) => state.user.user);
+    const [user, setUser] = useState(initialUser);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }) => {
                     { withCredentials: true }
                 );
                 const u = JSON.parse(sessionUser.data);
+                console.log(u._id);
                 setUser(u);
                 dispatch(loginUser(u));
             } catch (err) {
