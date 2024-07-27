@@ -5,11 +5,15 @@ import { Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
-import { useAsyncError, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
 import { obj1, obj2, obj3 } from './constants';
-import { getSceneInfo, saveSceneInfo } from '../../apiCalls/sceneAPI';
+import {
+    createNewScene,
+    getSceneInfo,
+    saveSceneInfo,
+} from '../../apiCalls/sceneAPI';
 import { buildMatrices } from './matrixHelpers';
 
 const THUMBNAIL_DIMENSION = 100;
@@ -56,7 +60,8 @@ const saveResult = async (
     skyboxColor,
     skyboxLightColor,
     skyboxAmbientIntensity,
-    metadata
+    metadata,
+    navigate
 ) => {
     let data = {
         shapes: shapes,
@@ -73,10 +78,20 @@ const saveResult = async (
             thumbnail: createThumbnail(THUMBNAIL_DIMENSION),
         },
     };
-    await saveSceneInfo(sceneId, data);
+    if (!sceneId) {
+        try {
+            const resp = await createNewScene(data);
+            navigate(`/editor/${resp.data}`);
+        } catch (e) {
+            console.error(e);
+        }
+    } else {
+        await saveSceneInfo(sceneId, data);
+    }
 };
 
 function Editor() {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [shapes, setShapes] = useState(buildMatrices([obj1, obj2, obj3]));
     const [currentShape, setCurrentShape] = useState(null);
@@ -141,6 +156,7 @@ function Editor() {
                                 setCurrentShape={setCurrentShape}
                                 determineNewID={determineNewID}
                                 setEditorView={setEditorView}
+                                navigate={navigate}
                                 saveResult={saveResult}
                             />
                         )}
