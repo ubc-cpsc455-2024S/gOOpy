@@ -19,24 +19,24 @@ gOOpy is a 3D modeling software using ray marching rendering method, and signed 
 
 ### minimal requirements:
 
--   Ability to add SDF primitives (spheres, boxes, etc) to the scene.
--   Serialize Scene Data for saving
--   Scene Editor / Renderer
--   Update the values of objects in real-time
--   Allows user-saved models to be retrieved on login
+- [x]  Ability to add SDF primitives (spheres, boxes, etc) to the scene.
+- [x]  Serialize Scene Data for saving
+- [x]  Scene Editor / Renderer
+- [x]  Update the values of objects in real-time
+- [x]  Allows user-saved models to be retrieved on login
 
 ### “standard” requirements:
 
--   Download image renderings
--   Tutorial to teach users how to user the tool
--   Move camera w/ controls
+- [x]  Download image renderings
+- [x]  Tutorial to teach users how to user the tool
+- [ ]  Move camera w/ controls
 
 ### stretch requirements:
 
--   Explore page to see other user’s scenes
--   User’s can like and comment on other user’s posts.
--   Click and drag items to move them
--   A fleshed out materials system
+- [x]  Explore page to see other user’s scenes
+- [ ]  User’s can like and comment on other user’s posts.
+- [ ]  Click and drag items to move them
+- [ ]  A fleshed out materials system
 
 ## Task breakdown:
 
