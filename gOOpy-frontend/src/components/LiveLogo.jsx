@@ -157,7 +157,7 @@ function LogoWrapper() {
         const move = new Matrix4().makeTranslation(
             0.0,
             0.5 * Math.sin(clock.getElapsedTime()),
-            0.2 * Math.cos(clock.getElapsedTime() + 0.2)
+            0.5 + 0.2 * Math.cos(clock.getElapsedTime() + 0.2)
         );
         logo_g.forEach((s) => s.transform.multiply(move));
     });
@@ -165,7 +165,7 @@ function LogoWrapper() {
     useFrame(() => {
         buildMatrices(logo_o1);
         const move = new Matrix4().makeTranslation(
-            0.0,
+            -0.3 * Math.sin(clock.getElapsedTime()),
             -0.2 * Math.sin(clock.getElapsedTime()),
             -0.1 * Math.cos(clock.getElapsedTime() + 1.3)
         );
@@ -175,7 +175,7 @@ function LogoWrapper() {
     useFrame(() => {
         buildMatrices(logo_o2);
         const move = new Matrix4().makeTranslation(
-            0.2 * Math.sin(clock.getElapsedTime() + 1.3),
+            0.3 * Math.sin(clock.getElapsedTime() + 1.3),
             0.1 * Math.sin(clock.getElapsedTime()),
             0.0
         );
