@@ -29,11 +29,12 @@ gOOpy is a 3D modeling software using ray marching rendering method, and signed 
 
 - [x]  Download image renderings
 - [x]  Tutorial to teach users how to user the tool
-- [ ]  Move camera w/ controls
+- [x]  See other user’s scenes
 
 ### stretch requirements:
 
-- [x]  Explore page to see other user’s scenes
+- [ ] "Explore Page" style page
+- [ ]  Move camera w/ controls
 - [ ]  User’s can like and comment on other user’s posts.
 - [ ]  Click and drag items to move them
 - [ ]  A fleshed out materials system
