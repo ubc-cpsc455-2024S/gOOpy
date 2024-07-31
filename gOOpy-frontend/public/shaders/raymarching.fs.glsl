@@ -17,6 +17,7 @@ struct Shape
 #define BOX 1
 #define TORUS 2
 #define CYLINDER 3
+#define ARCTORUS 4
 uniform Shape shapes[MAX_SHAPES];
 uniform int n_shapes;
 uniform vec3 camera_pos;
@@ -43,21 +44,30 @@ float sphere(vec3 pos, float radius)
     return length(pos) - radius;
 }
 
-float box( vec3 pos, vec3 size, float corner )
+float box(vec3 pos, vec3 size, float corner)
 {
     return length(max( abs( pos )-size, 0.0)) - corner;
 }
 
-float torus( vec3 p, vec2 t )
+float torus(vec3 p, vec2 t)
 {
     vec2 q = vec2(length(p.xz)-t.x,p.y);
     return length(q)-t.y;
 }
 
-float cylinder( vec3 p, float ra, float rb, float h )
+float cylinder(vec3 p, float ra, float rb, float h)
 {
     vec2 d = vec2(length(p.xz) - 2.0 * ra + rb, abs(p.y) - h);
     return min(max(d.x,d.y), 0.0) + length(max(d, 0.0)) - rb;
+}
+
+float arcTorus(vec3 p, vec2 sc, float ra, float rb)
+{
+    // rotate arcTorus to match torus
+    p = p * mat3(vec3(1.0, 0.0, 0.0),vec3(0.0, 0.0, 1.0),vec3(0.0, 1.0, 0.0));
+    p.x = abs(p.x);
+    float k = (sc.y*p.x>sc.x*p.y) ? dot(p.xy,sc) : length(p.xy);
+    return sqrt(dot(p,p) + ra*ra - 2.0*ra*k) - rb;
 }
 
 float sdf(vec3 p) {
@@ -90,6 +100,9 @@ float sdf(vec3 p) {
                 break;
             case CYLINDER:
                 sdf_val = cylinder(p_t, prop1, prop2, prop3);
+                break;
+            case ARCTORUS:
+                sdf_val = arcTorus(p_t, vec2(sin(prop3),cos(prop3)), prop1, prop2);
                 break;
         }
 

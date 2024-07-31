@@ -1,10 +1,11 @@
-import { Vector3, Vector4 } from 'three';
+import { Vector3 } from 'three';
 
 export const SHAPE_TYPES = {
     Sphere: 0,
     Box: 1,
     Torus: 2,
     Cylinder: 3,
+    'Arc Torus': 4,
 };
 
 const translation = {
@@ -70,8 +71,8 @@ export const SHAPE_PROPERTIES = [
         {
             title: 'Dimensions',
             values: [
-                { descriptor: 'r', min: 0, max: 5, path: ['property1'] },
-                { descriptor: 'w', min: 0, max: 5, path: ['property2'] },
+                { descriptor: 'r', min: 0, max: 4, path: ['property1'] },
+                { descriptor: 'w', min: 0, max: 4, path: ['property2'] },
             ],
         },
     ],
@@ -88,6 +89,21 @@ export const SHAPE_PROPERTIES = [
         {
             title: 'Roundness',
             values: [{ descriptor: 'r', min: 0, max: 1, path: ['property2'] }],
+        },
+    ],
+    [
+        translation,
+        rotation,
+        {
+            title: 'Dimensions',
+            values: [
+                { descriptor: 'r', min: 0, max: 4, path: ['property1'] },
+                { descriptor: 'w', min: 0, max: 4, path: ['property2'] },
+            ],
+        },
+        {
+            title: 'Arc',
+            values: [{ descriptor: 'r', min: 0, max: 3, path: ['property3'] }],
         },
     ],
 ];

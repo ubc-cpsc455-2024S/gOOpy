@@ -15,6 +15,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import CreateUser from './pages/CreateUser/CreateUser.jsx';
 import { Tutorial } from './pages/Tutorial/Tutorial.jsx';
 import { UserList } from './pages/UserList/UserList.jsx';
+import { LiveLogo } from './components/LiveLogo.jsx';
 
 const router = createBrowserRouter([
     {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
             {
                 path: 'tutorial',
                 element: <Tutorial />,
+            },
+            {
+                path: 'goopy',
+                element: <LiveLogo />,
             },
         ],
     },
