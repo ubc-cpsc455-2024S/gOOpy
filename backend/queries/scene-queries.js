@@ -14,6 +14,7 @@ const sceneQueries = {
         // save scene
         const s = new Scene(scene);
         await s.save();
+        console.log(s.metadata);
         // associate with user associated with sent user ID
         const user = await User.findById(s.metadata.user_id);
         user.scenes = [...user.scenes, s.id];

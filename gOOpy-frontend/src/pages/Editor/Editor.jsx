@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
 import { Vector3, Vector4 } from 'three';
@@ -61,7 +62,8 @@ const saveResult = async (
     skyboxLightColor,
     skyboxAmbientIntensity,
     metadata,
-    navigate
+    navigate,
+    loggedInUser
 ) => {
     let data = {
         shapes: shapes,
@@ -70,7 +72,6 @@ const saveResult = async (
         ambient_intensity: skyboxAmbientIntensity,
         metadata: {
             // TODO: determine if oauth_id or _id from mongoDB
-            user_id: '668f76634cfd55de99230ca9',
             title: metadata.title,
             description: metadata.description,
             copy_permission: metadata.copyPermission,
@@ -78,6 +79,15 @@ const saveResult = async (
             thumbnail: createImageDataURL(THUMBNAIL_DIMENSION, 'webp'),
         },
     };
+    // if there is a user
+    if (loggedInUser) {
+        data.metadata = { ...metadata, user_id: loggedInUser.user._id };
+    } else {
+        // save scene temporarily
+        // re-route to login since there is no user
+        //
+    }
+
     if (!sceneId) {
         try {
             const resp = await createNewScene(data);
@@ -104,7 +114,7 @@ function Editor() {
     const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
     const [ambientIntensity, setAmbientIntensity] = useState(0.2);
     const [editorView, setEditorView] = useState('shapes');
-
+    const user = useSelector((state) => state.user);
     const determineNewID = () => {
         const newNextId = nextId + 1;
         setNextId(newNextId);
@@ -158,6 +168,7 @@ function Editor() {
                                 setEditorView={setEditorView}
                                 navigate={navigate}
                                 saveResult={saveResult}
+                                user={user}
                             />
                         )}
                         {editorView == 'scene' && (
