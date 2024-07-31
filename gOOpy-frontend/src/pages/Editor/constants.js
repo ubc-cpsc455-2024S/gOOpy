@@ -103,7 +103,7 @@ export const SHAPE_PROPERTIES = [
         },
         {
             title: 'Arc',
-            values: [{ descriptor: 'r', min: 0, max: 3, path: ['property3'] }],
+            values: [{ descriptor: 'l', min: 0, max: 3, path: ['property3'] }],
         },
     ],
 ];
