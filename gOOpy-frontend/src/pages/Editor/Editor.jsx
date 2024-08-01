@@ -16,6 +16,7 @@ import {
     saveSceneInfo,
 } from '../../apiCalls/sceneAPI';
 import { buildMatrices } from './matrixHelpers';
+import { useAuth } from '../../components/AuthProvider';
 
 const THUMBNAIL_DIMENSION = 100;
 
@@ -106,7 +107,7 @@ const saveResult = async (
     skyboxAmbientIntensity,
     metadata,
     navigate,
-    loggedInUser
+    user
 ) => {
     let data = {
         shapes: shapes,
@@ -124,8 +125,8 @@ const saveResult = async (
     };
     console.log(data.metadata.thumbnail);
     // if there is a user
-    if (loggedInUser.user != null) {
-        data.metadata = { ...data.metadata, user_id: loggedInUser.user._id };
+    if (user != null) {
+        data.metadata = { ...data.metadata, user_id: user._id };
     } else {
         console.log('stringify', JSON.stringify(data));
         // save scene temporarily
@@ -151,6 +152,7 @@ const saveResult = async (
 
 function Editor() {
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [loading, setLoading] = useState(true);
     const [shapes, setShapes] = useState(buildMatrices([obj1, obj2, obj3]));
     const [currentShape, setCurrentShape] = useState(null);
@@ -163,7 +165,6 @@ function Editor() {
     const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
     const [ambientIntensity, setAmbientIntensity] = useState(0.2);
     const [editorView, setEditorView] = useState('shapes');
-    const user = useSelector((state) => state.user);
     const determineNewID = () => {
         const newNextId = nextId + 1;
         setNextId(newNextId);
@@ -179,6 +180,7 @@ function Editor() {
 
     console.log('skybox color state', skyboxColor);
 
+    console.log('user', user);
     useEffect(() => {
         // check if local cache has anything and load it; if not just do it normally
         const stored = JSON.parse(localStorage.getItem('data-cache'));
@@ -194,8 +196,9 @@ function Editor() {
                 setMetadata,
                 stored
             );
+
             // save it if logged in, then redirect to new url
-            if (user.user != null) {
+            if (user != null) {
                 saveResult(
                     sceneId,
                     shapes,
@@ -204,7 +207,7 @@ function Editor() {
                     ambientIntensity,
                     metadata,
                     navigate,
-                    loggedInUser
+                    user
                 );
             }
         } else {
