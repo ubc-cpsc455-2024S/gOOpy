@@ -33,6 +33,7 @@ const fetchScene = async (
         setShapes(buildMatrices(data.shapes));
         setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
         setSkyboxColor(data.skybox_color);
+        console.log(data.skybox_color);
         setSkyboxLightColor(data.skybox_light_color);
         setSkyboxAmbientIntensity(data.ambient_intensity);
         setMetadata({
@@ -49,6 +50,43 @@ const fetchScene = async (
         if (resp.data) {
             initializeScene(resp.data);
         }
+    } catch (error) {
+        setLoading(true);
+    }
+    setLoading(false);
+};
+
+const fetchSceneLocal = (
+    setLoading,
+    setShapes,
+    setNextId,
+    setSkyboxColor,
+    setSkyboxLightColor,
+    setSkyboxAmbientIntensity,
+    setMetadata,
+    data
+) => {
+    function initializeScene(data) {
+        setShapes(buildMatrices(data.shapes));
+        setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
+        console.log('Colors:\n');
+        console.log(data.skybox_color);
+        console.log(data.skybox_light_color);
+        setSkyboxColor((s) => {
+            return { ...s, rgb: { r: 128, g: 128, b: 128 }, abc: 'whatever' };
+        });
+        setSkyboxLightColor(data.skybox_light_color);
+        setSkyboxAmbientIntensity(data.ambient_intensity);
+        setMetadata({
+            title: data.metadata.title,
+            description: data.metadata.description,
+            copyPermission: data.metadata.copy_permission,
+            lastEdited: data.metadata.last_edited,
+        });
+    }
+
+    try {
+        initializeScene(data);
     } catch (error) {
         setLoading(true);
     }
@@ -80,12 +118,17 @@ const saveResult = async (
         },
     };
     // if there is a user
-    if (loggedInUser) {
+    if (loggedInUser.user != null) {
         data.metadata = { ...metadata, user_id: loggedInUser.user._id };
     } else {
+        console.log('stringify', JSON.stringify(data));
         // save scene temporarily
+        localStorage.setItem('data-cache', JSON.stringify(data));
         // re-route to login since there is no user
-        //
+        console.log('Saved Data:\n');
+        console.log(data);
+        navigate(`/login`);
+        return;
     }
 
     if (!sceneId) {
@@ -128,17 +171,52 @@ function Editor() {
         lastEdited: Date(),
     });
 
+    console.log('skybox color state', skyboxColor);
+
     useEffect(() => {
-        fetchScene(
-            setLoading,
-            setShapes,
-            setNextId,
-            sceneId,
-            setSkyboxColor,
-            setSkyboxLightColor,
-            setAmbientIntensity,
-            setMetadata
-        );
+        // check if local cache has anything and load it; if not just do it normally
+        const stored = JSON.parse(localStorage.getItem('data-cache'));
+        if (stored != null) {
+            // load it
+            fetchSceneLocal(
+                setLoading,
+                setShapes,
+                setNextId,
+                setSkyboxColor,
+                setSkyboxLightColor,
+                setAmbientIntensity,
+                setMetadata,
+                stored
+            );
+            setSkyboxColor('white');
+            console.log('Loaded Data:\n');
+            console.log(stored);
+            localStorage.clear();
+            // save it if logged in, then redirect to new url
+            if (user.user != null) {
+                saveResult(
+                    sceneId,
+                    shapes,
+                    skyboxColor,
+                    skyboxLightColor,
+                    ambientIntensity,
+                    metadata,
+                    navigate,
+                    loggedInUser
+                );
+            }
+        } else {
+            fetchScene(
+                setLoading,
+                setShapes,
+                setNextId,
+                sceneId,
+                setSkyboxColor,
+                setSkyboxLightColor,
+                setAmbientIntensity,
+                setMetadata
+            );
+        }
     }, []);
 
     if (loading) {
