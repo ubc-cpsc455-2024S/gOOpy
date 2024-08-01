@@ -125,7 +125,7 @@ const saveResult = async (
     console.log(data.metadata.thumbnail);
     // if there is a user
     if (loggedInUser.user != null) {
-        data.metadata = { ...metadata, user_id: loggedInUser.user._id };
+        data.metadata = { ...data.metadata, user_id: loggedInUser.user._id };
     } else {
         console.log('stringify', JSON.stringify(data));
         // save scene temporarily
