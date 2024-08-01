@@ -33,7 +33,6 @@ const fetchScene = async (
         setShapes(buildMatrices(data.shapes));
         setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
         setSkyboxColor(data.skybox_color);
-        console.log(data.skybox_color);
         setSkyboxLightColor(data.skybox_light_color);
         setSkyboxAmbientIntensity(data.ambient_intensity);
         setMetadata({
@@ -72,10 +71,16 @@ const fetchSceneLocal = (
         console.log('Colors:\n');
         console.log(data.skybox_color);
         console.log(data.skybox_light_color);
-        setSkyboxColor((s) => {
-            return { ...s, rgb: { r: 128, g: 128, b: 128 }, abc: 'whatever' };
+        setSkyboxColor({
+            hex: data.skybox_color.hex,
+            rgb: data.skybox_color.rgb,
+            hsv: data.skybox_color.hsv,
         });
-        setSkyboxLightColor(data.skybox_light_color);
+        setSkyboxLightColor({
+            hex: data.skybox_light_color.hex,
+            rgb: data.skybox_light_color.rgb,
+            hsv: data.skybox_light_color.hsv,
+        });
         setSkyboxAmbientIntensity(data.ambient_intensity);
         setMetadata({
             title: data.metadata.title,
@@ -117,6 +122,7 @@ const saveResult = async (
             thumbnail: createImageDataURL(THUMBNAIL_DIMENSION, 'webp'),
         },
     };
+    console.log(data.metadata.thumbnail);
     // if there is a user
     if (loggedInUser.user != null) {
         data.metadata = { ...metadata, user_id: loggedInUser.user._id };
@@ -188,10 +194,6 @@ function Editor() {
                 setMetadata,
                 stored
             );
-            setSkyboxColor('white');
-            console.log('Loaded Data:\n');
-            console.log(stored);
-            localStorage.clear();
             // save it if logged in, then redirect to new url
             if (user.user != null) {
                 saveResult(
