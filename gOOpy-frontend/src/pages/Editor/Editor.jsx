@@ -72,6 +72,7 @@ const fetchSceneLocal = (
         console.log('Colors:\n');
         console.log(data.skybox_color);
         console.log(data.skybox_light_color);
+        // We need to make new objects here or else it doesn't work?
         setSkyboxColor({
             hex: data.skybox_color.hex,
             rgb: data.skybox_color.rgb,
@@ -115,25 +116,21 @@ const saveResult = async (
         skybox_light_color: skyboxLightColor,
         ambient_intensity: skyboxAmbientIntensity,
         metadata: {
-            // TODO: determine if oauth_id or _id from mongoDB
             title: metadata.title,
             description: metadata.description,
             copy_permission: metadata.copyPermission,
             last_edited: new Date(),
             thumbnail: createImageDataURL(THUMBNAIL_DIMENSION, 'webp'),
+            user_id: user?._id,
         },
     };
-    console.log(data.metadata.thumbnail);
+
     // if there is a user
-    if (user != null) {
-        data.metadata = { ...data.metadata, user_id: user._id };
-    } else {
-        console.log('stringify', JSON.stringify(data));
+    if (user === null) {
+        console.log('SAVING SCENE TO LOCAL STORAGE');
         // save scene temporarily
         localStorage.setItem('data-cache', JSON.stringify(data));
         // re-route to login since there is no user
-        console.log('Saved Data:\n');
-        console.log(data);
         navigate(`/login`);
         return;
     }
@@ -154,14 +151,16 @@ function Editor() {
     const navigate = useNavigate();
     const { user } = useAuth();
     const [loading, setLoading] = useState(true);
-    const [shapes, setShapes] = useState(buildMatrices([obj1, obj2, obj3]));
+    const [shapes, setShapes] = useState(
+        buildMatrices([{ ...obj1 }, { ...obj2 }, { ...obj3 }])
+    );
     const [currentShape, setCurrentShape] = useState(null);
     const [nextId, setNextId] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
 
     const { sceneId } = useParams();
-    const [skyboxColor, setSkyboxColor] = useColor('FFFFFF');
+    const [skyboxColor, setSkyboxColor] = useColor('#000000');
     const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
     const [ambientIntensity, setAmbientIntensity] = useState(0.2);
     const [editorView, setEditorView] = useState('shapes');
@@ -186,6 +185,7 @@ function Editor() {
         const stored = JSON.parse(localStorage.getItem('data-cache'));
         if (stored != null) {
             // load it
+            console.log('LOADING SCENE FROM LOCAL STORAGE');
             fetchSceneLocal(
                 setLoading,
                 setShapes,
@@ -196,6 +196,9 @@ function Editor() {
                 setMetadata,
                 stored
             );
+
+            localStorage.removeItem('data-cache');
+            console.log(user);
 
             // save it if logged in, then redirect to new url
             if (user != null) {
