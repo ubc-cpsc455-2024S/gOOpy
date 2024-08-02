@@ -227,6 +227,7 @@ function Editor() {
     if (loading) {
         return <p>loading</p>;
     }
+    console.log('CLEARING LOCAL SCENE STORAGE'); // only after loading is true
     localStorage.removeItem('login_scene_temp');
 
     // TODO better way to find the shapes's index?
