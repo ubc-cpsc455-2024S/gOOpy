@@ -24,13 +24,14 @@ const fetchScene = async (
     setLoading,
     setShapes,
     setNextId,
-    sceneId,
     setSkyboxColor,
     setSkyboxLightColor,
     setSkyboxAmbientIntensity,
-    setMetadata
+    setMetadata,
+    data
 ) => {
     function initializeScene(data) {
+        console.log('d', data.metadata);
         setShapes(buildMatrices(data.shapes));
         setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
         setSkyboxColor(data.skybox_color);
@@ -44,8 +45,8 @@ const fetchScene = async (
         });
     }
 
-    fetchUserInfo: try {
-        if (!sceneId) break fetchUserInfo;
+    fetchSceneInfo: try {
+        if (!sceneId) break fetchSceneInfo;
         let resp = await getSceneInfo(sceneId);
         if (resp.data) {
             initializeScene(resp.data);
@@ -56,95 +57,13 @@ const fetchScene = async (
     setLoading(false);
 };
 
-const fetchSceneLocal = (
-    setLoading,
-    setShapes,
-    setNextId,
-    setSkyboxColor,
-    setSkyboxLightColor,
-    setSkyboxAmbientIntensity,
-    setMetadata,
-    data
-) => {
-    function initializeScene(data) {
-        setShapes(buildMatrices(data.shapes));
-        setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
-        console.log('Colors:\n');
-        console.log(data.skybox_color);
-        console.log(data.skybox_light_color);
-        // We need to make new objects here or else it doesn't work?
-        setSkyboxColor({
-            hex: data.skybox_color.hex,
-            rgb: data.skybox_color.rgb,
-            hsv: data.skybox_color.hsv,
-        });
-        setSkyboxLightColor({
-            hex: data.skybox_light_color.hex,
-            rgb: data.skybox_light_color.rgb,
-            hsv: data.skybox_light_color.hsv,
-        });
-        setSkyboxAmbientIntensity(data.ambient_intensity);
-        setMetadata({
-            title: data.metadata.title,
-            description: data.metadata.description,
-            copyPermission: data.metadata.copy_permission,
-            lastEdited: data.metadata.last_edited,
-        });
-    }
-
+const getSceneFromLocal = (setLoading, data, initializeScene) => {
     try {
         initializeScene(data);
     } catch (error) {
         setLoading(true);
     }
     setLoading(false);
-};
-
-const saveResult = async (
-    sceneId,
-    shapes,
-    skyboxColor,
-    skyboxLightColor,
-    skyboxAmbientIntensity,
-    metadata,
-    navigate,
-    user
-) => {
-    let data = {
-        shapes: shapes,
-        skybox_color: skyboxColor,
-        skybox_light_color: skyboxLightColor,
-        ambient_intensity: skyboxAmbientIntensity,
-        metadata: {
-            title: metadata.title,
-            description: metadata.description,
-            copy_permission: metadata.copyPermission,
-            last_edited: new Date(),
-            thumbnail: createImageDataURL(THUMBNAIL_DIMENSION, 'webp'),
-            user_id: user?._id,
-        },
-    };
-
-    // if there is a user
-    if (user === null) {
-        console.log('SAVING SCENE TO LOCAL STORAGE');
-        // save scene temporarily
-        localStorage.setItem('data-cache', JSON.stringify(data));
-        // re-route to login since there is no user
-        navigate(`/login`);
-        return;
-    }
-
-    if (!sceneId) {
-        try {
-            const resp = await createNewScene(data);
-            navigate(`/editor/${resp.data}`);
-        } catch (e) {
-            console.error(e);
-        }
-    } else {
-        await saveSceneInfo(sceneId, data);
-    }
 };
 
 function Editor() {
@@ -177,28 +96,72 @@ function Editor() {
         lastEdited: Date(),
     });
 
-    console.log('skybox color state', skyboxColor);
+    const saveResult = async () => {
+        let data = {
+            shapes: shapes,
+            skybox_color: skyboxColor,
+            skybox_light_color: skyboxLightColor,
+            ambient_intensity: ambientIntensity,
+            metadata: {
+                title: metadata.title,
+                description: metadata.description,
+                copy_permission: metadata.copyPermission,
+                last_edited: new Date(),
+                thumbnail: createImageDataURL(THUMBNAIL_DIMENSION, 'webp'),
+                user_id: user?._id,
+            },
+        };
 
-    console.log('user', user);
+        // if there is no user
+        if (user === null) {
+            console.log('SAVING SCENE TO LOCAL STORAGE');
+            // save scene temporarily
+            localStorage.setItem('login_scene_temp', JSON.stringify(data));
+            // re-route to login since there is no user
+            navigate(`/login`);
+            return;
+        }
+
+        if (!sceneId) {
+            try {
+                const resp = await createNewScene(data);
+                navigate(`/editor/${resp.data}`);
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            await saveSceneInfo(sceneId, data);
+        }
+    };
+
+    //debugging
+    useEffect(() => console.log('metadata', metadata), [metadata]);
+
     useEffect(() => {
-        // check if local cache has anything and load it; if not just do it normally
-        const stored = JSON.parse(localStorage.getItem('data-cache'));
-        if (stored != null) {
-            // load it
-            console.log('LOADING SCENE FROM LOCAL STORAGE');
-            fetchSceneLocal(
+        // if the ID is defined, load the scene with this ID
+        if (sceneId) {
+            fetchScene(
                 setLoading,
                 setShapes,
                 setNextId,
+                sceneId,
                 setSkyboxColor,
                 setSkyboxLightColor,
                 setAmbientIntensity,
-                setMetadata,
-                stored
+                setMetadata
             );
+            return;
+        }
 
-            localStorage.removeItem('data-cache');
-            console.log(user);
+        // check if local cache has anything and load it; if not just do it normally
+        const stored = JSON.parse(localStorage.getItem('login_scene_temp'));
+        if (stored != null) {
+            // load the scene from local storage
+            console.log('LOADING SCENE FROM LOCAL STORAGE');
+            console.log(stored);
+            getSceneFromLocal(setLoading, stored, initializeScene);
+
+            console.log('user', user);
 
             // save it if logged in, then redirect to new url
             if (user != null) {
@@ -214,22 +177,15 @@ function Editor() {
                 );
             }
         } else {
-            fetchScene(
-                setLoading,
-                setShapes,
-                setNextId,
-                sceneId,
-                setSkyboxColor,
-                setSkyboxLightColor,
-                setAmbientIntensity,
-                setMetadata
-            );
+            fetchScene(setLoading, sceneId, initializeScene);
         }
-    }, []);
+    }, [sceneId, user]);
 
     if (loading) {
         return <p>loading</p>;
     }
+    // Since the scene has been loaded, we can safely clear local storage
+    localStorage.removeItem('login_scene_temp');
 
     // TODO better way to find the shapes's index?
     const index = shapes.findIndex((s) => s.id === currentShape);
