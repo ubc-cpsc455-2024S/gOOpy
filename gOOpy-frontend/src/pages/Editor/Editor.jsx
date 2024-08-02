@@ -142,6 +142,7 @@ function Editor() {
     const { user } = useAuth();
     const [loading, setLoading] = useState(true);
     const [needSave, setNeedSave] = useState(false);
+    const [canvasReady, setCanvasReady] = useState(false);
     const [shapes, setShapes] = useState(
         buildMatrices([{ ...obj1 }, { ...obj2 }, { ...obj3 }])
     );
@@ -215,21 +216,26 @@ function Editor() {
     }, []);
 
     useEffect(() => {
-        if (!loading && user && needSave) {
+        console.log('canvas ready', canvasReady);
+        // We need to wait until the canvas has been loaded and rendered to
+        // TODO for now, we use canvasReady, as well as a manual delay
+        if (canvasReady && user && needSave) {
             console.log('QUEUED SAVE');
-            saveResult(
-                sceneId,
-                shapes,
-                skyboxColor,
-                skyboxLightColor,
-                ambientIntensity,
-                metadata,
-                navigate,
-                user
-            );
-            setNeedSave(false);
+            setTimeout(() => {
+                saveResult(
+                    sceneId,
+                    shapes,
+                    skyboxColor,
+                    skyboxLightColor,
+                    ambientIntensity,
+                    metadata,
+                    navigate,
+                    user
+                );
+                setNeedSave(false);
+            }, 600);
         }
-    }, [user, needSave]);
+    }, [canvasReady, user, needSave]);
 
     if (loading) {
         return <p>loading</p>;
@@ -299,6 +305,7 @@ function Editor() {
                         far: 1,
                         position: [0, 0, 0.5],
                     }}
+                    onCreated={() => setCanvasReady(true)}
                     gl={{ preserveDrawingBuffer: true }}
                 >
                     <RayMarching
