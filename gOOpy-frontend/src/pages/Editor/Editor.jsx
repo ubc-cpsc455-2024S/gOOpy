@@ -69,20 +69,10 @@ const fetchSceneLocal = (
     function initializeScene(data) {
         setShapes(buildMatrices(data.shapes));
         setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
-        console.log('Colors:\n');
-        console.log(data.skybox_color);
-        console.log(data.skybox_light_color);
-        // We need to make new objects here or else it doesn't work?
-        setSkyboxColor({
-            hex: data.skybox_color.hex,
-            rgb: data.skybox_color.rgb,
-            hsv: data.skybox_color.hsv,
-        });
-        setSkyboxLightColor({
-            hex: data.skybox_light_color.hex,
-            rgb: data.skybox_light_color.rgb,
-            hsv: data.skybox_light_color.hsv,
-        });
+        setSkyboxColor(JSON.parse(JSON.stringify(data.skybox_color)));
+        setSkyboxLightColor(
+            JSON.parse(JSON.stringify(data.skybox_light_color))
+        );
         setSkyboxAmbientIntensity(data.ambient_intensity);
         setMetadata({
             title: data.metadata.title,
@@ -125,11 +115,11 @@ const saveResult = async (
         },
     };
 
-    // if there is a user
+    // if there is no user
     if (user === null) {
         console.log('SAVING SCENE TO LOCAL STORAGE');
         // save scene temporarily
-        localStorage.setItem('data-cache', JSON.stringify(data));
+        localStorage.setItem('login_scene_temp', JSON.stringify(data));
         // re-route to login since there is no user
         navigate(`/login`);
         return;
@@ -151,6 +141,7 @@ function Editor() {
     const navigate = useNavigate();
     const { user } = useAuth();
     const [loading, setLoading] = useState(true);
+    const [needSave, setNeedSave] = useState(false);
     const [shapes, setShapes] = useState(
         buildMatrices([{ ...obj1 }, { ...obj2 }, { ...obj3 }])
     );
@@ -177,12 +168,9 @@ function Editor() {
         lastEdited: Date(),
     });
 
-    console.log('skybox color state', skyboxColor);
-
-    console.log('user', user);
     useEffect(() => {
         // check if local cache has anything and load it; if not just do it normally
-        const stored = JSON.parse(localStorage.getItem('data-cache'));
+        const stored = JSON.parse(localStorage.getItem('login_scene_temp'));
         if (stored != null) {
             // load it
             console.log('LOADING SCENE FROM LOCAL STORAGE');
@@ -197,22 +185,21 @@ function Editor() {
                 stored
             );
 
-            localStorage.removeItem('data-cache');
-            console.log(user);
+            setNeedSave(true);
 
-            // save it if logged in, then redirect to new url
-            if (user != null) {
-                saveResult(
-                    sceneId,
-                    shapes,
-                    skyboxColor,
-                    skyboxLightColor,
-                    ambientIntensity,
-                    metadata,
-                    navigate,
-                    user
-                );
-            }
+            // // save it if logged in, then redirect to new url
+            // if (user != null) {
+            //     saveResult(
+            //         sceneId,
+            //         shapes,
+            //         skyboxColor,
+            //         skyboxLightColor,
+            //         ambientIntensity,
+            //         metadata,
+            //         navigate,
+            //         user
+            //     );
+            // }
         } else {
             fetchScene(
                 setLoading,
@@ -227,9 +214,27 @@ function Editor() {
         }
     }, []);
 
+    useEffect(() => {
+        if (!loading && user && needSave) {
+            console.log('QUEUED SAVE');
+            saveResult(
+                sceneId,
+                shapes,
+                skyboxColor,
+                skyboxLightColor,
+                ambientIntensity,
+                metadata,
+                navigate,
+                user
+            );
+            setNeedSave(false);
+        }
+    }, [user, needSave]);
+
     if (loading) {
         return <p>loading</p>;
     }
+    localStorage.removeItem('login_scene_temp');
 
     // TODO better way to find the shapes's index?
     const index = shapes.findIndex((s) => s.id === currentShape);
@@ -335,7 +340,6 @@ export function createImageDataURL(resizedDimension, fileType) {
     filledContext.fillRect(0, 0, filledCanvas.width, filledCanvas.height);
 
     if (resizedDimension == originalCanvas.height) {
-        console.log('thing works');
         filledContext.drawImage(originalCanvas, 0, 0);
         return filledCanvas.toDataURL(`image/${fileType}`);
     } else {
