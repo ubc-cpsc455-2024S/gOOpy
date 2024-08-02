@@ -134,7 +134,7 @@ We have many plans for this project, including:
 
 ### Shiyu Li
 
-TODO
+I worked on setting up Express endpoints, designing MongoDB schemas and incorporating it into our project, I also implemented user session and secure login using OAuth 2.0 and worked on styling and refactoring the editor
 
 ### Aiden Kerr
 
