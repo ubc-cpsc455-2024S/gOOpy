@@ -4,18 +4,7 @@ This ain't your grandma's 3D modeling software! With gOOpy you can create wild s
 
 ![Deploy](https://github.com/ubc-cpsc455-2024S/gOOpy/actions/workflows/deploy.js.yml/badge.svg)
 
-<!-- ## Describe your topic/interest in about 150-200 words
-
-gOOpy is a 3D modeling software using ray marching rendering method, and signed distance functions (SDFs) to define geometry. Our goal is to enable artists to create 3D scenes in a unique way compared to traditional mesh-based methods. What users should expect is a platform where you can make an account to create, modify, download, and share scenes with other users. Our project will store the values needed to render the objects (such as position, colour, etc), basic account information, and any likes, comments, and dates for scenes. If time permits, we would like to create an “explore page” to feature scenes made on our platform, and also create a detailed materials system that includes texturing. -->
-
-## Team Members
-
--   Aiden Kerr: I'm really interested in graphics and excited by this project!
--   Shiyu Li: I'm a third year BCS student interested to gain more experience in full-stack development!
--   Jacob Lacsamana: I'm a forth year Computer Science student, and I wanted to challenge myself by working on a project that's in a domain that I haven't really worked in much, computer graphics.
--   Matthew Wan: Nice to meet you, I'm also a third year BCS student and I'm also super excited to be working with graphics. I have built some smaller applications, but am really excited to be making something of this scale! :D
-
-## Project task requirements:
+## Goals:
 
 ### minimal requirements:
 
@@ -67,15 +56,17 @@ TODO
 
 ### Node & Express
 
-TODO
+We use Node for our backend. We set up multiple endpoints to handle user login, as well as scene saving.
 
-### Mongo
+TODO what else can we say here? Anything interesting??!!!!!!
 
-TODO
+### MongoDB
+
+We are using MongoDB to store our user data, our session data, and also our scene data. Our scene data contains shapes, skybox colour, skybox light colour, ambient intensity, and metadata. Shapes is a list of "shape" type, which each contain information about what type of object it is as well as other parameters to describe it's position and features.
 
 ### Github Actions & Render.com
 
-TODO
+We deployed out frontend and backend to Render.com, and set up github actions to trigger deployments. Then we set up a badge in our readme to show that the deployments are set up.
 
 ## Above and Beyond Functionality
 
