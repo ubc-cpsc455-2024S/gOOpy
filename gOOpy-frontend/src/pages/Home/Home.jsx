@@ -1,10 +1,11 @@
 import { useAuth } from '../../components/AuthProvider';
 import '../../index.css';
-import { Link } from 'react-router-dom';
 import MainBanner from './HomeComponents/MainBanner';
 import LeftAlignedInfoBlock from './HomeComponents/LeftAlignedInfoBlock';
 import RightAlignedInfoBlock from './HomeComponents/RightAlignedInfoBlock';
 
+import Carousel from './HomeComponents/Carousel';
+import HomeFooter from './HomeComponents/HomeFooter';
 // TODO: insert context here
 function Home() {
     const { user } = useAuth();
@@ -13,19 +14,36 @@ function Home() {
         <main className='text-center'>
             <MainBanner />
             <LeftAlignedInfoBlock
-                image={'./home/man.png'}
+                image={'./home/goopy_images/man.png'}
                 title={'About gOOpy'}
                 text={
                     'gOOpy is a 3D modeling software using ray marching rendering method, and signed distance functions (SDFs) to define geometry. Our goal is to enable artists to create 3D scenes in a unique way compared to traditional mesh-based methods. What users should expect is a platform where you can make an account to create, modify, download, and share scenes with other users.'
                 }
             />
             <RightAlignedInfoBlock
-                image={'./home/mushroom.png'}
+                image={'./home/goopy_images/mushroom.png'}
                 title={'What is Ray Marching?'}
                 text={
-                    'gOOpy is a 3D modeling software using ray marching rendering method, and signed distance functions (SDFs) to define geometry. Our goal is to enable artists to create 3D scenes in a unique way compared to traditional mesh-based methods. What users should expect is a platform where you can make an account to create, modify, download, and share scenes with other users.'
+                    'For each pixel, we cast a ray into the scene to check for collisions. Unlike raytracing which finds intersections of rays with polygons, raymarching (in our implementation) figures out the distance to the nearest shape, and then takes small steps until it hits the surface. This might sound inefficient, but it allows for some very fun new possibilities.'
                 }
             />
+            <Carousel
+                imagePaths={[
+                    './home/goopy_images/mushroom.png',
+                    './home/goopy_images/toilet_angel.png',
+                    './home/goopy_images/computer.png',
+                    './home/goopy_images/man.png',
+                    './home/goopy_images/mushroom.png',
+                    './home/goopy_images/toilet_angel.png',
+                    './home/goopy_images/computer.png',
+                    './home/goopy_images/man.png',
+                    './home/goopy_images/mushroom.png',
+                    './home/goopy_images/toilet_angel.png',
+                    './home/goopy_images/computer.png',
+                    './home/goopy_images/man.png',
+                ]}
+            />
+            <HomeFooter />
         </main>
     );
 }

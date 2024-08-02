@@ -21,3 +21,5 @@ export default function SquareRoutingIcon({
         </Link>
     );
 }
+
+// TODO: Not currently used! delete if not needed

@@ -1,7 +1,6 @@
 import InlineRoutingIcon from './InlineRoutingIcon';
 
 const inlineIconSize = 'size-6 sm:size-8 md:size-10 lg:size-12 xl:size-14 ';
-const squareIconSize = 'size-20 sm:size-24 md:size-28 lg:size-32 xl:size-36 ';
 
 export default function MainBanner() {
     return (
