@@ -32,9 +32,11 @@ function SceneManager({
                                 className='w-full'
                                 value={metadata.title}
                                 onChange={(e) => {
-                                    setMetadata({
-                                        ...metadata,
-                                        title: e.target.value,
+                                    setMetadata((m) => {
+                                        return {
+                                            ...m,
+                                            title: e.target.value,
+                                        };
                                     });
                                 }}
                             />
@@ -47,9 +49,11 @@ function SceneManager({
                                 style={{ maxWidth: '100%' }}
                                 value={metadata.description}
                                 onChange={(e) => {
-                                    setMetadata({
-                                        ...metadata,
-                                        description: e.target.value,
+                                    setMetadata((m) => {
+                                        return {
+                                            ...m,
+                                            description: e.target.value,
+                                        };
                                     });
                                 }}
                             />
@@ -61,9 +65,11 @@ function SceneManager({
                                 type='checkbox'
                                 defaultChecked={metadata.copyPermission}
                                 onChange={(e) => {
-                                    setMetadata({
-                                        ...metadata,
-                                        copyPermission: e.target.checked,
+                                    setMetadata((m) => {
+                                        return {
+                                            ...m,
+                                            copyPermission: e.target.checked,
+                                        };
                                     });
                                 }}
                             />
