@@ -28,45 +28,29 @@ This ain't your grandma's 3D modeling software! With gOOpy you can create wild s
 -   [ ] Click and drag items to move them
 -   [ ] A fleshed out materials system
 
-## Task breakdown:
-
--   Scene Editor / Renderer
-    -   Show list of object in scene w/ their properties
-    -   When a property is modified, update the state of the scene
-    -   Pass the new data as uniforms into the renderer
-        -   Scene is rendered w/ updated values
-    -   Save the new scene data to the database automatically
--   Allows user-saved models to be retrieved on login
-    -   Setup a method for user authentication
-    -   Save user generated data (for scenes and login information) in a database
-    -   Upon login make request to database to fetch user generated data
-    -   Display the scenes on the user’s dashboard
-
 ## How we are using each technology
 
 ### React
 
-We used React to build out the client side components and logic. For example, the editor is built using React state.
-
-TODO add more
+We used React to build out the client side components and logic. For example, the editor is built using React state to dynamically handle the manipulation of the scene information. The scene data flows from the react components into the renderer.
 
 ### Redux
 
-TODO
+We use redux to manage global state. In this project, it is just used to manage some user information.
 
 ### Node & Express
 
-We use Node for our backend. We set up multiple endpoints to handle user login, as well as scene saving.
+We use Node.js and Express to create RESTful API endpoints to handle user authentication, as well as scene saving / retrieval.
 
-TODO what else can we say here? Anything interesting??!!!!!!
+TODO I think we should say more here.
 
 ### MongoDB
 
-We are using MongoDB to store our user data, our session data, and also our scene data. Our scene data contains shapes, skybox colour, skybox light colour, ambient intensity, and metadata. Shapes is a list of "shape" type, which each contain information about what type of object it is as well as other parameters to describe it's position and features.
+We are using MongoDB to store our user data, our session data, and scene data. Our scene data contains attributes like shapes, skybox colour, skybox light colour, ambient intensity, and metadata. Shapes is a list of "shape" type, which each contain information about what type of object it is as well as other parameters to describe it's position and features.
 
 ### Github Actions & Render.com
 
-We deployed out frontend and backend to Render.com, and set up github actions to trigger deployments. Then we set up a badge in our readme to show that the deployments are set up.
+We deployed out frontend and backend to Render.com, and set up github actions to trigger deployments. Then we set up a badge in our readme to show that the deployments are set up. This CI/CD pipeline allows our deployed webpage to always contain our most up to date changes.
 
 ## Above and Beyond Functionality
 
@@ -163,12 +147,6 @@ TODO
 ### Matthew Wan
 
 TODO
-
-## Images
-
-<img src ="images/prototype1.png" width="500px">
-<img src ="images/prototype2.png" width="500px">
-<img src ="images/prototype3.png" width="500px">
 
 ## References
 
