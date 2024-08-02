@@ -119,23 +119,32 @@ const logo_y = [
 
 export function LiveLogo() {
     return (
-        <div className='w-96 h-96 z-0'>
-            <Canvas
-                className=''
-                orthographic
-                camera={{
-                    left: -1,
-                    right: 1,
-                    top: 1,
-                    bottom: -1,
-                    near: 0,
-                    far: 1,
-                    position: [0, 0, 0.5],
-                }}
-                gl={{ preserveDrawingBuffer: true }}
-            >
-                <LogoWrapper />
-            </Canvas>
+        <div
+            className='w-full h-screen'
+            style={{
+                backgroundColor: 'rgb(54 179 255)',
+                paddingTop: '5rem',
+                paddingLeft: '27rem',
+            }}
+        >
+            <div className='w-96 h-96 z-0'>
+                <Canvas
+                    className=''
+                    orthographic
+                    camera={{
+                        left: -1,
+                        right: 1,
+                        top: 1,
+                        bottom: -1,
+                        near: 0,
+                        far: 1,
+                        position: [0, 0, 0.5],
+                    }}
+                    gl={{ preserveDrawingBuffer: true }}
+                >
+                    <LogoWrapper />
+                </Canvas>
+            </div>
         </div>
     );
 }
@@ -207,8 +216,8 @@ function LogoWrapper() {
             scale={[2.0, 2.0, 1.0]}
             shapes={shapes}
             skybox={{
-                color: new Vector4(0, 0.7, 1, 1),
-                lightColor: new Vector3(0, 1, 0.16, 1),
+                color: new Vector4(54 / 255, 179 / 255, 255 / 255, 1),
+                lightColor: new Vector3(247, 1, 0.16, 1),
                 ambientIntensity: 0.2,
             }}
         />
