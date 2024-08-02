@@ -19,6 +19,8 @@ const sceneQueries = {
         const user = await User.findById(s.metadata.user_id);
         user.scenes = [...user.scenes, s.id];
         user.save();
+
+        console.log(user);
         return s;
     },
     getManySceneMetadata: async function (sceneIds) {
