@@ -5,6 +5,7 @@ import { Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
+import { CommonButtons } from '../../components/CommonButtons';
 import { useNavigate, useParams } from 'react-router-dom';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
@@ -226,7 +227,7 @@ function Editor() {
     if (loading) {
         return <p>loading</p>;
     }
-    console.log('CLEARING LOCAL SCENE STORAGE'); // only after loading is true
+    // only clear after loading is true
     localStorage.removeItem('login_scene_temp');
 
     // TODO better way to find the shapes's index?
@@ -236,23 +237,14 @@ function Editor() {
         <div className='flex justify-between p-5'>
             <div className='flex absolute top-0 start-0 h-screen w-screen z-10'>
                 <div className='mt-14 ml-5 editor-panel flex flex-col'>
-                    <div className='grow'>
+                    <div className='grow h-full flex flex-col min-w-64 ...'>
                         {editorView == 'shapes' && (
                             <ShapeManager
-                                sceneId={sceneId}
                                 shapes={shapes}
-                                skyboxColor={skyboxColor}
-                                skyboxLightColor={skyboxLightColor}
-                                skyboxAmbientIntensity={ambientIntensity}
-                                metadata={metadata}
+                                setEditorView={setEditorView}
+                                setCurrentShape={setCurrentShape}
                                 currentShape={currentShape}
                                 setShapes={setShapes}
-                                setCurrentShape={setCurrentShape}
-                                determineNewID={determineNewID}
-                                setEditorView={setEditorView}
-                                navigate={navigate}
-                                saveResult={saveResult}
-                                user={user}
                             />
                         )}
                         {editorView == 'scene' && (
@@ -268,6 +260,22 @@ function Editor() {
                                 setMetadata={setMetadata}
                             ></SceneManager>
                         )}
+                        <CommonButtons
+                            determineNewID={determineNewID}
+                            shapes={shapes}
+                            setShapes={setShapes}
+                            setCurrentShape={setCurrentShape}
+                            sceneId={sceneId}
+                            skyboxColor={skyboxColor}
+                            skyboxLightColor={skyboxLightColor}
+                            skyboxAmbientIntensity={setAmbientIntensity}
+                            metadata={metadata}
+                            setMetadata={setMetadata}
+                            setEditorView={setEditorView}
+                            saveResult={saveResult}
+                            navigate={navigate}
+                            user={user}
+                        ></CommonButtons>
                     </div>
                 </div>
                 <div className='mt-14 editor-panel'>
