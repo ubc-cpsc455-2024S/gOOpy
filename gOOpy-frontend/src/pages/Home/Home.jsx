@@ -1,13 +1,15 @@
 import { useAuth } from '../../components/AuthProvider';
 import '../../index.css';
 import { Link } from 'react-router-dom';
+import MainBanner from './HomeComponents/MainBanner';
 
 // TODO: insert context here
 function Home() {
     const { user } = useAuth();
     console.log(user?._id);
     return (
-        <main className='p-10 text-center'>
+        <main className='text-center'>
+            <MainBanner />
             <span>Welcome to</span>
             <h1 className='text-5xl font-bold'>gOOpy</h1>
             <h2 className='text-1xl'>The 3D scene editor</h2>
