@@ -5,6 +5,7 @@ import { Vector3, Vector4 } from 'three';
 import RayMarching from './RayMarching/RayMarching';
 import ShapeManager from '../../components/ShapeManager';
 import ShapeDetails from '../../components/ShapeDetails';
+import { CommonButtons } from '../../components/CommonButtons';
 import { useNavigate, useParams } from 'react-router-dom';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
@@ -52,42 +53,6 @@ const fetchScene = async (
         setLoading(true);
     }
     setLoading(false);
-};
-
-const saveResult = async (
-    sceneId,
-    shapes,
-    skyboxColor,
-    skyboxLightColor,
-    skyboxAmbientIntensity,
-    metadata,
-    navigate
-) => {
-    let data = {
-        shapes: shapes,
-        skybox_color: skyboxColor,
-        skybox_light_color: skyboxLightColor,
-        ambient_intensity: skyboxAmbientIntensity,
-        metadata: {
-            // TODO: determine if oauth_id or _id from mongoDB
-            user_id: '668f76634cfd55de99230ca9',
-            title: metadata.title,
-            description: metadata.description,
-            copy_permission: metadata.copyPermission,
-            last_edited: new Date(),
-            thumbnail: createImageDataURL(THUMBNAIL_DIMENSION, 'webp'),
-        },
-    };
-    if (!sceneId) {
-        try {
-            const resp = await createNewScene(data);
-            navigate(`/editor/${resp.data}`);
-        } catch (e) {
-            console.error(e);
-        }
-    } else {
-        await saveSceneInfo(sceneId, data);
-    }
 };
 
 function Editor() {
@@ -142,22 +107,14 @@ function Editor() {
         <div className='flex justify-between p-5'>
             <div className='flex absolute top-0 start-0 h-screen w-screen z-10'>
                 <div className='mt-14 ml-5 editor-panel flex flex-col'>
-                    <div className='grow'>
+                    <div className='grow h-full flex flex-col min-w-64 ...'>
                         {editorView == 'shapes' && (
                             <ShapeManager
-                                sceneId={sceneId}
                                 shapes={shapes}
-                                skyboxColor={skyboxColor}
-                                skyboxLightColor={skyboxLightColor}
-                                skyboxAmbientIntensity={ambientIntensity}
-                                metadata={metadata}
+                                setEditorView={setEditorView}
+                                setCurrentShape={setCurrentShape}
                                 currentShape={currentShape}
                                 setShapes={setShapes}
-                                setCurrentShape={setCurrentShape}
-                                determineNewID={determineNewID}
-                                setEditorView={setEditorView}
-                                navigate={navigate}
-                                saveResult={saveResult}
                             />
                         )}
                         {editorView == 'scene' && (
@@ -173,6 +130,19 @@ function Editor() {
                                 setMetadata={setMetadata}
                             ></SceneManager>
                         )}
+                        <CommonButtons
+                            determineNewID={determineNewID}
+                            shapes={shapes}
+                            setShapes={setShapes}
+                            setCurrentShape={setCurrentShape}
+                            sceneId={sceneId}
+                            skyboxColor={skyboxColor}
+                            skyboxLightColor={skyboxLightColor}
+                            skyboxAmbientIntensity={setAmbientIntensity}
+                            metadata={metadata}
+                            setMetadata={setMetadata}
+                            setEditorView={setEditorView}
+                        ></CommonButtons>
                     </div>
                 </div>
                 <div className='mt-14 editor-panel'>
