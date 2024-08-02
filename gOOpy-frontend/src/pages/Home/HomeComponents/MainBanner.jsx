@@ -11,7 +11,7 @@ export default function MainBanner() {
                     <div className=''>
                         <h1
                             className='text-4xl drop-shadow-xl
-sm:text-5xl sm:pt-20  md:text-6xl md:pt-24 lg:text-7xl lg:pt-24 xl:text-8xl xl:pt-32   '
+sm:text-5xl sm:pt-20  md:text-6xl md:pt-24 lg:text-7xl lg:pt-24 xl:text-8xl xl:pt-32'
                         >
                             Welcome to:
                         </h1>
