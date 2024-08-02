@@ -2,7 +2,7 @@ import { Matrix4, Vector3 } from 'three';
 import GoopyButton from './GoopyButton';
 import EditorTabCarousel from './EditorTabCarousel';
 import { SHAPE_TYPES } from '../pages/Editor/constants';
-import { createImageDataURL } from '../pages/Editor/Editor';
+import { createImageDataURL } from './ThumbnailGeneration';
 
 const MAX_SHAPES = 50; // should match shaders
 const DOWNLOAD_FILE_TYPE = 'png';
