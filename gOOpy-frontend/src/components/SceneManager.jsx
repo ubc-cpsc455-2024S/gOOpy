@@ -1,4 +1,4 @@
-import { ColorPicker, useColor } from 'react-color-palette';
+import { ColorPicker } from 'react-color-palette';
 import ToggleView from './ToggleView';
 import Slider from './Slider';
 import EditorTabCarousel from './EditorTabCarousel';

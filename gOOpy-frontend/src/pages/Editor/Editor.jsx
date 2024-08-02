@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import 'react-color-palette/css';
 import { Canvas } from '@react-three/fiber';
 import { Vector3, Vector4 } from 'three';

@@ -1,4 +1,4 @@
-import { Vector3, Vector4 } from 'three';
+import { Vector3 } from 'three';
 
 export const SHAPE_TYPES = {
     Sphere: 0,
