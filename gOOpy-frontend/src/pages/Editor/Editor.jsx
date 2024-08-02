@@ -145,7 +145,8 @@ function Editor() {
     const [needSave, setNeedSave] = useState(false);
     const [canvasReady, setCanvasReady] = useState(false);
     const [shapes, setShapes] = useState(
-        buildMatrices([{ ...obj1 }, { ...obj2 }, { ...obj3 }])
+        // JSON stringify+parse does a deep copy
+        buildMatrices(JSON.parse(JSON.stringify([obj1, obj2, obj3])))
     );
     const [currentShape, setCurrentShape] = useState(null);
     const [nextId, setNextId] = useState(() => {
@@ -173,7 +174,7 @@ function Editor() {
     useEffect(() => {
         // check if local cache has anything and load it; if not just do it normally
         const stored = JSON.parse(localStorage.getItem('login_scene_temp'));
-        if (stored != null) {
+        if (!sceneId && stored != null) {
             // load it
             console.log('LOADING SCENE FROM LOCAL STORAGE');
             fetchSceneLocal(
@@ -186,22 +187,7 @@ function Editor() {
                 setMetadata,
                 stored
             );
-
             setNeedSave(true);
-
-            // // save it if logged in, then redirect to new url
-            // if (user != null) {
-            //     saveResult(
-            //         sceneId,
-            //         shapes,
-            //         skyboxColor,
-            //         skyboxLightColor,
-            //         ambientIntensity,
-            //         metadata,
-            //         navigate,
-            //         user
-            //     );
-            // }
         } else {
             fetchScene(
                 setLoading,
@@ -214,7 +200,7 @@ function Editor() {
                 setMetadata
             );
         }
-    }, []);
+    }, [sceneId]);
 
     useEffect(() => {
         console.log('canvas ready', canvasReady);
