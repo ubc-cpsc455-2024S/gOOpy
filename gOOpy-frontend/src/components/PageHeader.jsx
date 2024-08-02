@@ -11,7 +11,7 @@ export default function PageHeader() {
     const handleLogout = async () => {
         const result = await logoutUserGoogle();
         if (result) {
-            dispatch(clearUser());
+            // dispatch(clearUser());
             setUser(null);
         }
     };
