@@ -162,7 +162,7 @@ I implemented the raymarching rendering and integrated it into the editor. I wor
 
 ### Jacob Lacsamana
 
-TODO
+I worked on designing and building the GUI for the editor, creating controls for the scene's environment and component objects, and integrating them with the renderer. Additionally, I worked on designing and tuning the layout and styling of the editor view to increase responsiveness. I also worked on creating new endpoints and extending the functionality of existing ones, and integrating them with various parts of the frontend.
 
 ### Matthew Wan
 
