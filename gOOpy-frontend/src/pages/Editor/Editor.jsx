@@ -131,6 +131,7 @@ const saveResult = async (
         try {
             const resp = await createNewScene(data);
             navigate(`/editor/${resp.data}`);
+            setSceneSaved(true);
         } catch (e) {
             console.error(e);
         }
