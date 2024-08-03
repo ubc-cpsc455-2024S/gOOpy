@@ -78,7 +78,7 @@ We deployed out frontend and backend to Render.com, and set up github actions to
 
 The raymarching is implemented in `/gOOpy-frontend/public/shaders/raymarching.fs.glsl`.
 
-This projects uses a unique rendering technique called "raymarching". For each pixel, we cast a ray into the scene to check for collisions. Unlike raytracing which finds intersections of rays with polygons, raymarching (in our implementation) figures out the distance to the nearest shape, and then takes small steps until it hits the surface. This might sound inefficient, but it allows for some very fun new possibilities.
+This project uses a unique rendering technique called "raymarching". For each pixel, we cast a ray into the scene to check for collisions. Unlike raytracing which finds intersections of rays with polygons, raymarching (in our implementation) figures out the distance to the nearest shape, and then takes small steps until it hits the surface. This might sound inefficient, but it allows for some very fun new possibilities.
 
 But how does it find the nearest distance to the surface? You can do this using a _signed distance function_. A signed distance function (or SDF) is a function that takes in an input and returns a distance to the surface. You can learn more, and see some examples [here](https://iquilezles.org/articles/distfunctions/).
 
