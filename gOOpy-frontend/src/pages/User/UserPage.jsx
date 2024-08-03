@@ -1,19 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
 import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
 import {
     tempChangeUsername,
     tempChangeAboutMe,
     tempChangeProfilePhoto,
-    changeProfilePhoto,
-    changeUsername,
 } from '../../redux/slices/userSlice.js';
 import Button from '../../components/Button.jsx';
-import {
-    getManySceneMetadata,
-    LOCAL_SERVER_URL,
-} from '../../apiCalls/sceneAPI.js';
+import { getManySceneMetadata } from '../../apiCalls/sceneAPI.js';
 import { getUserInfo } from '../../apiCalls/userAPI.js';
 import { useDispatch, useSelector } from 'react-redux';
 

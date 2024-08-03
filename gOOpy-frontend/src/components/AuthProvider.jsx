@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../redux/slices/userSlice';
+import { useSelector } from 'react-redux';
 import { LOCAL_SERVER_URL } from '../apiCalls/sceneAPI';
 
 const AuthContext = createContext(null);
@@ -9,7 +8,6 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
     const initialUser = useSelector((state) => state.user.user);
     const [user, setUser] = useState(initialUser);
-    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchUser = async () => {
