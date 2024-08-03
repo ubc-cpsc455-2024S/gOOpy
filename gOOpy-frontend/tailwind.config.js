@@ -15,6 +15,7 @@ export default {
             'editor-box': '#fed7aa',
             'editor-hover': '#EAB272',
             white: '#FFFFFF',
+            'purple-600': '#581C87',
             'panel-primary': '#FED7AA',
             'error-red': '#D70040',
             'disabled-gray': '#DDBB94',
