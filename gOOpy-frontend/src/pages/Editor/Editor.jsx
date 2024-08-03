@@ -16,6 +16,8 @@ import {
     saveSceneInfo,
 } from '../../apiCalls/sceneAPI';
 import { buildMatrices } from './matrixHelpers';
+import { useAuth } from '../../components/AuthProvider';
+import { createImageDataURL } from '../../components/ThumbnailGeneration';
 
 const THUMBNAIL_DIMENSION = 100;
 
@@ -55,21 +57,107 @@ const fetchScene = async (
     setLoading(false);
 };
 
+const loadSceneLocal = (
+    setLoading,
+    setShapes,
+    setNextId,
+    setSkyboxColor,
+    setSkyboxLightColor,
+    setSkyboxAmbientIntensity,
+    setMetadata,
+    data
+) => {
+    function initializeScene(data) {
+        setShapes(buildMatrices(data.shapes));
+        setNextId(Math.max(...data.shapes.map((shape) => shape.id), 0));
+        setSkyboxColor(JSON.parse(JSON.stringify(data.skybox_color)));
+        setSkyboxLightColor(
+            JSON.parse(JSON.stringify(data.skybox_light_color))
+        );
+        setSkyboxAmbientIntensity(data.ambient_intensity);
+        setMetadata({
+            title: data.metadata.title,
+            description: data.metadata.description,
+            copyPermission: data.metadata.copy_permission,
+            lastEdited: data.metadata.last_edited,
+        });
+    }
+
+    try {
+        initializeScene(data);
+    } catch (error) {
+        setLoading(true);
+    }
+    setLoading(false);
+};
+
+const saveResult = async (
+    sceneId,
+    shapes,
+    skyboxColor,
+    skyboxLightColor,
+    skyboxAmbientIntensity,
+    metadata,
+    navigate,
+    user
+) => {
+    let data = {
+        shapes: shapes,
+        skybox_color: skyboxColor,
+        skybox_light_color: skyboxLightColor,
+        ambient_intensity: skyboxAmbientIntensity,
+        metadata: {
+            title: metadata.title,
+            description: metadata.description,
+            copy_permission: metadata.copyPermission,
+            last_edited: new Date(),
+            thumbnail: createImageDataURL(THUMBNAIL_DIMENSION, 'webp'),
+            user_id: user?._id,
+        },
+    };
+
+    // if there is no user
+    if (user === null) {
+        console.log('SAVING SCENE TO LOCAL STORAGE');
+        // save scene temporarily
+        localStorage.setItem('login_scene_temp', JSON.stringify(data));
+        // re-route to login since there is no user
+        navigate(`/login`);
+        return;
+    }
+
+    if (!sceneId) {
+        try {
+            const resp = await createNewScene(data);
+            navigate(`/editor/${resp.data}`);
+        } catch (e) {
+            console.error(e);
+        }
+    } else {
+        await saveSceneInfo(sceneId, data);
+    }
+};
+
 function Editor() {
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [loading, setLoading] = useState(true);
-    const [shapes, setShapes] = useState(buildMatrices([obj1, obj2, obj3]));
+    const [needSave, setNeedSave] = useState(false);
+    const [canvasReady, setCanvasReady] = useState(false);
+    const [shapes, setShapes] = useState(
+        // JSON stringify+parse does a deep copy
+        buildMatrices(JSON.parse(JSON.stringify([obj1, obj2, obj3])))
+    );
     const [currentShape, setCurrentShape] = useState(null);
     const [nextId, setNextId] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
 
     const { sceneId } = useParams();
-    const [skyboxColor, setSkyboxColor] = useColor('FFFFFF');
+    const [skyboxColor, setSkyboxColor] = useColor('#000000');
     const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
     const [ambientIntensity, setAmbientIntensity] = useState(0.2);
     const [editorView, setEditorView] = useState('shapes');
-
     const determineNewID = () => {
         const newNextId = nextId + 1;
         setNextId(newNextId);
@@ -84,21 +172,63 @@ function Editor() {
     });
 
     useEffect(() => {
-        fetchScene(
-            setLoading,
-            setShapes,
-            setNextId,
-            sceneId,
-            setSkyboxColor,
-            setSkyboxLightColor,
-            setAmbientIntensity,
-            setMetadata
-        );
-    }, []);
+        // check if local cache has anything and load it; if not just do it normally
+        const stored = JSON.parse(localStorage.getItem('login_scene_temp'));
+        if (!sceneId && stored != null) {
+            // load it
+            console.log('LOADING SCENE FROM LOCAL STORAGE');
+            loadSceneLocal(
+                setLoading,
+                setShapes,
+                setNextId,
+                setSkyboxColor,
+                setSkyboxLightColor,
+                setAmbientIntensity,
+                setMetadata,
+                stored
+            );
+            setNeedSave(true);
+        } else {
+            fetchScene(
+                setLoading,
+                setShapes,
+                setNextId,
+                sceneId,
+                setSkyboxColor,
+                setSkyboxLightColor,
+                setAmbientIntensity,
+                setMetadata
+            );
+        }
+    }, [sceneId]);
+
+    useEffect(() => {
+        console.log('canvas ready', canvasReady);
+        // We need to wait until the canvas has been loaded and rendered to
+        // TODO for now, we use canvasReady, as well as a manual delay
+        if (canvasReady && user && needSave) {
+            console.log('QUEUED SAVE');
+            setTimeout(() => {
+                saveResult(
+                    sceneId,
+                    shapes,
+                    skyboxColor,
+                    skyboxLightColor,
+                    ambientIntensity,
+                    metadata,
+                    navigate,
+                    user
+                );
+                setNeedSave(false);
+            }, 600);
+        }
+    }, [canvasReady, user, needSave]);
 
     if (loading) {
         return <p>loading</p>;
     }
+    // only clear after loading is true
+    localStorage.removeItem('login_scene_temp');
 
     // TODO better way to find the shapes's index?
     const index = shapes.findIndex((s) => s.id === currentShape);
@@ -138,10 +268,13 @@ function Editor() {
                             sceneId={sceneId}
                             skyboxColor={skyboxColor}
                             skyboxLightColor={skyboxLightColor}
-                            skyboxAmbientIntensity={setAmbientIntensity}
+                            skyboxAmbientIntensity={ambientIntensity}
                             metadata={metadata}
                             setMetadata={setMetadata}
                             setEditorView={setEditorView}
+                            saveResult={saveResult}
+                            navigate={navigate}
+                            user={user}
                         ></CommonButtons>
                     </div>
                 </div>
@@ -167,6 +300,7 @@ function Editor() {
                         far: 1,
                         position: [0, 0, 0.5],
                     }}
+                    onCreated={() => setCanvasReady(true)}
                     gl={{ preserveDrawingBuffer: true }}
                 >
                     <RayMarching
@@ -194,41 +328,3 @@ function Editor() {
 }
 
 export default Editor;
-
-// ASSUMES CANVAS IS A SQUARE
-export function createImageDataURL(resizedDimension, fileType) {
-    const originalCanvas = document.getElementsByTagName('canvas')[0];
-
-    const filledCanvas = document.createElement('canvas');
-    const filledContext = filledCanvas.getContext('2d');
-    filledCanvas.width = originalCanvas.width;
-    filledCanvas.height = originalCanvas.height;
-
-    filledContext.fillStyle = '#FFFFFF';
-    filledContext.fillRect(0, 0, filledCanvas.width, filledCanvas.height);
-
-    if (resizedDimension == originalCanvas.height) {
-        console.log('thing works');
-        filledContext.drawImage(originalCanvas, 0, 0);
-        return filledCanvas.toDataURL(`image/${fileType}`);
-    } else {
-        const sigma = 1 / (2 * (resizedDimension / originalCanvas.height));
-        filledContext.filter = `blur(${sigma}px)`;
-        filledContext.drawImage(originalCanvas, 0, 0);
-
-        const resizedCanvas = document.createElement('canvas');
-        const resizedContext = resizedCanvas.getContext('2d');
-        resizedCanvas.width = resizedDimension.toString();
-        resizedCanvas.height = resizedDimension.toString();
-
-        resizedContext.drawImage(
-            filledCanvas,
-            0,
-            0,
-            resizedDimension,
-            resizedDimension
-        );
-
-        return resizedCanvas.toDataURL(`image/${fileType}`);
-    }
-}

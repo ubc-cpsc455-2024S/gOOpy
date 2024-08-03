@@ -1,47 +1,10 @@
 import GoopyButton from './GoopyButton';
 import { Matrix4, Vector3 } from 'three';
-import { saveSceneInfo, createNewScene } from '../apiCalls/sceneAPI';
-import { createImageDataURL } from '../pages/Editor/Editor';
+import { createImageDataURL } from './ThumbnailGeneration';
 import { SHAPE_TYPES } from '../pages/Editor/constants';
 
 const MAX_SHAPES = 50; // should match shaders
 const DOWNLOAD_FILE_TYPE = 'png';
-
-const saveResult = async (
-    sceneId,
-    shapes,
-    skyboxColor,
-    skyboxLightColor,
-    skyboxAmbientIntensity,
-    metadata,
-    navigate
-) => {
-    let data = {
-        shapes: shapes,
-        skybox_color: skyboxColor,
-        skybox_light_color: skyboxLightColor,
-        ambient_intensity: skyboxAmbientIntensity,
-        metadata: {
-            // TODO: determine if oauth_id or _id from mongoDB
-            user_id: '668f76634cfd55de99230ca9',
-            title: metadata.title,
-            description: metadata.description,
-            copy_permission: metadata.copyPermission,
-            last_edited: new Date(),
-            thumbnail: createImageDataURL(THUMBNAIL_DIMENSION, 'webp'),
-        },
-    };
-    if (!sceneId) {
-        try {
-            const resp = await createNewScene(data);
-            navigate(`/editor/${resp.data}`);
-        } catch (e) {
-            console.error(e);
-        }
-    } else {
-        await saveSceneInfo(sceneId, data);
-    }
-};
 
 export const CommonButtons = ({
     determineNewID,
@@ -55,6 +18,8 @@ export const CommonButtons = ({
     metadata,
     navigate,
     setEditorView,
+    saveResult,
+    user,
 }) => {
     return (
         <div className='flex-none'>
@@ -107,7 +72,8 @@ export const CommonButtons = ({
                         skyboxLightColor,
                         skyboxAmbientIntensity,
                         metadata,
-                        navigate
+                        navigate,
+                        user
                     );
                 }}
             >
