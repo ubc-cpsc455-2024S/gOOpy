@@ -1,6 +1,7 @@
 import InlineRoutingIcon from './InlineRoutingIcon';
 
 const inlineIconSize = 'size-6 sm:size-8 md:size-10 lg:size-12 xl:size-14 ';
+const GOOPY_ORANGE_LOGO_PATH = '/home/Goopy_Logo_Orange.webm';
 
 export default function MainBanner() {
     return (
@@ -27,7 +28,7 @@ sm:text-5xl sm:pt-20  md:text-6xl md:pt-24 lg:text-7xl lg:pt-24 xl:text-8xl xl:p
                             controls={false}
                         >
                             <source
-                                src={'/home/Goopy_Logo.webm'}
+                                src={GOOPY_ORANGE_LOGO_PATH}
                                 type='video/webm'
                             />
                         </video>
@@ -114,7 +115,7 @@ sm:text-5xl sm:pt-20  md:text-6xl md:pt-24 lg:text-7xl lg:pt-24 xl:text-8xl xl:p
                     playsInline
                     controls={false}
                 >
-                    <source src={'/home/Goopy_Logo.webm'} type='video/webm' />
+                    <source src={GOOPY_ORANGE_LOGO_PATH} type='video/webm' />
                 </video>
             </div>
         </div>
