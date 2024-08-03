@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../../components/AuthProvider.jsx';
 import {
     tempChangeUsername,
     tempChangeAboutMe,
@@ -124,13 +123,6 @@ export default function UserPage() {
                                                                 .value
                                                         )
                                                     );
-                                                    // await axios.patch(
-                                                    //     `${LOCAL_SERVER_URL}/users/${id}`,
-                                                    //     {
-                                                    //         name: nameRef
-                                                    //             .current.value,
-                                                    //     }
-                                                    // );
                                                     nameRef.current.value = '';
                                                 }}
                                             >
@@ -150,14 +142,6 @@ export default function UserPage() {
                                                                 .value
                                                         )
                                                     );
-                                                    // await axios.patch(
-                                                    //     `${LOCAL_SERVER_URL}/users/${id}`,
-                                                    //     {
-                                                    //         description:
-                                                    //             aboutRef.current
-                                                    //                 .value,
-                                                    //     }
-                                                    // );
                                                     aboutRef.current.value = '';
                                                 }}
                                             >
@@ -180,15 +164,6 @@ export default function UserPage() {
                                                                 .current.value
                                                         )
                                                     );
-                                                    // await axios.patch(
-                                                    //     `${LOCAL_SERVER_URL}/users/${id}`,
-                                                    //     {
-                                                    //         profile_pic:
-                                                    //             profilepicRef
-                                                    //                 .current
-                                                    //                 .value,
-                                                    //     }
-                                                    // );
                                                     profilePicRef.current.value =
                                                         '';
                                                 }}
