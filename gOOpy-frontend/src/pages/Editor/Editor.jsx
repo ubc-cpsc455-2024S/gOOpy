@@ -57,7 +57,7 @@ const fetchScene = async (
     setLoading(false);
 };
 
-const fetchSceneLocal = (
+const loadSceneLocal = (
     setLoading,
     setShapes,
     setNextId,
@@ -177,7 +177,7 @@ function Editor() {
         if (!sceneId && stored != null) {
             // load it
             console.log('LOADING SCENE FROM LOCAL STORAGE');
-            fetchSceneLocal(
+            loadSceneLocal(
                 setLoading,
                 setShapes,
                 setNextId,
@@ -268,7 +268,7 @@ function Editor() {
                             sceneId={sceneId}
                             skyboxColor={skyboxColor}
                             skyboxLightColor={skyboxLightColor}
-                            skyboxAmbientIntensity={setAmbientIntensity}
+                            skyboxAmbientIntensity={ambientIntensity}
                             metadata={metadata}
                             setMetadata={setMetadata}
                             setEditorView={setEditorView}
