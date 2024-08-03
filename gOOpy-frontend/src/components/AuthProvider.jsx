@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
                 const u = JSON.parse(sessionUser.data);
                 console.log(u._id);
                 setUser(u);
-                // dispatch(loginUser(u));
             } catch (err) {
                 console.log('not logged in');
             }
