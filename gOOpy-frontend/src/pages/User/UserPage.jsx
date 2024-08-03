@@ -101,6 +101,7 @@ export default function UserPage() {
                                         className='sliders rounded-lg'
                                         onSubmit={closeEdit}
                                     >
+                                        <h1>Work in progress...</h1>
                                         <div>
                                             <label>New Username: </label>
                                         </div>
