@@ -26,7 +26,7 @@ export default function Carousel({ imagePaths }) {
     return (
         <div className='pt-5 pb-10'>
             <h1 className={header + ' ' + 'underline'}>Hall of Fame</h1>
-            <div className='flex justify-center w-screen pt-5'>
+            <div className='flex justify-center pt-5'>
                 <div className='w-2/3'>
                     <AliceCarousel
                         mouseTracking

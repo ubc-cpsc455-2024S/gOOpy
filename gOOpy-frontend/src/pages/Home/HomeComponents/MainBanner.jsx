@@ -5,7 +5,7 @@ const GOOPY_ORANGE_LOGO_PATH = '/home/Goopy_Logo_Orange.webm';
 
 export default function MainBanner() {
     return (
-        <div className='w-screen bg-sky-blue shadow-xl'>
+        <div className='h-screen bg-sky-blue shadow-xl'>
             <div className='flex flex-row flex-wrap justify-evenly'>
                 <div className=''>
                     <div className=''>
@@ -19,7 +19,7 @@ sm:text-5xl sm:pt-20  md:text-6xl md:pt-24 lg:text-7xl lg:pt-24 xl:text-8xl xl:p
                             a ray marching 3D scene editor
                         </h3>
                         <video
-                            className='text-center mx-auto sm:hidden'
+                            className='text-center mx-auto sm:hidden mask-video'
                             width='45%'
                             muted
                             autoPlay
@@ -107,7 +107,7 @@ sm:text-5xl sm:pt-20  md:text-6xl md:pt-24 lg:text-7xl lg:pt-24 xl:text-8xl xl:p
                     </div>
                 </div>
                 <video
-                    className=' hidden sm:block justify-start'
+                    className='hidden sm:block justify-start mask-video'
                     width='40%'
                     muted
                     autoPlay
