@@ -20,6 +20,8 @@ export const CommonButtons = ({
     setEditorView,
     saveResult,
     user,
+    setSceneSaved,
+    sceneSaved,
 }) => {
     return (
         <div className='flex-none'>
@@ -73,11 +75,12 @@ export const CommonButtons = ({
                         skyboxAmbientIntensity,
                         metadata,
                         navigate,
-                        user
+                        user,
+                        setSceneSaved
                     );
                 }}
             >
-                Save Scene
+                Save Scene {sceneSaved ? '✅' : ''}
             </GoopyButton>
             <GoopyButton
                 classes='border-l border-r border-b p-1'
