@@ -9,6 +9,7 @@ function ToggleView({ label, classes, children }) {
                     toggleView(!showing);
                 }}
                 classes={`border-b button cursor-pointer flex w-full`}
+                isSelected={showing}
             >
                 <h4 className='text-xl'>{label}</h4>
             </GoopyButton>

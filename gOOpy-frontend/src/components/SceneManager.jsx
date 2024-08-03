@@ -18,6 +18,7 @@ function SceneManager({
         <div className='bg-panel-primary border h-full pt-1 sliders flex flex-col min-w-64'>
             <div className=''>
                 <EditorTabCarousel
+                    selected={'scene'}
                     setEditorView={setEditorView}
                 ></EditorTabCarousel>
             </div>

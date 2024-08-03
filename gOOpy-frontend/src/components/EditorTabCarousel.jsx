@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
 import GoopyButton from './GoopyButton';
 
-function EditorTabCarousel({ setEditorView }) {
+function EditorTabCarousel({ setEditorView, selected }) {
     return (
         <div className='flex flex-row overflow-scroll bg-panel-primary border no-scrollbar'>
             <GoopyButton
@@ -8,6 +9,7 @@ function EditorTabCarousel({ setEditorView }) {
                 onClick={() => {
                     setEditorView('shapes');
                 }}
+                isSelected={selected === 'shapes'}
             >
                 Shapes
             </GoopyButton>
@@ -16,6 +18,7 @@ function EditorTabCarousel({ setEditorView }) {
                 onClick={() => {
                     setEditorView('scene');
                 }}
+                isSelected={selected === 'scene'}
             >
                 Scene
             </GoopyButton>
