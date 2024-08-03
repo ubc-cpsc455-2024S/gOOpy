@@ -4,6 +4,7 @@ const inlineIconSize = 'size-6 sm:size-8 md:size-10 lg:size-12 xl:size-14 ';
 const GOOPY_ORANGE_LOGO_PATH = '/home/Goopy_Logo_Orange.webm';
 
 export default function MainBanner() {
+    const { user } = useAuth();
     return (
         <div className='h-screen bg-sky-blue shadow-xl'>
             <div className='flex flex-row flex-wrap justify-evenly'>
@@ -86,24 +87,45 @@ sm:text-5xl sm:pt-20  md:text-6xl md:pt-24 lg:text-7xl lg:pt-24 xl:text-8xl xl:p
                             pagePath={'/user'}
                             text={'Users'}
                         />
-                        <InlineRoutingIcon
-                            icon={
-                                <svg
-                                    xmlns='http://www.w3.org/2000/svg'
-                                    viewBox='0 0 24 24'
-                                    fill='currentColor'
-                                    className={inlineIconSize}
-                                >
-                                    <path
-                                        fillRule='evenodd'
-                                        d='M4.5 3.75a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-15Zm4.125 3a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Zm-3.873 8.703a4.126 4.126 0 0 1 7.746 0 .75.75 0 0 1-.351.92 7.47 7.47 0 0 1-3.522.877 7.47 7.47 0 0 1-3.522-.877.75.75 0 0 1-.351-.92ZM15 8.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15ZM14.25 12a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H15a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15Z'
-                                        clipRule='evenodd'
-                                    />
-                                </svg>
-                            }
-                            pagePath={'/login'}
-                            text={'Login'}
-                        />
+                        {user ? (
+                            <InlineRoutingIcon
+                                icon={
+                                    <svg
+                                        xmlns='http://www.w3.org/2000/svg'
+                                        viewBox='0 0 24 24'
+                                        fill='currentColor'
+                                        className={inlineIconSize}
+                                    >
+                                        <path
+                                            fillRule='evenodd'
+                                            d='M4.5 3.75a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-15Zm4.125 3a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Zm-3.873 8.703a4.126 4.126 0 0 1 7.746 0 .75.75 0 0 1-.351.92 7.47 7.47 0 0 1-3.522.877 7.47 7.47 0 0 1-3.522-.877.75.75 0 0 1-.351-.92ZM15 8.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15ZM14.25 12a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H15a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15Z'
+                                            clipRule='evenodd'
+                                        />
+                                    </svg>
+                                }
+                                pagePath={`/user/${user._id}`}
+                                text={'User Page'}
+                            />
+                        ) : (
+                            <InlineRoutingIcon
+                                icon={
+                                    <svg
+                                        xmlns='http://www.w3.org/2000/svg'
+                                        viewBox='0 0 24 24'
+                                        fill='currentColor'
+                                        className={inlineIconSize}
+                                    >
+                                        <path
+                                            fillRule='evenodd'
+                                            d='M4.5 3.75a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-15Zm4.125 3a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Zm-3.873 8.703a4.126 4.126 0 0 1 7.746 0 .75.75 0 0 1-.351.92 7.47 7.47 0 0 1-3.522.877 7.47 7.47 0 0 1-3.522-.877.75.75 0 0 1-.351-.92ZM15 8.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15ZM14.25 12a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H15a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15Z'
+                                            clipRule='evenodd'
+                                        />
+                                    </svg>
+                                }
+                                pagePath={'/login'}
+                                text={'Login'}
+                            />
+                        )}
                     </div>
                 </div>
                 <video

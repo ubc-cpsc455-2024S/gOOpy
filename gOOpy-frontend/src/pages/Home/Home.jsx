@@ -8,8 +8,6 @@ import Carousel from './HomeComponents/Carousel';
 import HomeFooter from './HomeComponents/HomeFooter';
 // TODO: insert context here
 function Home() {
-    const { user } = useAuth();
-    console.log(user?._id);
     return (
         <main className='text-center'>
             <MainBanner />
