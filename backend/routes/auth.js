@@ -69,7 +69,7 @@ router.get('/session-user', (req, res) => {
     console.log(req.session.id);
     req.session.reload(function (err) {
         if (req.session.user) {
-            res.json(req.session.user);
+            res.status(200).json(req.session.user);
         } else {
             res.status(500).send('no user logged in');
         }
