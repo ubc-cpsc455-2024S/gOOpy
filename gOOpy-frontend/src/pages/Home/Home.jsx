@@ -22,7 +22,7 @@ function Home() {
                 image={'./home/goopy_images/mushroom.png'}
                 title={'What is Ray Marching?'}
                 text={
-                    'For each pixel, we cast a ray into the scene to check for collisions. Unlike raytracing which finds intersections of rays with polygons, raymarching (in our implementation) figures out the distance to the nearest shape, and then takes small steps until it hits the surface. This allows for some very fun new possibilities.'
+                    'For each pixel, we cast a ray into the scene to check for collisions. Unlike ray tracing which finds intersections of rays with polygons, ray marching (in our implementation) figures out the distance to the nearest shape, and then takes small steps until it hits the surface. This allows for some very fun new possibilities.'
                 }
             />
             <Carousel
