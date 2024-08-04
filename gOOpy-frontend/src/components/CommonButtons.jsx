@@ -12,9 +12,7 @@ export const CommonButtons = ({
     setShapes,
     setCurrentShape,
     sceneId,
-    skyboxColor,
-    skyboxLightColor,
-    skyboxAmbientIntensity,
+    constructSceneObject,
     metadata,
     navigate,
     setEditorView,
@@ -65,16 +63,7 @@ export const CommonButtons = ({
             <GoopyButton
                 classes='border-l border-r border-b p-1'
                 onClick={async () => {
-                    saveResult(
-                        sceneId,
-                        shapes,
-                        skyboxColor,
-                        skyboxLightColor,
-                        skyboxAmbientIntensity,
-                        metadata,
-                        navigate,
-                        user
-                    );
+                    saveResult(sceneId, constructSceneObject(), navigate, user);
                 }}
             >
                 Save Scene

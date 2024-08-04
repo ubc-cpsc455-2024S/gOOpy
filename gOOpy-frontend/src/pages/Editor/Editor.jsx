@@ -91,36 +91,10 @@ const loadSceneLocal = (
     setLoading(false);
 };
 
-const saveResult = async (
-    sceneId,
-    shapes,
-    skyboxColor,
-    skyboxLightColor,
-    skyboxAmbientIntensity,
-    metadata,
-    navigate,
-    user
-) => {
-    let data = {
-        shapes: shapes,
-        skybox_color: skyboxColor,
-        skybox_light_color: skyboxLightColor,
-        ambient_intensity: skyboxAmbientIntensity,
-        metadata: {
-            title: metadata.title,
-            description: metadata.description,
-            copy_permission: metadata.copyPermission,
-            last_edited: new Date(),
-            thumbnail: createImageDataURL(THUMBNAIL_DIMENSION, 'webp'),
-            user_id: user?._id,
-        },
-    };
-
+const saveResult = async (sceneId, data, navigate, user) => {
     // if there is no user
     if (user === null) {
-        console.log('SAVING SCENE TO LOCAL STORAGE');
-        // save scene temporarily
-        localStorage.setItem('login_scene_temp', JSON.stringify(data));
+        saveLocal(data);
         // re-route to login since there is no user
         navigate(`/login`);
         return;
@@ -137,6 +111,12 @@ const saveResult = async (
         await saveSceneInfo(sceneId, data);
     }
 };
+
+function saveLocal(data) {
+    console.log('SAVING SCENE TO LOCAL STORAGE');
+    // save scene temporarily
+    localStorage.setItem('login_scene_temp', JSON.stringify(data));
+}
 
 function Editor() {
     const navigate = useNavigate();
@@ -170,6 +150,25 @@ function Editor() {
         copyPermission: true,
         lastEdited: Date(),
     });
+
+    function constructSceneObject(constructThumbnail = true) {
+        return {
+            shapes: shapes,
+            skybox_color: skyboxColor,
+            skybox_light_color: skyboxLightColor,
+            ambient_intensity: ambientIntensity,
+            metadata: {
+                title: metadata.title,
+                description: metadata.description,
+                copy_permission: metadata.copyPermission,
+                last_edited: new Date(),
+                thumbnail: constructThumbnail
+                    ? createImageDataURL(THUMBNAIL_DIMENSION, 'webp')
+                    : '',
+                user_id: user?._id,
+            },
+        };
+    }
 
     useEffect(() => {
         // check if local cache has anything and load it; if not just do it normally
@@ -209,16 +208,7 @@ function Editor() {
         if (canvasReady && user && needSave) {
             console.log('QUEUED SAVE');
             setTimeout(() => {
-                saveResult(
-                    sceneId,
-                    shapes,
-                    skyboxColor,
-                    skyboxLightColor,
-                    ambientIntensity,
-                    metadata,
-                    navigate,
-                    user
-                );
+                saveResult(sceneId, constructSceneObject(), navigate, user);
                 setNeedSave(false);
             }, 600);
         }
@@ -266,13 +256,11 @@ function Editor() {
                             setShapes={setShapes}
                             setCurrentShape={setCurrentShape}
                             sceneId={sceneId}
-                            skyboxColor={skyboxColor}
-                            skyboxLightColor={skyboxLightColor}
-                            skyboxAmbientIntensity={ambientIntensity}
                             metadata={metadata}
                             setMetadata={setMetadata}
                             setEditorView={setEditorView}
                             saveResult={saveResult}
+                            constructSceneObject={constructSceneObject}
                             navigate={navigate}
                             user={user}
                         ></CommonButtons>

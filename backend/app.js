@@ -25,15 +25,15 @@ app.use(
         secret: process.env.SECRET,
         resave: false,
         saveUninitialized: true,
-        store: MongoStore.create({
-            mongoUrl: process.env.MONGODB_CONNECTION_STRING,
-        }),
-        cookie: {
-            httpOnly: true,
-            secure: true,
-            maxAge: 1000 * 60 * 60 * 48,
-            sameSite: 'none',
-        },
+        // store: MongoStore.create({
+        //     mongoUrl: process.env.MONGODB_CONNECTION_STRING,
+        // }),
+        // cookie: {
+        //     httpOnly: true,
+        //     secure: true,
+        //     maxAge: 1000 * 60 * 60 * 48,
+        //     sameSite: 'none',
+        // },
     })
 );
 
