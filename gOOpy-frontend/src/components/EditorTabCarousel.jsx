@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import GoopyButton from './GoopyButton';
 
 function EditorTabCarousel({ setEditorView, selected }) {
