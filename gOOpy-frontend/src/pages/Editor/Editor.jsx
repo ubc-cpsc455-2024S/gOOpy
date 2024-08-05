@@ -99,7 +99,8 @@ const saveResult = async (
     skyboxAmbientIntensity,
     metadata,
     navigate,
-    user
+    user,
+    setSceneSaved
 ) => {
     let data = {
         shapes: shapes,
@@ -130,11 +131,13 @@ const saveResult = async (
         try {
             const resp = await createNewScene(data);
             navigate(`/editor/${resp.data}`);
+            setSceneSaved(true);
         } catch (e) {
             console.error(e);
         }
     } else {
         await saveSceneInfo(sceneId, data);
+        setSceneSaved(true);
     }
 };
 
@@ -152,7 +155,6 @@ function Editor() {
     const [nextId, setNextId] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
-
     const { sceneId } = useParams();
     const [skyboxColor, setSkyboxColor] = useColor('#000000');
     const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
@@ -163,6 +165,7 @@ function Editor() {
         setNextId(newNextId);
         return newNextId;
     };
+    const [sceneSaved, setSceneSaved] = useState(false);
 
     const [metadata, setMetadata] = useState({
         title: 'my_scene',
@@ -217,12 +220,21 @@ function Editor() {
                     ambientIntensity,
                     metadata,
                     navigate,
-                    user
+                    user,
+                    setSceneSaved
                 );
                 setNeedSave(false);
             }, 600);
         }
     }, [canvasReady, user, needSave]);
+
+    useEffect(() => {
+        if (sceneSaved) {
+            setTimeout(() => {
+                setSceneSaved(false);
+            }, 3000);
+        }
+    }, [sceneSaved]);
 
     if (loading) {
         return <p>loading</p>;
@@ -275,6 +287,8 @@ function Editor() {
                             saveResult={saveResult}
                             navigate={navigate}
                             user={user}
+                            setSceneSaved={setSceneSaved}
+                            sceneSaved={sceneSaved}
                         ></CommonButtons>
                     </div>
                 </div>

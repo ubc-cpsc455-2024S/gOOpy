@@ -40,3 +40,17 @@ body {
 .scroll-viewport {
     max-height: 65vh;
 }
+
+.mask-video {
+    -webkit-mask-image: radial-gradient(
+        ellipse 60% 40%,
+        rgba(0, 0, 0, 1) 60%,
+        rgba(0, 0, 0, 0) 80%
+    );
+
+    mask-image: radial-gradient(
+        ellipse 60% 40%,
+        rgba(0, 0, 0, 1) 60%,
+        rgba(0, 0, 0, 0) 80%
+    );
+}
