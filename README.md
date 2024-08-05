@@ -60,7 +60,7 @@ TODO: try to add more once we're done with more redux stuff.
 
 ### Node & Express
 
-We use Node.js and Express to create RESTful API endpoints to handle user authentication, as well as scene saving / retrieval.
+We use Node.js and Express to create RESTful API endpoints to handle user authentication, user information, as well as scene saving / retrieval. Backend endpoints feature error handling in case our database features fail to load for any reason.
 
 TODO I think we should say more here.
 
@@ -120,7 +120,7 @@ The frontend will automatically pick up the new shape and it will be usable in t
 
 ### Retro Vibe
 
-We went with an intentionally retro style for our UI, such as warm colours and funky fonts. This is still a work in progress, and we intend to develop this style more over time.
+We went with an intentionally retro style for our UI, such as warm colours and funky fonts. We were inspired to make it this way because the way the shapes blob together in ray marching is very mellow and similar to what you might see in a lava lamp.
 
 ### Animated logo
 
@@ -128,11 +128,11 @@ We created an animated logo using our rendering system. This logo is available a
 
 ### Google login
 
-We have implemented Google Login, allowing users to seamlessly save their scenes to their existing Google accounts.
+We have implemented Google Login, allowing users to seamlessly save their scenes to their existing Google accounts. This process ensures that we are able to handle user information in a secure way that is able to be scaled in the future.
 
 ### User flow
 
-We have been very intentional in the design of our user flow, with the goal of lowering barriers to onboarding. We allow users to open the editor and make their scene without logging in. Then, users can click save. If they're logged in, their scene will get saved to their account. If they're not logged in, they will get redirected to the login page. After logging in, they get redirected back to the editor, which will automatically load their previous scene and save it. This is a smooth user experience to help encourage people to make accounts.
+We have been very intentional in the design of our user flow, with the goal of lowering barriers to onboarding. We allow users to open the editor and make their scene without logging in. Then, users can click save. If they're logged in, their scene will get saved to their account. If they're not logged in, they will get redirected to the login page. At the same time we automatically save their scene so their creation isn't lost while logging in, after logging in, they get redirected back to the editor. This is a smooth user experience to help encourage people to make accounts.
 
 ## Next Steps
 
@@ -166,8 +166,7 @@ I worked on designing and building the GUI for the editor, creating controls for
 
 ### Matthew Wan
 
-My main contributions were the creating the main page, tutorial, user page, creating express endpoints and structuring our database. I designed and coded the main page, taking into account a mobile view and reactivity for resizing events. I also planned the layout and built all the frontend components in the tutorial and user pages, including working with Aiden to handle thumbnail generation which turned out
-For the backend endpoints, I used mongoose to create many of the queries we use to fetch information to the user. I also setup many of the express endpoints for the users and scenes, including formatting the scene information to be saved in our MongoDB database.
+My main contributions were the creating the main page, tutorial, user page, creating express endpoints and structuring our database. I designed and coded the main page and tutorial with cool animations, taking into account a mobile view and reactivity for resizing events in addition to handling thumbnail generation. For the backend endpoints, I used mongoose to create many of the queries we use to fetch information to the user and setup many of the express endpoints for the users and scenes, including formatting the scene information and handling error cases / error codes.
 
 ## References
 
