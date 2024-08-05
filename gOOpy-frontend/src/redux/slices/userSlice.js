@@ -3,7 +3,7 @@ import { updateUser, getUserInfoByUsername } from '../../apiCalls/userAPI.js';
 import { useSelector } from 'react-redux';
 
 const initialState = {
-    user: null,
+    user: { name: '', description: '', profile_pic: '' },
     isAuthenticated: false,
 };
 
@@ -14,10 +14,9 @@ export const userLogin = createAsyncThunk('member/login', async (username) => {
 
 export const changeUsername = createAsyncThunk(
     'member/changeUsername',
-    async (name) => {
-        const user = useSelector((state) => state.user);
+    async (name, user, id) => {
         const newUser = { ...user, name: name };
-        await updateUser(newUser);
+        const username = await updateUser(newUser);
         return username;
     }
 );
@@ -42,13 +41,13 @@ export const userSlice = createSlice({
         // takes in a fixed user object - this is temporary until we can actually retrieve a user.
         // NOTE: these reducers lack verification. No check to see if user is first logged in
         tempChangeUsername: (state, action) => {
-            state.name = action.payload;
+            state.user.name = action.payload;
         },
         tempChangeProfilePhoto: (state, action) => {
-            state.profile_pic = action.payload;
+            state.user.profile_pic = action.payload;
         },
         tempChangeAboutMe: (state, action) => {
-            state.bio = action.payload;
+            state.user.description = action.payload;
         },
 
         // This one we can keep!

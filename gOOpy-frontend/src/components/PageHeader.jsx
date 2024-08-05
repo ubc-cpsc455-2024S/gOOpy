@@ -1,17 +1,13 @@
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { clearUser } from '../redux/slices/userSlice';
 import { useAuth } from './AuthProvider';
 import { logoutUserGoogle } from '../apiCalls/userAPI';
 
 export default function PageHeader() {
     const { user, setUser } = useAuth();
-    const dispatch = useDispatch();
 
     const handleLogout = async () => {
         const result = await logoutUserGoogle();
         if (result) {
-            dispatch(clearUser());
             setUser(null);
         }
     };

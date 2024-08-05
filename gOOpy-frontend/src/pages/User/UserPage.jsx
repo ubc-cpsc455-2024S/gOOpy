@@ -1,27 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
 import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
 import {
     tempChangeUsername,
     tempChangeAboutMe,
     tempChangeProfilePhoto,
 } from '../../redux/slices/userSlice.js';
 import Button from '../../components/Button.jsx';
-import {
-    getManySceneMetadata,
-    LOCAL_SERVER_URL,
-} from '../../apiCalls/sceneAPI.js';
+import { getManySceneMetadata } from '../../apiCalls/sceneAPI.js';
 import { getUserInfo } from '../../apiCalls/userAPI.js';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function UserPage() {
     const { id } = useParams();
     const [user, setUserState] = useState({});
+    const { user: localUser } = useSelector((state) => state.user);
     const [scenesInfo, setScenesInfo] = useState([]);
     const [editUser, setEditUser] = useState(false);
     const nameRef = useRef('');
     const aboutRef = useRef('');
     const profilePicRef = useRef('');
+    const dispatch = useDispatch();
 
     useEffect(() => {
         async function setUser() {
@@ -62,12 +61,23 @@ export default function UserPage() {
             <div className='pt-5 pb-5 justify-center'>
                 <div className=''>
                     <img
-                        src={user.profile_pic}
+                        src={
+                            localUser.profile_pic == ''
+                                ? user.profile_pic
+                                : localUser.profile_pic
+                        }
                         className='rounded-full h-[250px] w-[250px] border-4 mx-auto shadow-xl'
                     />
                 </div>
                 <h1 className='text-center text-3xl'>
-                    {!user._id ? <p>Guest</p> : <p>Welcome, {user.name}!</p>}
+                    {!user._id ? (
+                        <p>Guest</p>
+                    ) : (
+                        <p>
+                            Welcome,{' '}
+                            {localUser.name == '' ? user.name : localUser.name}!
+                        </p>
+                    )}
                 </h1>
                 <div className='flex flex-col items-center pt-5'>
                     {!user._id ? (
@@ -77,7 +87,9 @@ export default function UserPage() {
                     ) : (
                         <div className=''>
                             <h2 className='text-center text-1xl pt-5 px-12'>
-                                {user.description}
+                                {localUser.description == ''
+                                    ? user.description
+                                    : localUser.description}
                             </h2>
                             <div className='flex justify-center items-center pt-3 '>
                                 {!editUser ? (
@@ -89,6 +101,7 @@ export default function UserPage() {
                                         className='sliders rounded-lg'
                                         onSubmit={closeEdit}
                                     >
+                                        <h1>Work in progress...</h1>
                                         <div>
                                             <label>New Username: </label>
                                         </div>
@@ -104,13 +117,6 @@ export default function UserPage() {
                                                             nameRef.current
                                                                 .value
                                                         )
-                                                    );
-                                                    await axios.patch(
-                                                        `${LOCAL_SERVER_URL}/users/${id}`,
-                                                        {
-                                                            name: nameRef
-                                                                .current.value,
-                                                        }
                                                     );
                                                     nameRef.current.value = '';
                                                 }}
@@ -130,14 +136,6 @@ export default function UserPage() {
                                                             aboutRef.current
                                                                 .value
                                                         )
-                                                    );
-                                                    await axios.patch(
-                                                        `${LOCAL_SERVER_URL}/users/${id}`,
-                                                        {
-                                                            description:
-                                                                aboutRef.current
-                                                                    .value,
-                                                        }
                                                     );
                                                     aboutRef.current.value = '';
                                                 }}
@@ -160,15 +158,6 @@ export default function UserPage() {
                                                             profilePicRef
                                                                 .current.value
                                                         )
-                                                    );
-                                                    await axios.patch(
-                                                        `${LOCAL_SERVER_URL}/users/${id}`,
-                                                        {
-                                                            profile_pic:
-                                                                profilepicRef
-                                                                    .current
-                                                                    .value,
-                                                        }
                                                     );
                                                     profilePicRef.current.value =
                                                         '';
