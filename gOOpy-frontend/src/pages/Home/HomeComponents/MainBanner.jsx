@@ -1,4 +1,5 @@
 import InlineRoutingIcon from './InlineRoutingIcon';
+import { useAuth } from '../../../components/AuthProvider';
 
 const inlineIconSize = 'size-6 sm:size-8 md:size-10 lg:size-12 xl:size-14 ';
 const GOOPY_ORANGE_LOGO_PATH = '/home/Goopy_Logo_Orange.webm';

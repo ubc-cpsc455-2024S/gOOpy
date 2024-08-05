@@ -11,7 +11,6 @@ export function createImageDataURL(resizedDimension, fileType) {
     filledContext.fillRect(0, 0, filledCanvas.width, filledCanvas.height);
 
     if (resizedDimension == originalCanvas.height) {
-        console.log('thing works');
         filledContext.drawImage(originalCanvas, 0, 0);
         return filledCanvas.toDataURL(`image/${fileType}`);
     } else {
