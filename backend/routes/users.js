@@ -9,7 +9,6 @@ const userModel = require('../models/user');
 
 router.get('/', async (req, res) => {
     try {
-        console.log('here');
         const users = await userQueries.findAllUsers();
         if (!users) {
             return res.status(404).send('No users found');
