@@ -166,7 +166,7 @@ I worked on designing and building the GUI for the editor, creating controls for
 
 ### Matthew Wan
 
-My main contributions were the creating the main page, tutorial, user page, creating express endpoints and structuring our database. I designed and coded the main page and tutorial with cool animations, taking into account a mobile view and reactivity for resizing events in addition to handling thumbnail generation. For the backend endpoints, I used mongoose to create many of the queries we use to fetch information to the user and setup many of the express endpoints for the users and scenes, including formatting the scene information and handling error cases / error codes.
+My main contributions were the creating the main page, tutorial, user page, creating express endpoints and structuring our database. I designed and coded the main page and tutorial with cool animations and demonstrations (please look they're really cool) that I recorded myself while taking into account a mobile view and reactivity for resizing events. For the backend endpoints, I used mongoose to create many of the queries we use to fetch information to the user and setup many of the express endpoints for the users and scenes, including formatting the scene information and handling error cases / error codes.
 
 ## References
 
