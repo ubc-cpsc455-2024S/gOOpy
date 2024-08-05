@@ -192,7 +192,7 @@ export default function UserPage() {
                     )}
                 </div>
             </div>
-            <div className='flex justify-center w-full'>
+            <div className='flex justify-center w-full pb-10'>
                 <SceneGrid sceneList={scenesInfo} />
             </div>
         </main>
