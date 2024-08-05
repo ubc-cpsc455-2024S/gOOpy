@@ -12,6 +12,7 @@ function ShapeManager({
         <div className='sliders border h-full flex flex-col min-w-64 ...'>
             <div className='h-auto'>
                 <EditorTabCarousel
+                    selected={'shapes'}
                     setEditorView={setEditorView}
                 ></EditorTabCarousel>
                 <h1 className='text-3xl font-bold'>Editor</h1>
