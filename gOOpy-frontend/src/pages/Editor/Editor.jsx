@@ -9,7 +9,7 @@ import { CommonButtons } from '../../components/CommonButtons';
 import { useNavigate, useParams } from 'react-router-dom';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
-import { obj1, obj2, obj3 } from './constants';
+import { default_g, obj1, obj2, obj3 } from './constants';
 import {
     createNewScene,
     getSceneInfo,
@@ -18,6 +18,7 @@ import {
 import { buildMatrices } from './matrixHelpers';
 import { useAuth } from '../../components/AuthProvider';
 import { createImageDataURL } from '../../components/ThumbnailGeneration';
+import { logo_g } from '../../components/LiveLogo';
 
 const THUMBNAIL_DIMENSION = 100;
 
@@ -149,15 +150,15 @@ function Editor() {
     const [canvasReady, setCanvasReady] = useState(false);
     const [shapes, setShapes] = useState(
         // JSON stringify+parse does a deep copy
-        buildMatrices(JSON.parse(JSON.stringify([obj1, obj2, obj3])))
+        buildMatrices(JSON.parse(JSON.stringify(default_g)))
     );
     const [currentShape, setCurrentShape] = useState(null);
     const [nextId, setNextId] = useState(() => {
         return Math.max(...shapes.map((shape) => shape.id), 0);
     });
     const { sceneId } = useParams();
-    const [skyboxColor, setSkyboxColor] = useColor('#000000');
-    const [skyboxLightColor, setSkyboxLightColor] = useColor('white');
+    const [skyboxColor, setSkyboxColor] = useColor('#36B3FF');
+    const [skyboxLightColor, setSkyboxLightColor] = useColor('#d99614');
     const [ambientIntensity, setAmbientIntensity] = useState(0.2);
     const [editorView, setEditorView] = useState('shapes');
     const determineNewID = () => {
