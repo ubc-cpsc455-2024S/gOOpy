@@ -11,7 +11,6 @@ function ShapeDetails({ shape }) {
     }, [shape]);
 
     // help from https://stackoverflow.com/questions/55987953/how-do-i-update-states-onchange-in-an-array-of-object-in-react-hooks
-    // I can't remember if we are still using help from the above link...
     const updateField = (newValue, fields, updateMatrix = false) => {
         // split fields into [...rest, last]
         const [last, ...rest] = fields.toReversed();
@@ -25,8 +24,6 @@ function ShapeDetails({ shape }) {
         }
     };
 
-    // TODO: change 'FF0000' to currentShape's color
-    // const [color, setColor] = useColor('FF0000');
     return (
         <div className='sliders border ms-2 editor-panel min-w-64 no-scrollbar overflow-scroll'>
             <h4 className='text-2xl font-bold'>

@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
-    tempChangeUsername,
-    tempChangeAboutMe,
-    tempChangeProfilePhoto,
+    localChangeUsername,
+    localChangeAboutMe,
+    localChangeProfilePhoto,
 } from '../../redux/slices/userSlice.js';
 import Button from '../../components/Button.jsx';
 import { getScenesMetadata } from '../../apiCalls/sceneAPI.js';
@@ -114,7 +114,7 @@ export default function UserPage() {
                                             <Button
                                                 onClick={async () => {
                                                     dispatch(
-                                                        tempChangeUsername(
+                                                        localChangeUsername(
                                                             nameRef.current
                                                                 .value
                                                         )
@@ -133,7 +133,7 @@ export default function UserPage() {
                                             <Button
                                                 onClick={async () => {
                                                     dispatch(
-                                                        tempChangeAboutMe(
+                                                        localChangeAboutMe(
                                                             aboutRef.current
                                                                 .value
                                                         )
@@ -155,7 +155,7 @@ export default function UserPage() {
                                             <Button
                                                 onClick={async () => {
                                                     dispatch(
-                                                        tempChangeProfilePhoto(
+                                                        localChangeProfilePhoto(
                                                             profilePicRef
                                                                 .current.value
                                                         )

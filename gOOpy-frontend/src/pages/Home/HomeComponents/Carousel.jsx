@@ -11,7 +11,7 @@ export default function Carousel({ imagePaths }) {
     const [hallOfFame, setHallOfFame] = useState([]);
 
     useEffect(() => {
-        setHallOfFame((prevHallOfFame) =>
+        setHallOfFame(() =>
             imagePaths.map((path) => (
                 <img
                     src={path}

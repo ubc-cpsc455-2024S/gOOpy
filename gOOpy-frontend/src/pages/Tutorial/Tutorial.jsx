@@ -223,34 +223,3 @@ export function Tutorial() {
         </div>
     );
 }
-
-/* 
-Editor Layout: 
-    - Canvas, shape, scene, and controls
-
-Shapes
-    - Adding / removing shapes
-    - Resetting scenes 
-    - Shape properties:
-        Shape Translation
-            (DONE)
-
-        Sphere - No rotation or dimension, Radius
-        Box - Dimension (Box XYZ), and Roundness
-        Torus - Dimension(Radius, Width)
-        Cylinder - Dimension, Roundness
-        Arc Torus - Dimension, Arc 
-
-Scene Colours
-    - Background
-    - Lighting, Ambient Intensity
-
-Scene Details
-    - Naming, description
-    - WIP copy permissions
-
-Scene Management 
-    - Save
-    - Download
-
-*/

@@ -16,7 +16,6 @@ export function rebuildMatrix(shape) {
 }
 
 export function buildMatrices(shapes) {
-    // TODO I can refactor this to make it cleaner but I will do that later...
     shapes.forEach((shape) => rebuildMatrix(shape));
     return shapes;
 }

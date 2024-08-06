@@ -26,26 +26,21 @@ export const changeProfilePhoto = createAsyncThunk(
     }
 );
 
-// TODO: have default values for userImage and login.
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        // TODO: delete when API calls are done
-        // temporary redux functions because we don't have a backend setup yet
-        // takes in a fixed user object - this is temporary until we can actually retrieve a user.
         // NOTE: these reducers lack verification. No check to see if user is first logged in
-        tempChangeUsername: (state, action) => {
+        localChangeUsername: (state, action) => {
             state.user.name = action.payload;
         },
-        tempChangeProfilePhoto: (state, action) => {
+        localChangeProfilePhoto: (state, action) => {
             state.user.profile_pic = action.payload;
         },
-        tempChangeAboutMe: (state, action) => {
+        localChangeAboutMe: (state, action) => {
             state.user.description = action.payload;
         },
 
-        // This one we can keep!
         userLogout: () => {
             return initialState;
         },
@@ -82,9 +77,9 @@ export const userSlice = createSlice({
 });
 
 export const {
-    tempChangeUsername,
-    tempChangeAboutMe,
-    tempChangeProfilePhoto,
+    localChangeUsername,
+    localChangeAboutMe,
+    localChangeProfilePhoto,
     userLogout,
     loginUser,
     clearUser,
