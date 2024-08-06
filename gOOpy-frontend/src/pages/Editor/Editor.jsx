@@ -18,6 +18,7 @@ import {
 import { buildMatrices } from './matrixHelpers';
 import { useAuth } from '../../components/AuthProvider';
 import { createImageDataURL } from '../../components/ThumbnailGeneration';
+import { loginUserGoogle } from '../../apiCalls/userAPI';
 
 const THUMBNAIL_DIMENSION = 100;
 
@@ -123,7 +124,7 @@ const saveResult = async (
         // save scene temporarily
         localStorage.setItem('login_scene_temp', JSON.stringify(data));
         // re-route to login since there is no user
-        navigate(`/login`);
+        loginUserGoogle();
         return;
     }
 

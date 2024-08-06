@@ -3,19 +3,6 @@ import RayMarching from '../pages/Editor/RayMarching/RayMarching';
 import { Matrix4, Vector3, Vector4 } from 'three';
 import { buildMatrices } from '../pages/Editor/matrixHelpers';
 
-const logo_floor = [
-    {
-        translation: { x: 0, y: -3.518, z: -1.982 },
-        scale: { x: 1, y: 1, z: 1 },
-        rotation: { x: -0.529, y: 0, z: 0 },
-        property1: 3,
-        property2: 1.943,
-        property3: 1,
-        property4: 0.314,
-        shape_type: 1,
-        id: 0,
-    },
-];
 const logo_g = [
     {
         translation: { x: -3.712, y: 1.943, z: 5 },
@@ -129,7 +116,6 @@ export function LiveLogo() {
         >
             <div className='w-96 h-96 z-0'>
                 <Canvas
-                    className=''
                     orthographic
                     camera={{
                         left: -1,
@@ -150,7 +136,6 @@ export function LiveLogo() {
 }
 
 const shapes = buildMatrices([
-    // ...logo_floor,
     ...logo_g,
     ...logo_o1,
     ...logo_o2,

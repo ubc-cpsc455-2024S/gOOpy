@@ -10,7 +10,6 @@ import App from './App.jsx';
 import Home from './pages/Home/Home.jsx';
 import Editor from './pages/Editor/Editor.jsx';
 import UserPage from './pages/User/UserPage.jsx';
-import Login from './pages/User/Login.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Tutorial } from './pages/Tutorial/Tutorial.jsx';
 import { UserList } from './pages/UserList/UserList.jsx';
@@ -40,10 +39,6 @@ const router = createBrowserRouter([
             {
                 path: 'user',
                 element: <UserList />,
-            },
-            {
-                path: 'login',
-                element: <Login />,
             },
             {
                 path: 'tutorial',

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
-import { logoutUserGoogle } from '../apiCalls/userAPI';
+import { loginUserGoogle, logoutUserGoogle } from '../apiCalls/userAPI';
 
 export default function PageHeader() {
     const { user, setUser } = useAuth();
@@ -20,7 +20,7 @@ export default function PageHeader() {
             {user ? (
                 <button onClick={handleLogout}>Logout</button>
             ) : (
-                <Link to={`/login`}>Login</Link>
+                <button onClick={loginUserGoogle}>Login</button>
             )}
         </header>
     );

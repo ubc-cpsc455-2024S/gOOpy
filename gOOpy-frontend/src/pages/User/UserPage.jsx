@@ -8,7 +8,7 @@ import {
 } from '../../redux/slices/userSlice.js';
 import Button from '../../components/Button.jsx';
 import { getScenesMetadata } from '../../apiCalls/sceneAPI.js';
-import { getUserInfo } from '../../apiCalls/userAPI.js';
+import { getUserInfo, loginUserGoogle } from '../../apiCalls/userAPI.js';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function UserPage() {
@@ -79,9 +79,12 @@ export default function UserPage() {
                 </h1>
                 <div className='flex flex-col items-center pt-5'>
                     {!user._id ? (
-                        <Link className='hover:underline' to='/login'>
+                        <button
+                            className='hover:underline'
+                            onClick={loginUserGoogle}
+                        >
                             login to access scenes
-                        </Link>
+                        </button>
                     ) : (
                         <div className=''>
                             <h2 className='text-center text-1xl pt-5 px-12'>

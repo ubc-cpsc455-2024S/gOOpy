@@ -52,7 +52,7 @@ router.get('/google/callback', async (req, res) => {
         console.error(e);
 
         // TODO: handle login failure
-        res.redirect(`${process.env.WEBSITE_URL}/login`);
+        res.redirect(`${process.env.WEBSITE_URL}`);
     }
 });
 
@@ -76,12 +76,13 @@ router.get('/session-user', (req, res) => {
     });
 });
 
+// TODO: Delete during the TODO purge, put back later once project is done.
 // TODO: middleware to be used later for save, will move to another file
 const requireAuth = (req, res, next) => {
     if (req.session.user) {
         next();
     } else {
-        res.redirect(`${process.env.WEBSITE_URL}/login`);
+        res.redirect(`${process.env.WEBSITE_URL}`);
     }
 };
 

@@ -1,5 +1,6 @@
 import InlineRoutingIcon from './InlineRoutingIcon';
 import { useAuth } from '../../../components/AuthProvider';
+import { loginUserGoogle } from '../../../apiCalls/userAPI';
 
 const inlineIconSize = 'size-6 sm:size-8 md:size-10 lg:size-12 xl:size-14 ';
 const GOOPY_ORANGE_LOGO_PATH = '/home/Goopy_Logo_Orange.webm';
@@ -61,8 +62,8 @@ sm:text-5xl sm:pt-20  md:text-6xl md:pt-24 lg:text-7xl lg:pt-24 xl:text-8xl xl:p
                         ) : (
                             <InlineRoutingIcon
                                 icon={<IDCardSVG />}
-                                pagePath={'/login'}
                                 text={'Login'}
+                                onClick={loginUserGoogle}
                             />
                         )}
                     </div>
