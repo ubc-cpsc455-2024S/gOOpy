@@ -64,14 +64,14 @@ export const userSlice = createSlice({
         });
 
         builder.addCase(changeUsername.rejected, () => {
-            console.log('error changing username');
+            console.error('error changing username');
         });
 
         builder.addCase(changeProfilePhoto.fulfilled, (state, action) => {
             state.profile_pic = action.payload;
         });
         builder.addCase(changeProfilePhoto.rejected, () => {
-            console.log('error changing profile photo');
+            console.error('error changing profile photo');
         });
     },
 });

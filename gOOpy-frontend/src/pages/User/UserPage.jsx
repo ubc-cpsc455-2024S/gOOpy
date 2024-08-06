@@ -30,7 +30,7 @@ export default function UserPage() {
                     setUserState(userRes.data);
                 });
             } catch (e) {
-                console.log('Error retrieving user info');
+                console.error('Error retrieving user info');
             }
         }
         setUser();
@@ -43,7 +43,7 @@ export default function UserPage() {
                 const scenesMetadataRes = await getScenesMetadata(user.scenes);
                 setScenesInfo(scenesMetadataRes.data);
             } catch (e) {
-                console.log('Error getting scene info');
+                console.error('Error getting scene info');
             }
         }
         setScene();
