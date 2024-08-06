@@ -11,7 +11,6 @@ const sceneQueries = {
         });
     },
     newScene: async function (scene) {
-        // save scene
         const s = new Scene(scene);
         await s.save();
         // associate with user associated with sent user ID
@@ -21,7 +20,7 @@ const sceneQueries = {
 
         return s;
     },
-    getManySceneMetadata: async function (sceneIds) {
+    getScenesMetadata: async function (sceneIds) {
         return await Scene.find(
             { _id: { $in: sceneIds } },
             { metadata: 1, _id: 1 }

@@ -12,7 +12,6 @@ import Editor from './pages/Editor/Editor.jsx';
 import UserPage from './pages/User/UserPage.jsx';
 import Login from './pages/User/Login.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import CreateUser from './pages/CreateUser/CreateUser.jsx';
 import { Tutorial } from './pages/Tutorial/Tutorial.jsx';
 import { UserList } from './pages/UserList/UserList.jsx';
 import { LiveLogo } from './components/LiveLogo.jsx';
@@ -45,10 +44,6 @@ const router = createBrowserRouter([
             {
                 path: 'login',
                 element: <Login />,
-            },
-            {
-                path: 'createuser',
-                element: <CreateUser />,
             },
             {
                 path: 'tutorial',

@@ -1,16 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { updateUser, getUserInfoByUsername } from '../../apiCalls/userAPI.js';
+import { updateUser } from '../../apiCalls/userAPI.js';
 import { useSelector } from 'react-redux';
 
 const initialState = {
     user: { name: '', description: '', profile_pic: '' },
     isAuthenticated: false,
 };
-
-export const userLogin = createAsyncThunk('member/login', async (username) => {
-    const response = await getUserInfoByUsername(username);
-    return response.data;
-});
 
 export const changeUsername = createAsyncThunk(
     'member/changeUsername',
@@ -66,15 +61,8 @@ export const userSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(userLogin.fulfilled, (state, action) => {
-            return action.payload;
-        });
         // TODO: optional - Make dropdown notification confirming if change has been made
         // TODO: optional - Dropdown notification alerting user there was an error changing info
-
-        builder.addCase(userLogin.rejected, (state, actions) => {
-            console.log('error retrieving user info');
-        });
 
         builder.addCase(changeUsername.fulfilled, (state, action) => {
             state.name = action.payload;
@@ -94,7 +82,6 @@ export const userSlice = createSlice({
 });
 
 export const {
-    tempUserLogin,
     tempChangeUsername,
     tempChangeAboutMe,
     tempChangeProfilePhoto,

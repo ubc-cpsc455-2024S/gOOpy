@@ -7,7 +7,7 @@ import {
     tempChangeProfilePhoto,
 } from '../../redux/slices/userSlice.js';
 import Button from '../../components/Button.jsx';
-import { getManySceneMetadata } from '../../apiCalls/sceneAPI.js';
+import { getScenesMetadata } from '../../apiCalls/sceneAPI.js';
 import { getUserInfo } from '../../apiCalls/userAPI.js';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -40,9 +40,7 @@ export default function UserPage() {
         async function setScene() {
             try {
                 if (!user.scenes) return;
-                const scenesMetadataRes = await getManySceneMetadata(
-                    user.scenes
-                );
+                const scenesMetadataRes = await getScenesMetadata(user.scenes);
                 setScenesInfo(scenesMetadataRes.data);
             } catch (e) {
                 console.log('Error getting scene info');

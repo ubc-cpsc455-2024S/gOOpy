@@ -20,8 +20,6 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    // TODO: query db and return name, userinfo and a list of scenes belonging to user
-
     try {
         let id = req.params.id;
         if (!isValidObjectId(id)) {
@@ -38,22 +36,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/username/:username', async (req, res) => {
-    // TODO: temp endpoint - replace with search by ID once we begin using IDs
-    // await userQueries.saveUser(users[0]);
-    let username = req.params.username;
-    try {
-        const user = await userQueries.findUser({ name: `${username}` });
-        return res.status(200).send(user);
-    } catch (e) {
-        return res.status(500).send(`No user found with name ${username}`);
-    }
-});
-
 router.patch('/:id', async (req, res) => {
-    // TODO: search up user in MongoDB database, if found, update fields with non-null fields in the request body
-    // if not found send 404
-
     let id = req.params.id;
     let updates = req.body;
 

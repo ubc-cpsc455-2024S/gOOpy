@@ -85,17 +85,11 @@ const requireAuth = (req, res, next) => {
     }
 };
 
-// since this is used for login only, i removed the save name and save profile pic
 const saveUserInfo = async (token, profile) => {
     try {
         const user = await userModel.findOne({ oauth_id: profile.id });
 
-        // TODO: consider encrypting tokens later
         if (user) {
-            // user.access_token = token.access_token;
-            // user.refresh_token = token.refresh_token;
-            // user.name = profile.name;
-            // user.profile_pic = profile.picture;
             return JSON.stringify(user);
         } else {
             const newUser = new userModel({
@@ -103,8 +97,6 @@ const saveUserInfo = async (token, profile) => {
                 name: profile.name,
                 description: '',
                 profile_pic: profile.picture,
-                // access_token: token.access_token,
-                // refresh_token: token.refresh_token,
                 scenes: [],
             });
             await newUser.save();
