@@ -246,9 +246,9 @@ function Editor() {
     const index = shapes.findIndex((s) => s.id === currentShape);
 
     return (
-        <div className='flex justify-between p-5'>
-            <div className='flex absolute top-0 start-0 h-screen w-screen z-10'>
-                <div className='mt-14 ml-5 editor-panel flex flex-col'>
+        <div className='flex p-5 justify-start'>
+            <div className='flex sticky z-10'>
+                <div className='editor-panel flex flex-col'>
                     <div className='grow h-full flex flex-col min-w-64 ...'>
                         {editorView == 'shapes' && (
                             <ShapeManager
@@ -292,7 +292,7 @@ function Editor() {
                         ></CommonButtons>
                     </div>
                 </div>
-                <div className='mt-14 editor-panel'>
+                <div className='editor-panel min-w-[350px] pr-5'>
                     {currentShape != null &&
                         editorView == 'shapes' &&
                         shapes.length > 0 && (
@@ -300,8 +300,7 @@ function Editor() {
                         )}
                 </div>
             </div>
-
-            <div className='w-96 h-96 z-0 absolute top-15 right-5'>
+            <div className='w-[450px] h-[450px] z-0'>
                 <Canvas
                     className=''
                     orthographic
