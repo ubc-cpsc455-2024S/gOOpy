@@ -9,7 +9,7 @@ const initialState = {
 
 export const changeUsername = createAsyncThunk(
     'member/changeUsername',
-    async (name, user, id) => {
+    async (name, user) => {
         const newUser = { ...user, name: name };
         const username = await updateUser(newUser);
         return username;
