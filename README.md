@@ -118,10 +118,6 @@ To add a new shape:
 
 The frontend will automatically pick up the new shape and it will be usable in the editor.
 
-### Retro Vibe
-
-We went with an intentionally retro style for our UI, such as warm colours and funky fonts. We were inspired to make it this way because the way the shapes blob together in ray marching is very mellow and similar to what you might see in a lava lamp.
-
 ### Animated logo
 
 We created an animated logo using our rendering system. This logo is available at the `/goopy` route, if you want to see it in the renderer. However, when we use it on the main page we don't want to use the renderer for performance reasons. For this reason, we have created a webm video of the animation that we display on the homepage.
@@ -166,7 +162,7 @@ I worked on designing and building the GUI for the editor, creating controls for
 
 ### Matthew Wan
 
-My main contributions were the creating the main page, tutorial, user page, creating express endpoints and structuring our database. I designed and coded the main page and tutorial with cool animations and demonstrations (please look they're really cool) that I recorded myself while taking into account a mobile view and reactivity for resizing events. For the backend endpoints, I used mongoose to create many of the queries we use to fetch information to the user and setup many of the express endpoints for the users and scenes, including formatting the scene information and handling error cases / error codes.
+My main contributions were the creating the main page, tutorial, user page, creating express endpoints and structuring our database. I designed and coded the main page and tutorial with animations and demos that I recorded myself, and making the styling reactive. For the backend endpoints, I used mongoose to create many of the queries we use to fetch information to the user and setup many of the express endpoints for the users and scenes, including formatting the data to be stored.
 
 ## References
 
