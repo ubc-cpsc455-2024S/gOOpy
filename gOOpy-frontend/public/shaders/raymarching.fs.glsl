@@ -71,7 +71,6 @@ float arcTorus(vec3 p, vec2 sc, float ra, float rb)
 }
 
 float sdf(vec3 p) {
-    // TODO this can probably be done cleaner
     float min_val = 99999.0;
 
     for (int i = 0; i < MAX_SHAPES; i++) {
