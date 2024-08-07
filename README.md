@@ -1,5 +1,7 @@
 # Group 08 - gOOpy
 
+[Try gOOpy Here](https://goopy-frontend.onrender.com/)
+
 This ain't your grandma's 3D modeling software! With gOOpy you can create wild shapes and watch in fascination as they gOOp together with ray marching! Join our vibrant community of gOOpers, view their artworks, and get gOOpy today!
 
 ![Deploy](https://github.com/ubc-cpsc455-2024S/gOOpy/actions/workflows/deploy.js.yml/badge.svg)
