@@ -16,7 +16,7 @@ const logo_floor = [
         id: 0,
     },
 ];
-export const logo_g = [
+const logo_g = [
     {
         translation: { x: -3.712, y: 1.943, z: 5 },
         property1: 0.174,

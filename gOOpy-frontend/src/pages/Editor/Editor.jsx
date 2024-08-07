@@ -18,7 +18,6 @@ import {
 import { buildMatrices } from './matrixHelpers';
 import { useAuth } from '../../components/AuthProvider';
 import { createImageDataURL } from '../../components/ThumbnailGeneration';
-import { logo_g } from '../../components/LiveLogo';
 
 const THUMBNAIL_DIMENSION = 100;
 
