@@ -6,15 +6,6 @@ import { SHAPE_TYPES } from '../pages/Editor/constants';
 const MAX_SHAPES = 50; // should match shaders
 const DOWNLOAD_FILE_TYPE = 'png';
 
-function handleDownload() {
-    const canvasHeight = document.getElementsByTagName('canvas')[0].height;
-    const data = createImageDataURL(canvasHeight, 'png');
-    const t = document.createElement('a');
-    t.download = `${metadata.title}.${DOWNLOAD_FILE_TYPE}`;
-    t.href = data;
-    t.click();
-}
-
 export const CommonButtons = ({
     determineNewID,
     shapes,
@@ -33,6 +24,15 @@ export const CommonButtons = ({
     setSceneSaved,
     sceneSaved,
 }) => {
+    function handleDownload() {
+        const canvasHeight = document.getElementsByTagName('canvas')[0].height;
+        const data = createImageDataURL(canvasHeight, 'png');
+        const t = document.createElement('a');
+        t.download = `${metadata.title}.${DOWNLOAD_FILE_TYPE}`;
+        t.href = data;
+        t.click();
+    }
+
     return (
         <div className='flex-none'>
             <GoopyButton
