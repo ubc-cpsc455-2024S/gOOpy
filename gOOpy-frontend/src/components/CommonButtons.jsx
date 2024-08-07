@@ -19,6 +19,7 @@ export const CommonButtons = ({
     determineNewID,
     shapes,
     setShapes,
+    setNextId,
     setCurrentShape,
     sceneId,
     skyboxColor,
@@ -69,6 +70,7 @@ export const CommonButtons = ({
                         return [];
                     });
                     setCurrentShape(null);
+                    setNextId(0);
                 }}
             >
                 Reset Scene

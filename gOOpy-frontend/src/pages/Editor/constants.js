@@ -95,43 +95,7 @@ export const SHAPE_PROPERTIES = [
     ],
 ];
 
-// hard coded list of objects
-export const obj1 = {
-    translation: new Vector3(0.0, 0.0, 0.0),
-    scale: new Vector3(1.0, 1.0, 1.0),
-    rotation: new Vector3(0.0, 0.0, 0.0),
-    property1: 1.0,
-    property2: 1.0,
-    property3: 1.0,
-    property4: 1.0,
-    shape_type: SHAPE_TYPES.Sphere,
-    id: 0,
-};
-export const obj2 = {
-    translation: new Vector3(1.0, 1.0, 1.0),
-    scale: new Vector3(1.0, 1.0, 1.0),
-    rotation: new Vector3(0.0, 0.0, 0.0),
-    property1: 1.3,
-    property2: 1.0,
-    property3: 1.0,
-    property4: 1.0,
-    shape_type: SHAPE_TYPES.Sphere,
-    id: 1,
-};
-export const obj3 = {
-    translation: new Vector3(-1.0, -1.0, 1.0),
-    scale: new Vector3(1.0, 1.0, 1.0),
-    rotation: new Vector3(0.0, 0.0, 0.0),
-    property1: 0.8,
-    property2: 1.0,
-    property3: 1.0,
-    property4: 1.0,
-    shape_type: SHAPE_TYPES.Box,
-    id: 2,
-};
-
 const shift = 4;
-
 // same g as logo but translated
 export const default_g = [
     {
@@ -143,7 +107,7 @@ export const default_g = [
         rotation: { x: -2.719, y: 0.433, z: -1.779 },
         scale: { x: 1, y: 1, z: 1 },
         shape_type: 3,
-        id: 3,
+        id: 1,
     },
     {
         translation: { x: -5 + shift, y: 2.09, z: 4.566 },
@@ -154,7 +118,7 @@ export const default_g = [
         rotation: { x: 1.61, y: 0, z: 0.395 },
         scale: { x: 1, y: 1, z: 1 },
         shape_type: 2,
-        id: 6,
+        id: 2,
     },
     {
         translation: { x: -4.985 + shift, y: -0.816, z: 5 },
@@ -165,6 +129,6 @@ export const default_g = [
         rotation: { x: -2.0, y: -0.3, z: 0.0 },
         scale: { x: 1, y: 1, z: 1 },
         shape_type: 4,
-        id: 7,
+        id: 3,
     },
 ];

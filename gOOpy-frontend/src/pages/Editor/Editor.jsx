@@ -9,7 +9,7 @@ import { CommonButtons } from '../../components/CommonButtons';
 import { useNavigate, useParams } from 'react-router-dom';
 import SceneManager from '../../components/SceneManager';
 import { useColor } from 'react-color-palette';
-import { default_g, obj1, obj2, obj3 } from './constants';
+import { default_g } from './constants';
 import {
     createNewScene,
     getSceneInfo,
@@ -276,6 +276,7 @@ function Editor() {
                             determineNewID={determineNewID}
                             shapes={shapes}
                             setShapes={setShapes}
+                            setNextId={setNextId}
                             setCurrentShape={setCurrentShape}
                             sceneId={sceneId}
                             skyboxColor={skyboxColor}
