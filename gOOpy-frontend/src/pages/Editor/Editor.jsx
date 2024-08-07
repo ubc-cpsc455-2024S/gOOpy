@@ -301,7 +301,7 @@ function Editor() {
                 </div>
             </div>
 
-            <div className='w-96 h-96 z-0 absolute top-15 right-5'>
+            <div className='w-[450px] h-[450px] z-0 absolute top-[6rem] right-[7rem]'>
                 <Canvas
                     className=''
                     orthographic
