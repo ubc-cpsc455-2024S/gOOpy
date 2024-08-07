@@ -10,7 +10,7 @@ export default {
         },
         colors: {
             'bg-yellow': '#FFF3D1',
-            'sky-blue': '#02bbfd',
+            'sky-blue': '#36B3FF',
             'grey-blue': '#e1e3e3',
             'font-brown': '#450a0a',
             'hd-color': '#fbbf24',

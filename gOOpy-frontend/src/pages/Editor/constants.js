@@ -142,3 +142,42 @@ export const obj3 = {
     shape_type: SHAPE_TYPES.Box,
     id: 2,
 };
+
+const shift = 4;
+
+// same g as logo but translated
+export const default_g = [
+    {
+        translation: { x: -3.712 + shift, y: 1.943, z: 5 },
+        property1: 0.174,
+        property2: 0.407,
+        property3: 1.384,
+        property4: 0.2,
+        rotation: { x: -2.719, y: 0.433, z: -1.779 },
+        scale: { x: 1, y: 1, z: 1 },
+        shape_type: 3,
+        id: 3,
+    },
+    {
+        translation: { x: -5 + shift, y: 2.09, z: 4.566 },
+        property1: 1.036,
+        property2: 0.292,
+        property3: 0.2,
+        property4: 0.2,
+        rotation: { x: 1.61, y: 0, z: 0.395 },
+        scale: { x: 1, y: 1, z: 1 },
+        shape_type: 2,
+        id: 6,
+    },
+    {
+        translation: { x: -4.985 + shift, y: -0.816, z: 5 },
+        property1: 1.44,
+        property2: 0.34,
+        property3: 1.6,
+        property4: 0.2,
+        rotation: { x: -2.0, y: -0.3, z: 0.0 },
+        scale: { x: 1, y: 1, z: 1 },
+        shape_type: 4,
+        id: 7,
+    },
+];
