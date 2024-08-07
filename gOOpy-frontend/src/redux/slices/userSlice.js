@@ -56,9 +56,6 @@ export const userSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        // TODO: optional - Make dropdown notification confirming if change has been made
-        // TODO: optional - Dropdown notification alerting user there was an error changing info
-
         builder.addCase(changeUsername.fulfilled, (state, action) => {
             state.name = action.payload;
         });

@@ -26,20 +26,6 @@ const rotation = {
     ],
 };
 
-// Delete const below as part of big TODO purge
-// TODO scale is not used right now due to buggy behaviour with scales in [0, 1] w/ rotation (disappearing)
-// This good be related to incorrect implementation (see comment in matrixHelpers > rebuildMatrix)
-// Also, I am not fully convinced that lighting is correct with scaling
-// Usually you need to do inverse transpose on the normals to fix this, but w/ our new method I am not sure.
-const scale = {
-    title: 'Scale',
-    values: [
-        { descriptor: 'x', min: 0.2, max: 5, path: ['scale', 'x'] },
-        { descriptor: 'y', min: 0.2, max: 5, path: ['scale', 'y'] },
-        { descriptor: 'z', min: 0.2, max: 5, path: ['scale', 'z'] },
-    ],
-};
-
 // index of SHAPE_PROPERTIES refers to value of SHAPE_TYPE above.
 // IE SHAPE_PROPERTIES[1] is the Box properties.
 export const SHAPE_PROPERTIES = [

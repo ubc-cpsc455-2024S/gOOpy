@@ -17,10 +17,7 @@ function ShapeManager({
                 ></EditorTabCarousel>
                 <h1 className='text-3xl font-bold'>Editor</h1>
             </div>
-            <div
-                className='no-scrollbar overflow-scroll border flex-grow'
-                // TODO move this custom CSS to tailwind somehow
-            >
+            <div className='no-scrollbar overflow-scroll border flex-grow'>
                 <div className='scroll-container flex-grow'>
                     {shapes.map((shape, index) => (
                         <div className='flex justify-between' key={index}>
