@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SceneGrid from '../Scenes/SceneGrid';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
-    tempChangeUsername,
-    tempChangeAboutMe,
-    tempChangeProfilePhoto,
+    localChangeUsername,
+    localChangeAboutMe,
+    localChangeProfilePhoto,
 } from '../../redux/slices/userSlice.js';
 import Button from '../../components/Button.jsx';
-import { getManySceneMetadata } from '../../apiCalls/sceneAPI.js';
-import { getUserInfo } from '../../apiCalls/userAPI.js';
+import { getScenesMetadata } from '../../apiCalls/sceneAPI.js';
+import { getUserInfo, loginUserGoogle } from '../../apiCalls/userAPI.js';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function UserPage() {
@@ -30,7 +30,7 @@ export default function UserPage() {
                     setUserState(userRes.data);
                 });
             } catch (e) {
-                console.log('Error retrieving user info');
+                console.error('Error retrieving user info');
             }
         }
         setUser();
@@ -40,12 +40,10 @@ export default function UserPage() {
         async function setScene() {
             try {
                 if (!user.scenes) return;
-                const scenesMetadataRes = await getManySceneMetadata(
-                    user.scenes
-                );
+                const scenesMetadataRes = await getScenesMetadata(user.scenes);
                 setScenesInfo(scenesMetadataRes.data);
             } catch (e) {
-                console.log('Error getting scene info');
+                console.error('Error getting scene info');
             }
         }
         setScene();
@@ -81,9 +79,12 @@ export default function UserPage() {
                 </h1>
                 <div className='flex flex-col items-center pt-5'>
                     {!user._id ? (
-                        <Link className='hover:underline' to='/login'>
+                        <button
+                            className='hover:underline'
+                            onClick={loginUserGoogle}
+                        >
                             login to access scenes
-                        </Link>
+                        </button>
                     ) : (
                         <div className=''>
                             <h2 className='text-center text-1xl pt-5 px-12'>
@@ -113,7 +114,7 @@ export default function UserPage() {
                                             <Button
                                                 onClick={async () => {
                                                     dispatch(
-                                                        tempChangeUsername(
+                                                        localChangeUsername(
                                                             nameRef.current
                                                                 .value
                                                         )
@@ -132,7 +133,7 @@ export default function UserPage() {
                                             <Button
                                                 onClick={async () => {
                                                     dispatch(
-                                                        tempChangeAboutMe(
+                                                        localChangeAboutMe(
                                                             aboutRef.current
                                                                 .value
                                                         )
@@ -154,7 +155,7 @@ export default function UserPage() {
                                             <Button
                                                 onClick={async () => {
                                                     dispatch(
-                                                        tempChangeProfilePhoto(
+                                                        localChangeProfilePhoto(
                                                             profilePicRef
                                                                 .current.value
                                                         )

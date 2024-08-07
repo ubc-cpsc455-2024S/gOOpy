@@ -10,8 +10,8 @@ export function saveSceneInfo(sceneId, data) {
     return axios.post(`${LOCAL_SERVER_URL}/scene/${sceneId}`, data);
 }
 
-export function getManySceneMetadata(sceneIds) {
-    return axios.get(`${LOCAL_SERVER_URL}/scene/manymetadata`, {
+export function getScenesMetadata(sceneIds) {
+    return axios.get(`${LOCAL_SERVER_URL}/scene/metadata`, {
         params: { sceneIds: sceneIds },
     });
 }

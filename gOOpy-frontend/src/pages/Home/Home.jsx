@@ -1,4 +1,3 @@
-import { useAuth } from '../../components/AuthProvider';
 import '../../index.css';
 import MainBanner from './HomeComponents/MainBanner';
 import LeftAlignedInfoBlock from './HomeComponents/LeftAlignedInfoBlock';
@@ -6,7 +5,6 @@ import RightAlignedInfoBlock from './HomeComponents/RightAlignedInfoBlock';
 
 import Carousel from './HomeComponents/Carousel';
 import HomeFooter from './HomeComponents/HomeFooter';
-// TODO: insert context here
 function Home() {
     return (
         <main className='text-center'>

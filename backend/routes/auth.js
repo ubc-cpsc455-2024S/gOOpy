@@ -52,7 +52,7 @@ router.get('/google/callback', async (req, res) => {
         console.error(e);
 
         // TODO: handle login failure
-        res.redirect(`${process.env.WEBSITE_URL}/login`);
+        res.redirect(`${process.env.WEBSITE_URL}`);
     }
 });
 
@@ -66,7 +66,6 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/session-user', (req, res) => {
-    console.log(req.session.id);
     req.session.reload(function (err) {
         if (req.session.user) {
             res.status(200).json(req.session.user);
@@ -76,26 +75,21 @@ router.get('/session-user', (req, res) => {
     });
 });
 
+// TODO: Delete during the TODO purge, put back later once project is done.
 // TODO: middleware to be used later for save, will move to another file
 const requireAuth = (req, res, next) => {
     if (req.session.user) {
         next();
     } else {
-        res.redirect(`${process.env.WEBSITE_URL}/login`);
+        res.redirect(`${process.env.WEBSITE_URL}`);
     }
 };
 
-// since this is used for login only, i removed the save name and save profile pic
 const saveUserInfo = async (token, profile) => {
     try {
         const user = await userModel.findOne({ oauth_id: profile.id });
 
-        // TODO: consider encrypting tokens later
         if (user) {
-            // user.access_token = token.access_token;
-            // user.refresh_token = token.refresh_token;
-            // user.name = profile.name;
-            // user.profile_pic = profile.picture;
             return JSON.stringify(user);
         } else {
             const newUser = new userModel({
@@ -103,8 +97,6 @@ const saveUserInfo = async (token, profile) => {
                 name: profile.name,
                 description: '',
                 profile_pic: profile.picture,
-                // access_token: token.access_token,
-                // refresh_token: token.refresh_token,
                 scenes: [],
             });
             await newUser.save();

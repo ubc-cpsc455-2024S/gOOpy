@@ -26,6 +26,7 @@ const rotation = {
     ],
 };
 
+// Delete const below as part of big TODO purge
 // TODO scale is not used right now due to buggy behaviour with scales in [0, 1] w/ rotation (disappearing)
 // This good be related to incorrect implementation (see comment in matrixHelpers > rebuildMatrix)
 // Also, I am not fully convinced that lighting is correct with scaling
@@ -108,7 +109,7 @@ export const SHAPE_PROPERTIES = [
     ],
 ];
 
-// hard coded list of objects (temporary)
+// hard coded list of objects
 export const obj1 = {
     translation: new Vector3(0.0, 0.0, 0.0),
     scale: new Vector3(1.0, 1.0, 1.0),

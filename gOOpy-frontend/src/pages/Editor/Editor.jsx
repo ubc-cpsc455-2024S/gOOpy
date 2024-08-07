@@ -18,8 +18,9 @@ import {
 import { buildMatrices } from './matrixHelpers';
 import { useAuth } from '../../components/AuthProvider';
 import { createImageDataURL } from '../../components/ThumbnailGeneration';
+import { loginUserGoogle } from '../../apiCalls/userAPI';
 
-const THUMBNAIL_DIMENSION = 100;
+const THUMBNAIL_DIMENSION = 250;
 
 const fetchScene = async (
     setLoading,
@@ -122,8 +123,8 @@ const saveResult = async (
         console.log('SAVING SCENE TO LOCAL STORAGE');
         // save scene temporarily
         localStorage.setItem('login_scene_temp', JSON.stringify(data));
-        // re-route to login since there is no user
-        navigate(`/login`);
+        // prompt to login since there is no user
+        loginUserGoogle();
         return;
     }
 
@@ -208,7 +209,7 @@ function Editor() {
     useEffect(() => {
         console.log('canvas ready', canvasReady);
         // We need to wait until the canvas has been loaded and rendered to
-        // TODO for now, we use canvasReady, as well as a manual delay
+        // We use canvasReady, as well as a manual delay
         if (canvasReady && user && needSave) {
             console.log('QUEUED SAVE');
             setTimeout(() => {
@@ -242,7 +243,6 @@ function Editor() {
     // only clear after loading is true
     localStorage.removeItem('login_scene_temp');
 
-    // TODO better way to find the shapes's index?
     const index = shapes.findIndex((s) => s.id === currentShape);
 
     return (

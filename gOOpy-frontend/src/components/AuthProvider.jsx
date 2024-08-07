@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
                 const u = JSON.parse(sessionUser.data);
                 setUser(u);
             } catch (err) {
-                console.log('not logged in');
+                console.error('not logged in');
             }
         };
         fetchUser();
